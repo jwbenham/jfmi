@@ -6,7 +6,7 @@
 SRC_DIR+=./src
 
 # Subpackages for javadoc generation
-SUB_PACK+=jfmi.control:jfmi.database
+SUB_PACK+=jfmi.control:jfmi.database:jfmi.gui:jfmi.util
 
 # Destination for javadoc generation
 JAVADOC_DEST+=./doc/javadoc
@@ -21,7 +21,7 @@ all:
 	javac -classpath ${CLASSPATH}:${CP} @src.txt
 
 # Generate javadoc HTML documentation
-jdoc: 
+jdoc: cleandoc
 	javadoc -d ${JAVADOC_DEST} -sourcepath ${SRC_DIR} -subpackages ${SUB_PACK}
 
 cleandoc:
