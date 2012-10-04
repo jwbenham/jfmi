@@ -3,5 +3,5 @@
 # It specifies the required classpath, and loads the class whose main()
 # method should be invoked.
 
-java -classpath ".:./lib/*" jfmi.control.JFMIMain
+java -classpath ".:./src:./lib/*" jfmi.control.JFMIMain
 
