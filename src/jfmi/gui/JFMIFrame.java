@@ -47,6 +47,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	//************************************************************
 
 	/** Constructs a JFMIFrame with the specified JFMIApp as its controller.
+	  @param jfmiApp_ JFMIApp that will act as this instance's controller.
 	  */
 	public JFMIFrame(JFMIApp jfmiApp_)
 	{
@@ -118,6 +119,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 
 	/** Mutator for the jfmiApp field. 
+	  @param jfmiApp_ JFMIApp instance to set as this instance's controller.
 	  */
 	private final void setJFMIApp(JFMIApp jfmiApp_)
 	{

@@ -4,8 +4,13 @@ import jfmi.control.TaggedFile;
 import jfmi.database.FileRecord;
 import jfmi.database.TaggingRecord;
 
+/** A utility class used for testing/generating "fake" data.
+  */
 public final class TestUtil {
 
+	/** Generates an array of generic TaggedFiles.
+	  @return An array of TaggedFile objects.
+	  */
 	public static TaggedFile[] getArrayOfTaggedFile()
 	{
 		TaggingRecord[] tags = {

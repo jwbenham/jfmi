@@ -99,7 +99,5 @@ public class TagListCellPanel extends JPanel {
 	{
 		taggedFile = taggedFile_;
 	}
-
-
 }
 

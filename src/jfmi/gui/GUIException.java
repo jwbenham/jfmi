@@ -15,6 +15,7 @@ public class GUIException extends RuntimeException {
 	}
 
 	/** Constructs a new GUIException, with the detail message provided.
+	  @param message Exception detail message.
 	  */
 	public GUIException(String message) {
 		super(message);

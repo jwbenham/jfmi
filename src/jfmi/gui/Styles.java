@@ -7,20 +7,33 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+/** A utility class that provides style settings to the rest of the
+  application.
+  */
 public final class Styles {
+	/** The default font for buttons. */
 	public static final Font DEFAULT_BUTTON_FONT;
+	/** The default font color for buttons. */
 	public static final Color DEFAULT_BUTTON_FONT_COLOR;
+	/** The default size for buttons. */
 	public static final Dimension DEFAULT_BUTTON_SIZE;
 
+	/** Font for a level 3 header. */
 	public static final Font H3_FONT;
+	/** Font for a level 4 header. */
 	public static final Font H4_FONT;
 
+	/** Sans-serif, plain, 12 pt font. */
 	public static final Font SS_PLAIN_12;
 
+	/** Color used to indicate a button does something dangerous. */
 	public static final Color DANGER_COLOR = Color.RED;
+	/** A gray darker than Color.DARK_GRAY. */
 	public static final Color DARKER_GRAY;
 
+	/** Color used for a level 3 header. */
 	public static final Color H3_COLOR;
+	/** Color used for a level 4 header. */
 	public static final Color H4_COLOR;
    
 	static {
@@ -40,8 +53,10 @@ public final class Styles {
 	}
 
 	/** Sets the visual properties of a Component.
-	  These include the font, background, foreground, and border,
-	  and size.
+	  @param com The component to modify.
+	  @param f This will be set as the component's Font.
+	  @param fc This will be set as the component's foreground color.
+	  @param d Dimension specifying the size of the component.
 	  */
 	public static void setComponentStyles(
 		Component com, Font f, Color fc, Dimension d
@@ -65,6 +80,7 @@ public final class Styles {
 	}
 
 	/** Sets the visual properties of a JButton to defaults.
+	  @param b The JButton to be modified.
 	  */
 	public static void setDefaultJButtonStyles(JButton b)
 	{
@@ -79,6 +95,9 @@ public final class Styles {
 
 	/** Sets the font and foreground properties of a Component considered
 	  to be a "header".
+	  @param com The component to give "header" styles.
+	  @param hlevel specifies a "header level" - similar to HTML header levels,
+	  		where there are 1-6, with lower numbers specifying more emphasis.
 	  */
 	public static void setHeaderStyles(Component com, int hlevel)
 	{
@@ -99,6 +118,9 @@ public final class Styles {
 	}
 
 	/** Auxiliary function for setHeaderStyles().
+	  @param com The component to give header styles.
+	  @param f The Font to be assigned to the component.
+	  @param c The foreground color to be given to the component.
 	  */
 	private static void setHeaderStylesAux(Component com, Font f, Color c)
 	{
@@ -107,6 +129,8 @@ public final class Styles {
 	}
 
 	/** Sets all of the size properties of a Component instance.
+	  @param com The component to modify.
+	  @param dim Dimension indicating the size values to be used.
 	  */
 	public static void setAllSizes(Component com, Dimension dim)
 	{

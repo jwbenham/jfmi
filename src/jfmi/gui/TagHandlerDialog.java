@@ -19,7 +19,10 @@ import java.util.List;
 import jfmi.control.TagHandler;
 import jfmi.database.TagRecord;
 
-public class TagHandlerDialog extends JDialog {
+/** Implements a graphical user interface for an instance of the TagHandler
+  controller class.
+  */
+public class TagHandlerDialog extends JDialog implements ActionListener {
 	// CLASS fields
 	private static final String EPREFIX = "TagHandlerDialog";
 
@@ -36,13 +39,16 @@ public class TagHandlerDialog extends JDialog {
 	private Box listBox;
 
 	private TagHandler tagHandler;
-	private ActionHandler actionHandler;
 
 	//************************************************************
 	// PUBLIC INSTANCE Methods
 	//************************************************************
 
-	/** Ctor: default.
+	/** Constructs a TagHandlerDialog using the specified JFrame as its
+	  parent frame and TagHandler as the controller this instance acts for
+	  as a GUI.
+	  @param parent This component's parent frame.
+	  @param tagHandler_ This component's corresponding controller.
 	  */
 	public TagHandlerDialog(JFrame parent, TagHandler tagHandler_)
 	{
@@ -54,23 +60,16 @@ public class TagHandlerDialog extends JDialog {
 
 		// Initialize handlers
 		setTagHandler(tagHandler_);
-		actionHandler = new ActionHandler();
 
-		// Initialize buttons
+		// Initialize child components
 		initButtonBox();
-
-		// Initialize list of tags
-		if (initListBox() == false) {
-			throw new GUIException(EPREFIX + ".<init>: initListBox() failed.");
-		}
+		initListBox();
 
 		// Add components
 		thisLayout = new Box(BoxLayout.Y_AXIS);
-
 		thisLayout.add(buttonBox);
 		thisLayout.add(Box.createVerticalStrut(10));
 		thisLayout.add(listBox);
-
 		add(thisLayout, BorderLayout.CENTER);
 		
 		setVisible(false);
@@ -86,16 +85,16 @@ public class TagHandlerDialog extends JDialog {
 	{
 		// Initialize buttons
 		addTagButton = new JButton("Add Tag");
-		addTagButton.addActionListener(actionHandler);
+		addTagButton.addActionListener(this);
 		Styles.setDefaultJButtonStyles(addTagButton);
 
 		deleteTagsButton = new JButton("Delete Selected Tags");
-		deleteTagsButton.addActionListener(actionHandler);
+		deleteTagsButton.addActionListener(this);
 		Styles.setComponentStyles(deleteTagsButton, Styles.DEFAULT_BUTTON_FONT,
 									Styles.DANGER_COLOR, null);
 
 		editTagButton = new JButton("Edit Tag");
-		editTagButton.addActionListener(actionHandler);
+		editTagButton.addActionListener(this);
 		Styles.setDefaultJButtonStyles(editTagButton);
 
 		// Initialize the container
@@ -113,51 +112,25 @@ public class TagHandlerDialog extends JDialog {
 	  TODO: add a combo box for sorting the tags
 	  @return false if a problem occurred initializing the list of tags
 	  */
-	private final boolean initListBox()
+	private final void initListBox()
 	{
-		// Initialize the list
-		if (refreshTagRecords(true)) {
-			List<TagRecord> tagRecordList = tagHandler.getTagRecordList();
+		tagList = new JList();
+		tagList.setLayoutOrientation(JList.VERTICAL);
 
-			tagList = new JList(tagRecordList.toArray());
-			tagList.setLayoutOrientation(JList.VERTICAL);
+		// Initialize the scrollpane
+		tagScroller = new JScrollPane(tagList);
 
-			// Initialize the scrollpane
-			tagScroller = new JScrollPane(tagList);
-
-			// Initialize the box
-			listBox = new Box(BoxLayout.X_AXIS);
-			listBox.add(Box.createRigidArea(new Dimension(100, 100)));
-			listBox.add(Box.createHorizontalStrut(10));
-			listBox.add(tagScroller);
-			listBox.add(Box.createHorizontalStrut(10));
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/** Asks the TagHandler to refresh the list of tags from the database.
-	  If this cannot be done, an error message is displayed if the
-	  showErrorMessage argument is true.
-	  @return false if an error occurred
-	  */
-	private final boolean refreshTagRecords(boolean showErrorMessage)
-	{
-		try {
-			tagHandler.updateTagRecordList();
-			return true;
-			
-		} catch (SQLException e) {
-			GUIUtil.showErrorDialog(
-				"JFMI failed to load the list of tags from the database."
-			);
-			return false;
-		}
+		// Initialize the box
+		listBox = new Box(BoxLayout.X_AXIS);
+		listBox.add(Box.createRigidArea(new Dimension(100, 100)));
+		listBox.add(Box.createHorizontalStrut(10));
+		listBox.add(tagScroller);
+		listBox.add(Box.createHorizontalStrut(10));
 	}
 
 	/** Mutator for the tagHandler field.
+	  @param tagHandler_ TagHandler to set as this instance's controller.
+	  		Throws an IllegalArgumentException if null.
 	  */
 	private void setTagHandler(TagHandler tagHandler_)
 	{
@@ -168,42 +141,16 @@ public class TagHandlerDialog extends JDialog {
 		tagHandler = tagHandler_;
 	}
 
+	
 	//************************************************************
-	// PRIVATE CLASS ActionHandler 
+	// IMPLEMENTATION ActionListener
 	//************************************************************
 
-	private class ActionHandler implements ActionListener {
-		/** Responds to various ActionEvent events.
-		  */
-		public void actionPerformed(ActionEvent e)
-		{
-			Object src = e.getSource();
-
-			if (src == editTagButton) {
-				actionEditTagButton();	
-			} else if (src == addTagButton) {
-				
-			} else if (src == deleteTagsButton) {
-
-			}
-		}
-
-		/** Responds to an ActionEvent issued by the editTagButton.
-		  Displays a JOptionPane showing the current value of the tag.
-		  Allows the user to change the tag value or cancel. If the
-		  value was changed, control is passed to the tagHandler field.
-		  */
-		private final void actionEditTagButton()
-		{
-			// Get the selected tag from the tagList
-			TagRecord tagRec = (TagRecord)tagList.getSelectedValue();
-
-			if (tagRec != null) {
-				// Display an edit prompt to the user
-
-				// If the tag value changed, pass control to fileHandler
-			}
-		}
+	/** Handles action events dispatched by user activity on this object.
+	  @param e An action event generated on this object.
+	  */
+	public void actionPerformed(ActionEvent e)
+	{
 
 	}
 
