@@ -7,6 +7,11 @@ import java.util.List;
 import jfmi.database.TagRecord;
 import jfmi.gui.TagHandlerDialog;
 
+/** A TagHandler handles application logic concerned with adding, removing,
+  and updating tag records in the database. A TagHandler uses its parent
+  JFMIApp's database to save tag changes, and a TagHandlerDialog to interface
+  with a user.
+  */
 public class TagHandler {
 
 	private JFMIApp jfmiApp;
@@ -18,11 +23,12 @@ public class TagHandler {
 	// PUBLIC INSTANCE Methods
 	//************************************************************
 
-	/** Ctor: JFMIApp.
+	/** Construct a TagHandler with the specified JFMIApp as its parent.
+	  @param jfmiApp_ JFMIApp reference used as this instance's parent.
 	  */
-	public TagHandler(JFMIApp mapp_) 
+	public TagHandler(JFMIApp jfmiApp_) 
 	{
-		setMapp(mapp_);
+		setJFMIApp(jfmiApp_);
 
 		tagHandlerDialog = new TagHandlerDialog(jfmiApp.getJFMIGUI(), this);
 		tagHandlerDialog.setVisible(false);
@@ -39,6 +45,7 @@ public class TagHandler {
 	}
 
 	/** Updates the list of tags from the database. 
+	  @throws SQLException If an SQL error occurs.
 	 */
 	public void updateTagRecordList() throws SQLException
 	{
@@ -48,22 +55,23 @@ public class TagHandler {
 	/** Accessor for the tagRecordList field. This may be null. The
 	  updateTagRecordList() method should be called first to guarantee
 	  the tagRecordList is up to date.
-	  @return List<TagRecord>, may be null.
+	  @return Access to the list of tag records this instance has retrieved
+	  		from the application database.
 	  */
 	public List<TagRecord> getTagRecordList()
 	{
 		return tagRecordList;
 	}
 
-	/** Mutator for the mapp field.
+	/** Mutator for the jfmiApp field.
 	  */
-	public final void setMapp(JFMIApp mapp_)
+	public final void setJFMIApp(JFMIApp jfmiApp_)
 	{
-		if (mapp_ == null) {
-			throw new IllegalArgumentException("error: mapp_ is null");
+		if (jfmiApp_ == null) {
+			throw new IllegalArgumentException("error: jfmiApp_ is null");
 		}
 
-		jfmiApp = mapp_;
+		jfmiApp = jfmiApp_;
 	}
 
 

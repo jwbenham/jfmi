@@ -1,4 +1,3 @@
-
 package jfmi.gui;
 
 import java.awt.BorderLayout;

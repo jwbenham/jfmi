@@ -1,7 +1,3 @@
-/**
-  @author Joram Benham
-  */
-
 package jfmi.control;
 
 import java.sql.SQLException;
@@ -28,7 +24,13 @@ public final class JFMIApp {
 	// PUBLIC CLASS methods
 	//************************************************************	
 	
-	/** Return a reference to the singleton JFMIApp */
+	/** Get a reference to the JFMIApp singleton. The singleton is created
+	  if it does not already exist.
+	  @return A reference to the (possible newly created) JFMIApp singleton.
+	  @throws ClassNotFoundException if the driver for the database is not found
+	  @throws SQLException if the database must be newly created and an SQL error
+	  			occurs.
+	  */
 	public static JFMIApp getSingleton() throws 
 		ClassNotFoundException,
 		SQLException
@@ -60,6 +62,7 @@ public final class JFMIApp {
 	}
 
 	/** Accessor for jfmiGUI field.
+	  @return a reference to the instance's JFMIFrame
 	  */
 	public JFMIFrame getJFMIGUI()
 	{
@@ -67,6 +70,7 @@ public final class JFMIApp {
 	}
 
 	/** Accessor for the jfmiDatabase field.
+	  @return a reference to the instance's SQLiteDatabase
 	  */
 	public SQLiteDatabase getJFMIDatabase()
 	{
@@ -77,7 +81,10 @@ public final class JFMIApp {
 	// PRIVATE INSTANCE Methods
 	//************************************************************	
 
-	/** Ctor: default. */
+	/** Construct an instance of a JFMIApp. This constructor is private to
+	maintain the singleton pattern.
+	TODO move field instantiation to an init() method.
+	 */
 	private JFMIApp() throws 
 		ClassNotFoundException,
 		SQLException

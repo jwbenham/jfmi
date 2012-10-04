@@ -7,12 +7,17 @@ import jfmi.database.FileRecord;
 import jfmi.database.TaggingRecord;
 import jfmi.util.StringUtil;
 
+/** A composite class of a FileRecord and a collection of TaggingRecords. An
+  instance of this class represents all information that the JFMP app has
+  stored about a file. This class does not represent any single table in the
+  application's database.
+  */
 public class TaggedFile {
 
 	private FileRecord fileRecord;
 	private ArrayList<TaggingRecord> taggings;
 
-	/** Ctor: default.
+	/** Constructs a TaggedFile with fields initialized to null.
 	  */
 	public TaggedFile()
 	{
@@ -20,7 +25,10 @@ public class TaggedFile {
 		taggings = null;
 	}
 
-	/** Ctor: FileRecord, ArrayList<TaggingRecord>.
+	/** Constructs a TaggedFile with the specified FileRecord and list of 
+	  tag/comment (tagging) combinations.
+	  @param fileRecord_ The file this instance refers to.
+	  @param tags_ A list of taggings associated with the file.
 	  */
 	public TaggedFile(FileRecord fileRecord_, ArrayList<TaggingRecord> tags_)
 	{
@@ -28,7 +36,10 @@ public class TaggedFile {
 		setTaggings(tags_);
 	}
 
-	/** Ctor: FileRecord, TaggingRecord[].
+	/** Constructs a TaggedFile with the specified FileRecord and array of
+	  tag/comment (tagging) combinations.
+	  @param fileRecord_ The file this instance refers to.
+	  @param tags_ An array of taggings associated with the file.
 	  */
 	public TaggedFile(FileRecord fileRecord_, TaggingRecord[] tags_)
 	{
@@ -37,7 +48,7 @@ public class TaggedFile {
 	}
 
 	/** Returns the name of the file as a String.
-	  If the fileRecord.path field is null, it returns the empty string.
+	  @return If the fileRecord.path field is null, it returns the empty string.
 	  */
 	public String getFileName()
 	{
@@ -51,7 +62,7 @@ public class TaggedFile {
 	}
 
 	/** Returns the path of the fileRecord.
-	  If the fileRecord.path field is null, the empty string is returned.
+	  @return If the fileRecord.path field is null, the empty string is returned.
 	  */
 	public String getFilePath()
 	{
@@ -110,7 +121,7 @@ public class TaggedFile {
 	}
 
 	/** Acessor for taggings field.
-	  @return ArrayList<TaggingRecord>
+	  @return This instance's list of taggings.
 	  */
 	public ArrayList<TaggingRecord> getTaggings()
 	{

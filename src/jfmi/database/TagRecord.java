@@ -3,6 +3,11 @@ package jfmi.database;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/** A class whose fields mirror the columns of the 'tags' table in the
+  database. Behaviour is provided for interacting with all records of this type
+  (static methods), and for interacting with the record represented by a 
+  particular class instance (instance methods).
+  */
 public class TagRecord implements DatabaseRecord {
 
 	// Instance fields
@@ -12,8 +17,9 @@ public class TagRecord implements DatabaseRecord {
 	// PUBLIC CLASS Methods
 	//************************************************************
 
-	/** Returns an SQL statment that can be used to select the values
+	/** Get an SQL statement that can be used to select the values
 	  of every tag stored in the database.
+	  @return A SELECT statement to get all table records.
 	  */
 	public static String getAllTagsSQL()
 	{
@@ -24,14 +30,15 @@ public class TagRecord implements DatabaseRecord {
 	// PUBLIC INSTANCE Methods
 	//************************************************************
 
-	/** Ctor: default.
+	/** Constructs a tag record with empty tag value ("").
 	  */
 	public TagRecord()
 	{
 		tag = "";
 	}
 
-	/** Ctor: tag.
+	/** Constructs a TagRecord with the specified tag value.
+	  @param tag_ The value for this tag record.
 	  */
 	public TagRecord(String tag_)
 	{
@@ -40,26 +47,20 @@ public class TagRecord implements DatabaseRecord {
 
 	/** Return the name of a column whose values are unique for the table,
 	  or null if no such column exists.
-	  @return String The name of a column with unique values; else null.
+	  @return The name of a column with unique values if it exists, else null.
 	  */
 	public String getUniqueColumnName() {
 		return "tag";
 	}
 
-	/** Returns an SQL SELECT statement which can be used to create a
-	  prepared statement for checking whether an instance of a record
-	  exists.
+	/** An implementation of the DatabaseRecord method. 
 	  */
 	public String getPSCheckExistsSQL()
 	{
 		return "SELECT * FROM " + SQLiteDatabase.TBL_TAGS + " WHERE tag = ?";
 	}
 
-	/** Given a properly constructed PreparedStatement, this method sets
-	  the statement parameters to check if this particular object
-	  exists in the database. The PreparedStatement should have been
-	  constructed with the SQL resulting from a call to the method
-	  "getPrepStmtCheckExistsSQL()".
+	/** An implementation of the DatabaseRecord method.
 	  */
 	public void setPSCheckExists(PreparedStatement checkExists) throws
 		SQLException
@@ -68,7 +69,7 @@ public class TagRecord implements DatabaseRecord {
 	}
 
 	/** Return a String representation of this object.
-	  @return String This object's string value.
+	  @return This object's string value.
 	  */
 	public String toString()
 	{
@@ -81,7 +82,7 @@ public class TagRecord implements DatabaseRecord {
 	}
 
 	/** Access the tag field.
-	  @return String The object's tag field.
+	  @return The object's tag field.
 	  */
 	public String getTag()
 	{

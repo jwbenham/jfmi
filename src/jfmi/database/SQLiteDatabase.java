@@ -11,11 +11,13 @@ import java.util.LinkedList;
 
 
 /**
-  An SQLiteDatabase object handles interation with an sqlite database.
-	-Example of how to load the driver.
-		Class.forName("org.sqlite.JDBC");
-	-Example of how to use the driver.
-	connection = DriverManager.getConnection(jdbc:sqlite:/path/to/db);
+  An SQLiteDatabase object handles interation with an SQLite database. The
+  class contains information for how to create the database tables if they
+  do not already exist. This class handles the opening and closing of
+  Connection, Statement, ResultSet, and other java.sql objects, and it
+  handles the execution of statements. Note that the SQL used to generate
+  most statements comes from the class representing the table that is to be
+  worked with.
   */
 public class SQLiteDatabase {
 	public static final String TBL_FILES = "main.files";
@@ -29,8 +31,12 @@ public class SQLiteDatabase {
 	// PUBLIC INSTANCE Methods
 	//************************************************************	
 
-	/** Ctor: dbpath - constructs an SQLiteDatabase object using the given
-	  path to an sqlite database file.
+	/** Constructs an SQLiteDatabase object using the given path to an sqlite 
+	  database file.
+	  @param dbpath_ The path to the existing database, or where it should be
+	  		created.
+	  @throws ClassNotFoundException If the driver cannot be loaded.
+	  @throws SQLiteException If table creation is necessary, and fails.
 	  */
 	public SQLiteDatabase(String dbpath_) throws
 		ClassNotFoundException,
@@ -60,7 +66,8 @@ public class SQLiteDatabase {
 
 	/** Queries the database to check if a particular record exists.
 	  @param record DatabaseRecord whose existence will be checked.
-	  @return boolean True if exists.
+	  @return True if exists.
+	  @throws SQLException in the event of a database error
 	  */
 	public boolean recordExists(DatabaseRecord record) throws SQLException
 	{
@@ -98,6 +105,7 @@ public class SQLiteDatabase {
 	/** Returns a list of TagRecords. An SQL SELECT query is run to
 	  retrieve a list of tags contained by the database.
 	  @return List<TagRecord>, which is empty if there were no tags. 
+	  @throws SQLException in the event of a database error
 	  */
 	public List<TagRecord> getAllTagRecords() throws SQLException
 	{
@@ -140,6 +148,7 @@ public class SQLiteDatabase {
 	//************************************************************	
 
 	/** Creates the database tables if necessary (new database).
+	  @throws SQLException in the event of a database error
 	  */
 	private void createTablesIfNeeded() throws SQLException
 	{
@@ -185,6 +194,7 @@ public class SQLiteDatabase {
 	}
 
 	/** Closes a Connection, ignoring any thrown exception.
+	  @param conn The Connection to be closed.
 	  */
 	private void closeConnectionIgnoreEx(Connection conn)
 	{
@@ -196,6 +206,7 @@ public class SQLiteDatabase {
 	}
 
 	/** Closes a Statement, ignoring any thrown exception.
+	  @param s The Statement to be closed.
 	  */
 	private void closeStatementIgnoreEx(Statement s)
 	{
@@ -207,6 +218,7 @@ public class SQLiteDatabase {
 	}
 	
 	/** Closes a ResultSet, ignoring any thrown exception.
+	  @param rs The ResultSet to be closed.
 	  */
 	private void closeResultSetIgnoreEx(ResultSet rs)
 	{

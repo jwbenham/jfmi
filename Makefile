@@ -6,10 +6,10 @@
 SRC_DIR+=./src
 
 # Subpackages for javadoc generation
-SUB_PACK+=jfmi
+SUB_PACK+=jfmi.control:jfmi.database
 
 # Destination for javadoc generation
-JAVADOC_DEST+=./docs/javadoc
+JAVADOC_DEST+=./doc/javadoc
 
 # javac -classpath option
 CP+=.:./src:./lib/sqlite-jdbc-3.7.2.jar
@@ -21,6 +21,9 @@ all:
 	javac -classpath ${CLASSPATH}:${CP} @src.txt
 
 # Generate javadoc HTML documentation
-doc:
+jdoc: 
 	javadoc -d ${JAVADOC_DEST} -sourcepath ${SRC_DIR} -subpackages ${SUB_PACK}
+
+cleandoc:
+	rm -f -r ${JAVADOC_DEST}
 
