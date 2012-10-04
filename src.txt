@@ -8,8 +8,8 @@
 ./src/jfmi/database/TagRecord.java
 ./src/jfmi/database/TaggingRecord.java
 ./src/jfmi/gui/JFMIFrame.java
-./src/jfmi/gui/TagListRenderer.java
-./src/jfmi/gui/TagListCellPanel.java
+./src/jfmi/gui/TaggedFileJListRenderer.java
+./src/jfmi/gui/TaggedFileJListCellPanel.java
 ./src/jfmi/gui/Styles.java
 ./src/jfmi/gui/TagHandlerDialog.java
 ./src/jfmi/gui/GUIException.java

@@ -18,7 +18,6 @@ import javax.swing.ListSelectionModel;
 
 import jfmi.control.JFMIApp;
 import jfmi.control.TaggedFile;
-import jfmi.gui.TagListRenderer;
 import jfmi.util.TestUtil;
 
 
@@ -111,7 +110,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		tagList = new JList(data);
 		tagList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		tagList.setLayoutOrientation(JList.VERTICAL);
-		tagList.setCellRenderer(new TagListRenderer());
+		tagList.setCellRenderer(new TaggedFileJListRenderer());
 
 		// Initialize the scroll pane
 		tagScroller = new JScrollPane(tagList);

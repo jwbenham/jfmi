@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import jfmi.control.TaggedFile;
 import jfmi.database.TaggingRecord;
 
-public class TagListCellPanel extends JPanel {
+public class TaggedFileJListCellPanel extends JPanel {
 
 	private TaggedFile taggedFile;
 
@@ -31,7 +31,7 @@ public class TagListCellPanel extends JPanel {
 
 	/** Ctor: TaggedFile.
 	  */
-	public TagListCellPanel(TaggedFile taggedFile_)
+	public TaggedFileJListCellPanel(TaggedFile taggedFile_)
 	{
 		// Initialize instance
 		setLayout(new BorderLayout(10, 12));

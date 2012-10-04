@@ -6,17 +6,17 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import jfmi.control.TaggedFile;
-import jfmi.gui.TagListCellPanel;
+import jfmi.gui.TaggedFileJListCellPanel;
 
-public class TagListRenderer implements ListCellRenderer {
+public class TaggedFileJListRenderer implements ListCellRenderer {
 
 	/** Ctor: default.
 	  */
-	public TagListRenderer()
+	public TaggedFileJListRenderer()
 	{
 	}
 
-	/** Returns a component (a TagListCellPanel extends JPanel) which
+	/** Returns a component (a TaggedFileJListCellPanel extends JPanel) which
 	  is responsible for displaying a TaggedFile instance.
 	  */
 	public Component getListCellRendererComponent(
@@ -27,7 +27,7 @@ public class TagListRenderer implements ListCellRenderer {
 		boolean cellHasFocus
 	)
 	{
-		TagListCellPanel newPanel = new TagListCellPanel((TaggedFile)value);
+		TaggedFileJListCellPanel newPanel = new TaggedFileJListCellPanel((TaggedFile)value);
 		
 		if (isSelected) {
 			newPanel.setBackground(Styles.DARKER_GRAY);
