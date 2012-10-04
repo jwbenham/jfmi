@@ -1,0 +1,32 @@
+This file contains the sql statments used to create the sqlite3
+database tables used by menrva.
+
+Table: "files"
+---------------------------------------------
+CREATE TABLE IF NOT EXISTS main.files (
+fileid 	INTEGER 	NOT NULL CONSTRAINT fileid_nonnegative CHECK (fileid >= 0),
+path 	TEXT 		NOT NULL UNIQUE,
+CONSTRAINT filed_is_pk PRIMARY KEY (fileid)
+);
+
+
+Table: "tags"
+---------------------------------------------
+REATE TABLE IF NOT EXISTS main.tags (
+tag 	TEXT 		NOT NULL,
+CONSTRAINT tag_is_pk PRIMARY KEY (tag)
+);
+
+
+
+Table: "taggings"
+---------------------------------------------
+CREATE TABLE IF NOT EXISTS main.taggings (
+fileid 	INTEGER 	NOT NULL,
+tag 	TEXT	 	NOT NULL,
+comment	TEXT,
+CONSTRAINT fileid_tag_are_pk PRIMARY KEY(fileid, tag),
+CONSTRAINT fileid_is_fk FOREIGN KEY(fileid) REFERENCES files(fileid),
+CONSTRAINT tag_is_fk FOREIGN KEY(tag) REFERENCES tags(tag)
+);
+

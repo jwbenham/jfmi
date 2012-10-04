@@ -1,0 +1,13 @@
+
+# Ignore databases
+*.db
+
+# Ignore tmp Vim files
+*.swp
+jfmi/*.swp
+jfmi/*/*.swp
+
+# Ignore byte code
+jfmi/*.class
+jfmi/*/*.class
+
