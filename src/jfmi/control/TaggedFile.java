@@ -2,9 +2,12 @@ package jfmi.control;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import jfmi.database.FileRecord;
 import jfmi.database.TaggingRecord;
+import jfmi.database.SQLiteDatabase;
 import jfmi.util.StringUtil;
 
 /** A composite class of a FileRecord and a collection of TaggingRecords. An
@@ -13,9 +16,51 @@ import jfmi.util.StringUtil;
   application's database.
   */
 public class TaggedFile {
+	// Class fields
+	private static final String TAGGED_FILE_SELECT_PSQL;
 
+	static {
+		TAGGED_FILE_SELECT_PSQL = "SELECT f.fileid, f.path, t.tag, t.comment "
+			+ "FROM " + SQLiteDatabase.TBL_FILES + " f, "
+			+ SQLiteDatabase.TBL_TAGGINGS + " t "
+			+ "WHERE f.fileid = t.fileid "
+			+ "AND f.fileid = ? ";
+	}
+
+	// Instance fields
 	private FileRecord fileRecord;
 	private ArrayList<TaggingRecord> taggings;
+
+	//************************************************************
+	// PUBLIC CLASS Methods
+	//************************************************************
+
+	/** Returns a parameterized SQL SELECT statement which will return a table
+	  of all the taggings for a particular file. The columns in the table 
+	  include "fileid", "path", "tag", "comment". The "fileid" and "path"
+	  column should have the same value in each result record.
+	  @return an SQL SELECT statement to get tagging information for a file
+	  */
+	public static String getTaggedFileSelectPSQL()
+	{
+		return TAGGED_FILE_SELECT_PSQL;	
+	}
+
+	/** Sets the file id in a PreparedStatement compiled with the parameterized 
+	  SQL statement returned from getTaggedFileSelectPSQL. 
+	  @param ps the PrepareStatement whose parameter will be set
+	  @param fileid the value to use for the file id parameter
+	  @throws SQLException if setting the parameter fails
+	  */
+	public static void setTaggedFileSelectPS(PreparedStatement ps, int fileid)
+		throws SQLException
+	{
+		ps.setInt(1, fileid);
+	}
+
+	//************************************************************
+	// PUBLIC INSTANCE Methods
+	//************************************************************
 
 	/** Constructs a TaggedFile with fields initialized to null.
 	  */
