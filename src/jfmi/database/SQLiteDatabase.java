@@ -87,11 +87,11 @@ public class SQLiteDatabase {
 
 		try {
 			String matchesPSQL = record.getMatchesPSQL();
-			PreparedStatement pstmt = conn.prepareStatement(matchesPSQL);	
+			PreparedStatement ps = conn.prepareStatement(matchesPSQL.toString());	
 
 			try {
-				record.setMatchesPS(pstmt);
-				ResultSet rs = pstmt.executeQuery();
+				record.setMatchesPS(ps);
+				ResultSet rs = ps.executeQuery();
 
 				try {
 					return rs.next(); // returns true if results exist
@@ -100,7 +100,7 @@ public class SQLiteDatabase {
 				}
 
 			} finally {
-				closeStatementIgnoreEx(pstmt);
+				closeStatementIgnoreEx(ps);
 			}
 
 		} finally {
@@ -129,7 +129,7 @@ public class SQLiteDatabase {
 			Statement stmt = conn.createStatement();
 
 			try {
-				ResultSet rs = stmt.executeQuery(selectAllSQL);
+				ResultSet rs = stmt.executeQuery(selectAllSQL.toString());
 
 				try {
 					LinkedList<DatabaseRecord> records;
@@ -172,7 +172,7 @@ public class SQLiteDatabase {
 
 			try {
 				String selectAllFiles = FileRecord.getSelectAllSQL();
-				ResultSet rs = stmt.executeQuery(selectAllFiles);
+				ResultSet rs = stmt.executeQuery(selectAllFiles.toString());
 
 				try {
 					LinkedList<TaggedFile> list = new LinkedList<TaggedFile>();
@@ -215,7 +215,7 @@ public class SQLiteDatabase {
 
 		try {
 			String selectPSQL = TaggedFile.getSelectPSQL();
-			PreparedStatement ps = conn.prepareStatement(selectPSQL);
+			PreparedStatement ps = conn.prepareStatement(selectPSQL.toString());
 
 			try {
 				TaggedFile.setSelectPS(ps, fileid);
