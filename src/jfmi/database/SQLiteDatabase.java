@@ -106,7 +106,14 @@ public class SQLiteDatabase {
 		}
 	}
 
-	/** Gets a list of all the records in a table.
+	/** Gets a list of all the records in a table, using the specified
+	  SQL SELECT statement, and the specified RecordConverter to convert the
+	  ResultSet rows into Java objects.
+	  @param selectAllSQL SQL SELECT statement which will return all records
+	  			in the target table
+	  @param converter a RecordConverter to convert any results to objects
+	  @return a list of converted results
+	  @throws SQLException in the event of a database error
 	  */
 	public List<DatabaseRecord> getAllRecords(
 		String selectAllSQL,
