@@ -17,7 +17,7 @@ import jfmi.util.StringUtil;
   */
 public class TaggedFile {
 	// Class fields
-	private static final String TAGGED_FILE_SELECT_PSQL;
+	private static final String SELECT_PSQL;
 
 	static {
 		SELECT_PSQL = "SELECT f.fileid, f.path, t.tag, t.comment "

@@ -155,9 +155,54 @@ public class SQLiteDatabase {
 		}
 	}
 
+	/** Queries the database and returns a list of TaggedFiles. The database
+	  is first queried for all records in the file table. For each file
+	  record's fileid, getTaggedFile(fileid) is used to retrieve a TaggedFile
+	  constructed from all the taggings associated with that fileid.
+	  @return a non-null list of TaggedFile objects - empty if none found
+	  @throws SQLException in the event of a database error
+	  */
+	public List<TaggedFile> getAllTaggedFiles() throws SQLException
+	{
+		Connection conn = DriverManager.getConnection(dburl);
+
+		try {
+			Statement stmt = conn.createStatement();
+
+			try {
+				String selectAllFiles = FileRecord.getSelectAllSQL();
+				ResultSet rs = stmt.executeQuery(selectAllFiles);
+
+				try {
+					LinkedList<TaggedFile> list = new LinkedList<TaggedFile>();
+					TaggedFile taggedFile = null;
+
+					while (rs.next()) {
+						taggedFile = getTaggedFile(rs.getInt("fileid"));	
+						if (taggedFile != null) {
+							list.add(taggedFile);
+						}
+					}
+
+					return list;
+
+				} finally {
+					closeResultSetIgnoreEx(rs);
+				}
+
+			} finally {
+				closeStatementIgnoreEx(stmt);
+			}
+
+		} finally {
+			closeConnectionIgnoreEx(conn);
+		}
+	}
+
 	/** Given the specified file id, this method queries the database for
 	  all the taggings associated with the file, and creates a new TaggedFile
-	  from the results.
+	  from the results. Note that all files, if the user has not specified a
+	  tag, are automatically tagged with some indicator.
 	  @param fileid this determines which taggings are retrieved
 	  @return a new TaggedFile if there are taggings in the database for the
 	  		specified file id - otherwise null is returned
@@ -172,13 +217,13 @@ public class SQLiteDatabase {
 			PreparedStatement ps = conn.prepareStatement(selectPSQL);
 
 			try {
-				TaggedFile.setSelectPSQL(ps, fileid);
+				TaggedFile.setSelectPS(ps, fileid);
 				ResultSet rs = ps.executeQuery();
 
 				try {
 					TaggedFile taggedFile = null;
 					TaggedFileRecordConverter converter; 
-					converter = new TaggedFileRecordConverter;
+					converter = new TaggedFileRecordConverter();
 
 					if (rs.next()) {
 						taggedFile = (TaggedFile)converter.convertToObject(rs);
