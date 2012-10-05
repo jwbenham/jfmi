@@ -15,8 +15,8 @@ public final class GUIUtil {
 		// message type: ERROR_MESSAGE
 		JOptionPane.showMessageDialog(
 			null, 
-			"JFMI Error",
 			message,
+			"JFMI Error",
 			JOptionPane.ERROR_MESSAGE
 		);
 	}

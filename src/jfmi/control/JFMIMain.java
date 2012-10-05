@@ -17,14 +17,8 @@ public final class JFMIMain {
 	  */
 	public static void main(String[] args)
 	{
-		try {
-			JFMIApp app = JFMIApp.getSingleton();
-			app.start();
-		} catch (ClassNotFoundException e) {
-
-		} catch(Exception e) {
-
-		}
+		JFMIApp app = JFMIApp.getSingleton();
+		app.start();
 	}
 
 }

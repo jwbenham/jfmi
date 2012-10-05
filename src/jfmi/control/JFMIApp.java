@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import jfmi.database.SQLiteDatabase;
 import jfmi.gui.JFMIFrame;
+import jfmi.gui.GUIUtil;
 
 /** JFMIApp is the primary application controller class.
   */
@@ -31,9 +32,7 @@ public final class JFMIApp {
 	  @throws SQLException if the database must be newly created and an SQL error
 	  			occurs.
 	  */
-	public static JFMIApp getSingleton() throws 
-		ClassNotFoundException,
-		SQLException
+	public static JFMIApp getSingleton()
 	{
 		if (singleton == null) {
 			singleton = new JFMIApp();
@@ -47,11 +46,23 @@ public final class JFMIApp {
 	//************************************************************	
 
 	/** Starts execution of the application.
+	  @return true if the application starts successfully
 	  */
-	public void start()
+	public boolean start() 
 	{
-		// Display the GUI
-		jfmiGUI.setVisible(true);
+		if (initJFMIDatabase()) {
+			jfmiGUI.setVisible(true);
+
+			return true;
+
+		} else {
+			GUIUtil.showErrorDialog(
+				"The application cannot start because the"
+				+ " initialization of the database failed."
+			);
+
+			return false;
+		}
 	}
 
 	/** Let the user manage/add/remove what tags are used by jfmi.
@@ -82,16 +93,41 @@ public final class JFMIApp {
 	//************************************************************	
 
 	/** Construct an instance of a JFMIApp. This constructor is private to
-	maintain the singleton pattern.
-	TODO move field instantiation to an init() method.
+	 maintain the singleton pattern. Initializing the database is deferred
+	 until start() is called.
 	 */
-	private JFMIApp() throws 
-		ClassNotFoundException,
-		SQLException
+	private JFMIApp()
 	{
-		jfmiDatabase = new SQLiteDatabase(DATABASE_PATH);
 		tagHandler = new TagHandler(this);
 		jfmiGUI = new JFMIFrame(this);
 	}
 
+	/** Tries to construct an SQLiteDatabase object associated with the
+	  SQLite database located at DATABASE_PATH. If the SQLiteDatabase
+	  constructor throws and exception, an error message is displayed.
+	  @return true if the database was successfully initialized
+	  */
+	private boolean initJFMIDatabase()
+	{
+		try {
+			jfmiDatabase = new SQLiteDatabase(DATABASE_PATH);
+			return true;
+
+		} catch (ClassNotFoundException e) {
+			GUIUtil.showErrorDialog(
+					"The application failed to load the "
+					+ "SQLite database driver."
+					+ "\n\nDetails:\n" + e.getMessage()
+			);
+		} catch (SQLException e) {
+			GUIUtil.showErrorDialog(
+					 "An error occurred while attempting to access the "
+					+ "application database at: "
+					+ "\n" + DATABASE_PATH
+					+ "\n\nDetails:\n" + e.getMessage()
+			);
+		}
+
+		return false;
+	}
 }

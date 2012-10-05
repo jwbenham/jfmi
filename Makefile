@@ -22,7 +22,8 @@ all:
 
 # Generate javadoc HTML documentation
 jdoc: cleandoc
-	javadoc -d ${JAVADOC_DEST} -sourcepath ${SRC_DIR} -subpackages ${SUB_PACK}
+	javadoc -quiet -d ${JAVADOC_DEST} -sourcepath ${SRC_DIR} \
+		-subpackages ${SUB_PACK}
 
 cleandoc:
 	rm -f -r ${JAVADOC_DEST}
