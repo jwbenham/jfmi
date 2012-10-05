@@ -20,10 +20,14 @@ import java.util.LinkedList;
   worked with.
   */
 public class SQLiteDatabase {
+	/** Name of the database table that holds file records. */
 	public static final String TBL_FILES = "main.files";
+	/** Name of the database table that holds tagging records. */
 	public static final String TBL_TAGGINGS = "main.taggings";
+	/** Name of the database table that holds tag records. */
 	public static final String TBL_TAGS = "main.tags";
 
+	// Instance fields
 	private String dbpath;
 	private String dburl;
 
@@ -80,11 +84,11 @@ public class SQLiteDatabase {
 		Connection conn = DriverManager.getConnection(dburl);
 
 		try {
-			String checkExistsSQL = record.getPSCheckExistsSQL();
-			PreparedStatement pstmt = conn.prepareStatement(checkExistsSQL);	
+			String matchesPSQL = record.getMatchesPSQL();
+			PreparedStatement pstmt = conn.prepareStatement(matchesPSQL);	
 
 			try {
-				record.setPSCheckExists(pstmt);
+				record.setMatchesPS(pstmt);
 				ResultSet rs = pstmt.executeQuery();
 
 				try {
@@ -102,31 +106,30 @@ public class SQLiteDatabase {
 		}
 	}
 
-	/** Returns a list of TagRecords. An SQL SELECT query is run to
-	  retrieve a list of tags contained by the database.
-	  @return List<TagRecord>, which is empty if there were no tags. 
-	  @throws SQLException in the event of a database error
+	/** Gets a list of all the records in a table.
 	  */
-	public List<TagRecord> getAllTagRecords() throws SQLException
+	public List<DatabaseRecord> getAllRecords(
+		String selectAllSQL,
+		RecordConverter converter
+	) throws SQLException
 	{
 		Connection conn = DriverManager.getConnection(dburl);
-		
+
 		try {
 			Statement stmt = conn.createStatement();
 
 			try {
-				String selectTagsSQL = TagRecord.getAllTagsSQL();
-				ResultSet rs = stmt.executeQuery(selectTagsSQL);
+				ResultSet rs = stmt.executeQuery(selectAllSQL);
 
 				try {
-					// Iterate over the ResultSet, adding the tags to the list
-					LinkedList<TagRecord> tags = new LinkedList<TagRecord>();
+					LinkedList<DatabaseRecord> records;
+				   	records = new LinkedList<DatabaseRecord>();
 
 					while (rs.next()) {
-						tags.add(new TagRecord(rs.getString("tag")));
+						records.add(converter.convertToObject(rs));
 					}
-					
-					return tags;
+
+					return records;
 
 				} finally {
 					closeResultSetIgnoreEx(rs);
@@ -140,8 +143,6 @@ public class SQLiteDatabase {
 			closeConnectionIgnoreEx(conn);
 		}
 	}
-	
-
 
 	//************************************************************	
 	// PRIVATE Methods

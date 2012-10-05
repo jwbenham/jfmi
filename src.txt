@@ -7,6 +7,10 @@
 ./src/jfmi/database/FileRecord.java
 ./src/jfmi/database/TagRecord.java
 ./src/jfmi/database/TaggingRecord.java
+./src/jfmi/database/RecordConverter.java
+./src/jfmi/database/FileRecordConverter.java
+./src/jfmi/database/TagRecordConverter.java
+./src/jfmi/database/TaggingRecordConverter.java
 ./src/jfmi/gui/JFMIFrame.java
 ./src/jfmi/gui/TaggedFileJListRenderer.java
 ./src/jfmi/gui/TaggedFileJListCellPanel.java

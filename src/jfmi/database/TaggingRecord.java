@@ -1,6 +1,7 @@
 package jfmi.database;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -9,8 +10,7 @@ import java.sql.SQLException;
   (static methods), and for interacting with the record represented by a 
   particular class instance (instance methods).
   */
-public class TaggingRecord implements DatabaseRecord {
-
+public class TaggingRecord extends DatabaseRecord {
 	// Instance fields
 	private int fileid;
 	private String tag;
@@ -55,30 +55,6 @@ public class TaggingRecord implements DatabaseRecord {
 			+ " WHERE fileid = ? AND tag = ?";
 		return sql;
 	}
-
-	/** An implementation of the DatabaseRecord method.
-	  */
-	public void setPSCheckExists(PreparedStatement checkExists) throws
-		SQLException
-	{
-		checkExists.setInt(1, fileid);
-		checkExists.setString(2, tag);
-	}
-
-	/** Return a String representation of this object.
-	  @return This object's string value.
-	  */
-	public String toString()
-	{
-		StringBuilder str = new StringBuilder("");
-		str.append("TaggingRecord(");
-		str.append("fileid: " + Integer.toString(fileid) + ", ");
-		str.append("tag: " + tag + ", ");
-		str.append("comment: " + comment);
-		str.append(")");
-
-		return str.toString();
-	}		
 
 	/** Accessor for the fileid field.
 	  @return The value of the fileid field.
@@ -127,5 +103,39 @@ public class TaggingRecord implements DatabaseRecord {
 	{
 		comment = comment_;
 	}
+
+	//************************************************************
+	// EXTENSION DatabaseRecord
+	//************************************************************
+	static { 
+		uniqueColumnLabel = null; 
+		matchesPSQL = "SELECT * FROM " + SQLiteDatabase.TBL_TAGGINGS
+							+ " WHERE fileid = ? AND path = ? ";
+		selectAllSQL = "SELECT * FROM " + SQLiteDatabase.TBL_TAGGINGS;
+	}
+
+	/** An implementation of the DatabaseRecord method.
+	  */
+	public void setMatchesPS(PreparedStatement matches) throws
+		SQLException
+	{
+		matches.setInt(1, fileid);
+		matches.setString(2, tag);
+	}
+
+	/** Return a String representation of this object.
+	  @return This object's string value.
+	  */
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder("");
+		str.append("TaggingRecord(");
+		str.append("fileid: " + Integer.toString(fileid) + ", ");
+		str.append("tag: " + tag + ", ");
+		str.append("comment: " + comment);
+		str.append(")");
+
+		return str.toString();
+	}		
 
 }

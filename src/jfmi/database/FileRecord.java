@@ -1,6 +1,7 @@
 package jfmi.database;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /** A class whose fields mirror the columns of the 'files' table in the
@@ -8,8 +9,7 @@ import java.sql.SQLException;
   (static methods), and for interacting with the record represented by a 
   particular class instance (instance methods).
   */
-public class FileRecord implements DatabaseRecord {
-
+public class FileRecord extends DatabaseRecord {
 	// Instance fields
 	private int fileid;
 	private String path;
@@ -37,47 +37,6 @@ public class FileRecord implements DatabaseRecord {
 		setPath(p);
 	}
 	
-	/** Return the name of a column whose values are unique for the table,
-	  or null if no such column exists.
-	  @return The name of a column with unique values if one exists, else null.
-	  */
-	public String getUniqueColumnName() {
-		return "path";	
-	}
-
-	/** Returns an SQL SELECT statement which can be used to create a
-	  prepared statement for checking whether an instance of a file record
-	  exists.
-	  @return The SQL to check if a file record exists.
-	  */
-	public String getPSCheckExistsSQL()
-	{
-		return "SELECT * FROM " + SQLiteDatabase.TBL_FILES + " WHERE fileid = ?";
-	}
-
-	/** An implementation of the DatabaseRecord method, where this
-	 implementation applies to a FileRecord. 
-	  */
-	public void setPSCheckExists(PreparedStatement checkExists) throws
-		SQLException
-	{
-		checkExists.setInt(1, fileid);
-	}
-
-	/** Return a String representation of this object.
-	  @return String This object's string value.
-	  */
-	public String toString()
-	{
-		StringBuilder str = new StringBuilder("");
-		str.append("FileRecord(");
-		str.append("fileid: " + Integer.toString(fileid) + ", ");
-		str.append("path: " + path);
-		str.append(")");
-
-		return str.toString();
-	}
-
 	/** Access the fileid field. 
 	  @return The object's fileid field.
 	  */
@@ -108,6 +67,38 @@ public class FileRecord implements DatabaseRecord {
 	public final void setPath(String p)
 	{
 		path = p;
+	}
+
+	//************************************************************
+	// EXTENSION DatabaseRecord
+	//************************************************************
+	static { 
+		uniqueColumnLabel = "fileid"; 
+		matchesPSQL = "SELECT * FROM " + SQLiteDatabase.TBL_FILES
+							+ " WHERE fileid = ? ";
+		selectAllSQL = "SELECT * FROM " + SQLiteDatabase.TBL_FILES;
+	}
+
+	/** An implementation of the DatabaseRecord method.
+	  */
+	public void setMatchesPS(PreparedStatement matches) throws 
+		SQLException
+	{
+		matches.setInt(1, fileid);		
+	}
+
+	/** Return a String representation of this object.
+	  @return String This object's string value.
+	  */
+	public String toString()
+	{
+		StringBuilder str = new StringBuilder("");
+		str.append("FileRecord(");
+		str.append("fileid: " + Integer.toString(fileid) + ", ");
+		str.append("path: " + path);
+		str.append(")");
+
+		return str.toString();
 	}
 
 }
