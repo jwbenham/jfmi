@@ -1,6 +1,8 @@
 package jfmi.control;
 
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Vector;
 
 import jfmi.database.SQLiteDatabase;
 import jfmi.gui.JFMIFrame;
@@ -15,10 +17,10 @@ public final class JFMIApp {
 
 	// Instance fields
 	private TagHandler tagHandler;
-
 	private SQLiteDatabase jfmiDatabase;
-
 	private JFMIFrame jfmiGUI;
+
+	private Vector<TaggedFile> taggedFileVector; 
 
 
 	//************************************************************	
@@ -51,6 +53,7 @@ public final class JFMIApp {
 	public boolean start() 
 	{
 		if (initJFMIDatabase()) {
+			// jfmiGUI.getTaggedFileJList.set..()
 			jfmiGUI.setVisible(true);
 
 			return true;
@@ -129,5 +132,14 @@ public final class JFMIApp {
 		}
 
 		return false;
+	}
+
+	/** Constructs a new Vector<TaggedFile> for this instance from the
+	  specified Collection.
+	  @param collection
+	  */
+	private void setTaggedFileVector(Collection<TaggedFile> collection)
+	{
+		taggedFileVector = new Vector<TaggedFile>(collection);
 	}
 }

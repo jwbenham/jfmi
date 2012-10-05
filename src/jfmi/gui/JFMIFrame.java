@@ -35,8 +35,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private JButton buttonManageTags;
 
 	// List related
-	private JScrollPane tagScroller;	// Holds the tagList
-	private JList tagList;
+	private JScrollPane taggedFileScroller;	// Holds the taggedFileJList
+	private JList taggedFileJList;
 
 	// Controller related
 	private JFMIApp jfmiApp;
@@ -63,7 +63,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		initTagScroller();
 
 		add(buttonBox, BorderLayout.WEST);
-		add(tagScroller, BorderLayout.CENTER);
+		add(taggedFileScroller, BorderLayout.CENTER);
 
 		// Do not display initially
 		setVisible(false);
@@ -93,9 +93,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 		// Initialize buttonBox
 		buttonBox = new Box(BoxLayout.Y_AXIS);
-
 		buttonBox.add(Box.createVerticalStrut(50));
-
 		buttonBox.add(buttonManageTags);
 		buttonBox.add(Box.createVerticalStrut(50));
 	}
@@ -104,16 +102,13 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	  */
 	private final void initTagScroller()
 	{
-		// Initialize the list of tags
-		TaggedFile[] data = TestUtil.getArrayOfTaggedFile();
-
-		tagList = new JList(data);
-		tagList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		tagList.setLayoutOrientation(JList.VERTICAL);
-		tagList.setCellRenderer(new TaggedFileJListRenderer());
+		// Instantiate the taggedFileJList
+		taggedFileJList = new JList();
+		taggedFileJList.setLayoutOrientation(JList.VERTICAL);
+		taggedFileJList.setCellRenderer(new TaggedFileJListRenderer());
 
 		// Initialize the scroll pane
-		tagScroller = new JScrollPane(tagList);
+		taggedFileScroller = new JScrollPane(taggedFileJList);
 	}
 
 
