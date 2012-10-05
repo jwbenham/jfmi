@@ -2,11 +2,13 @@ package jfmi.control;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Arrays;
 import java.util.Vector;
 
 import jfmi.database.SQLiteDatabase;
 import jfmi.gui.JFMIFrame;
 import jfmi.gui.GUIUtil;
+import jfmi.util.TestUtil;
 
 /** JFMIApp is the primary application controller class.
   */
@@ -53,7 +55,7 @@ public final class JFMIApp {
 	public boolean start() 
 	{
 		if (initJFMIDatabase()) {
-			//refreshTaggedFileVectorFromDatabase();
+			refreshTaggedFileVectorFromDatabase();
 			//sortTaggedFileVector();
 			updateGUITaggedFileJList();
 
@@ -144,6 +146,20 @@ public final class JFMIApp {
 	private void setTaggedFileVector(Collection<TaggedFile> collection)
 	{
 		taggedFileVector = new Vector<TaggedFile>(collection);
+	}
+
+	/** Gets an updated list of TaggedFiles from the database, and updates
+	  the taggedFileVector.
+	  */
+	private boolean refreshTaggedFileVectorFromDatabase()
+	{
+		// TODO: implement
+		taggedFileVector = new Vector<TaggedFile>(
+									Arrays.asList(
+										TestUtil.getArrayOfTaggedFile()
+									)
+								);
+		return false;
 	}
 
 	/** Updates this instance's GUI with the latest values in the Vector
