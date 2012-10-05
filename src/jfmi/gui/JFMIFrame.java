@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import java.util.Vector;
 
 import jfmi.control.JFMIApp;
 import jfmi.control.TaggedFile;
@@ -67,6 +68,20 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 		// Do not display initially
 		setVisible(false);
+	}
+
+	/** Sets the list data of the taggedFileJList list. Passing a null
+	  reference to the method causes an exception to be thrown.
+	  @param vector Non-null Vector<TaggedFile> to be used as the list's data
+	  @throws IllegalArgumentException if vector is null
+	  */
+	public void setTaggedFileJListData(Vector<TaggedFile> vector)
+	{
+		if (vector == null) {
+			throw new IllegalArgumentException("vector cannot be null");
+		}
+
+		taggedFileJList.setListData(vector);	
 	}
 
 

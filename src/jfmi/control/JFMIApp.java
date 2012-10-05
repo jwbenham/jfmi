@@ -53,7 +53,10 @@ public final class JFMIApp {
 	public boolean start() 
 	{
 		if (initJFMIDatabase()) {
-			// jfmiGUI.getTaggedFileJList.set..()
+			//refreshTaggedFileVectorFromDatabase();
+			//sortTaggedFileVector();
+			updateGUITaggedFileJList();
+
 			jfmiGUI.setVisible(true);
 
 			return true;
@@ -136,10 +139,18 @@ public final class JFMIApp {
 
 	/** Constructs a new Vector<TaggedFile> for this instance from the
 	  specified Collection.
-	  @param collection
+	  @param collection The Collection to construct a new Vector from.
 	  */
 	private void setTaggedFileVector(Collection<TaggedFile> collection)
 	{
 		taggedFileVector = new Vector<TaggedFile>(collection);
+	}
+
+	/** Updates this instance's GUI with the latest values in the Vector
+	  of TaggedFile objects.
+	  */
+	private void updateGUITaggedFileJList()
+	{
+		jfmiGUI.setTaggedFileJListData(taggedFileVector);
 	}
 }
