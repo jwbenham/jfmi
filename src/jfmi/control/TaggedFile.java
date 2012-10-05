@@ -20,7 +20,7 @@ public class TaggedFile {
 	private static final String TAGGED_FILE_SELECT_PSQL;
 
 	static {
-		TAGGED_FILE_SELECT_PSQL = "SELECT f.fileid, f.path, t.tag, t.comment "
+		SELECT_PSQL = "SELECT f.fileid, f.path, t.tag, t.comment "
 			+ "FROM " + SQLiteDatabase.TBL_FILES + " f, "
 			+ SQLiteDatabase.TBL_TAGGINGS + " t "
 			+ "WHERE f.fileid = t.fileid "
@@ -41,18 +41,18 @@ public class TaggedFile {
 	  column should have the same value in each result record.
 	  @return an SQL SELECT statement to get tagging information for a file
 	  */
-	public static String getTaggedFileSelectPSQL()
+	public static String getSelectPSQL()
 	{
-		return TAGGED_FILE_SELECT_PSQL;	
+		return SELECT_PSQL;	
 	}
 
 	/** Sets the file id in a PreparedStatement compiled with the parameterized 
-	  SQL statement returned from getTaggedFileSelectPSQL. 
+	  SQL statement returned from getSelectPSQL. 
 	  @param ps the PrepareStatement whose parameter will be set
 	  @param fileid the value to use for the file id parameter
 	  @throws SQLException if setting the parameter fails
 	  */
-	public static void setTaggedFileSelectPS(PreparedStatement ps, int fileid)
+	public static void setSelectPS(PreparedStatement ps, int fileid)
 		throws SQLException
 	{
 		ps.setInt(1, fileid);

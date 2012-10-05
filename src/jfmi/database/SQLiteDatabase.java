@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.LinkedList;
 
+import jfmi.control.TaggedFile;
 
 /**
   An SQLiteDatabase object handles interation with an SQLite database. The
@@ -108,7 +109,8 @@ public class SQLiteDatabase {
 
 	/** Gets a list of all the records in a table, using the specified
 	  SQL SELECT statement, and the specified RecordConverter to convert the
-	  ResultSet rows into Java objects.
+	  ResultSet rows into Java objects. This method only applies to 
+	  DatabaseRecords - i.e. classes which mirror an actual database table.
 	  @param selectAllSQL SQL SELECT statement which will return all records
 	  			in the target table
 	  @param converter a RecordConverter to convert any results to objects
@@ -146,6 +148,50 @@ public class SQLiteDatabase {
 
 			} finally {
 				closeStatementIgnoreEx(stmt);
+			}
+
+		} finally {
+			closeConnectionIgnoreEx(conn);
+		}
+	}
+
+	/** Given the specified file id, this method queries the database for
+	  all the taggings associated with the file, and creates a new TaggedFile
+	  from the results.
+	  @param fileid this determines which taggings are retrieved
+	  @return a new TaggedFile if there are taggings in the database for the
+	  		specified file id - otherwise null is returned
+	  @throws SQLException in the event of a database error
+	  */
+	public TaggedFile getTaggedFile(int fileid) throws SQLException
+	{
+		Connection conn = DriverManager.getConnection(dburl);
+
+		try {
+			String selectPSQL = TaggedFile.getSelectPSQL();
+			PreparedStatement ps = conn.prepareStatement(selectPSQL);
+
+			try {
+				TaggedFile.setSelectPSQL(ps, fileid);
+				ResultSet rs = ps.executeQuery();
+
+				try {
+					TaggedFile taggedFile = null;
+					TaggedFileRecordConverter converter; 
+					converter = new TaggedFileRecordConverter;
+
+					if (rs.next()) {
+						taggedFile = (TaggedFile)converter.convertToObject(rs);
+					}
+
+					return taggedFile;
+
+				} finally {
+					closeResultSetIgnoreEx(rs);
+				}
+
+			} finally {
+				closeStatementIgnoreEx(ps);
 			}
 
 		} finally {
