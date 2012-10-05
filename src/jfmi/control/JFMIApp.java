@@ -1,8 +1,8 @@
 package jfmi.control;
 
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Vector;
 
 import jfmi.database.SQLiteDatabase;
@@ -54,23 +54,22 @@ public final class JFMIApp {
 	  */
 	public boolean start() 
 	{
-		if (initJFMIDatabase()) {
-			refreshTaggedFileVectorFromDatabase();
-			//sortTaggedFileVector();
-			updateGUITaggedFileJList();
+		if (initJFMIDatabase(true)) {
 
-			jfmiGUI.setVisible(true);
+			if (refreshTaggedFileVectorFromDatabase(true)) {
+				updateGUITaggedFileJList();
+				jfmiGUI.setVisible(true);
 
-			return true;
+				return true;
+			} 
 
-		} else {
-			GUIUtil.showErrorDialog(
-				"The application cannot start because the"
-				+ " initialization of the database failed."
-			);
+		} 
 
-			return false;
-		}
+		GUIUtil.showErrorDialog(
+			"An error occurred which prevented the application from starting."
+		);
+
+		return false;
 	}
 
 	/** Let the user manage/add/remove what tags are used by jfmi.
@@ -112,28 +111,34 @@ public final class JFMIApp {
 
 	/** Tries to construct an SQLiteDatabase object associated with the
 	  SQLite database located at DATABASE_PATH. If the SQLiteDatabase
-	  constructor throws and exception, an error message is displayed.
+	  constructor throws and exception, an error message is displayed if
+	  "showError" is true.
+	  @param showError if true, and an error occurs, display a message
 	  @return true if the database was successfully initialized
 	  */
-	private boolean initJFMIDatabase()
+	private boolean initJFMIDatabase(boolean showError)
 	{
 		try {
 			jfmiDatabase = new SQLiteDatabase(DATABASE_PATH);
 			return true;
 
 		} catch (ClassNotFoundException e) {
-			GUIUtil.showErrorDialog(
-					"The application failed to load the "
-					+ "SQLite database driver."
-					+ "\n\nDetails:\n" + e.getMessage()
-			);
+			if (showError) {
+				GUIUtil.showErrorDialog(
+						"The application failed to load the "
+						+ "SQLite database driver."
+						+ "\n\nDetails:\n" + e.getMessage()
+				);
+			}
 		} catch (SQLException e) {
-			GUIUtil.showErrorDialog(
-					 "An error occurred while attempting to access the "
-					+ "application database at: "
-					+ "\n" + DATABASE_PATH
-					+ "\n\nDetails:\n" + e.getMessage()
-			);
+			if (showError) {
+				GUIUtil.showErrorDialog(
+						 "An error occurred while attempting to access the "
+						+ "application database at: "
+						+ "\n" + DATABASE_PATH
+						+ "\n\nDetails:\n" + e.getMessage()
+				);
+			}
 		}
 
 		return false;
@@ -150,16 +155,24 @@ public final class JFMIApp {
 
 	/** Gets an updated list of TaggedFiles from the database, and updates
 	  the taggedFileVector.
+	  @param showError if true, and an error occurs, displays a message
+	  @return true if the files were refreshed successfully
 	  */
-	private boolean refreshTaggedFileVectorFromDatabase()
+	private boolean refreshTaggedFileVectorFromDatabase(boolean showError)
 	{
-		// TODO: implement
-		taggedFileVector = new Vector<TaggedFile>(
-									Arrays.asList(
-										TestUtil.getArrayOfTaggedFile()
-									)
-								);
-		return false;
+		try {
+			setTaggedFileVector(jfmiDatabase.getAllTaggedFiles());
+
+		} catch (SQLException e) {
+			if (showError) {
+				GUIUtil.showErrorDialog(
+					"Failed to refresh the list of files from the database."
+				);
+			}
+			return false;
+		}
+
+		return true;
 	}
 
 	/** Updates this instance's GUI with the latest values in the Vector

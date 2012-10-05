@@ -12,13 +12,20 @@ public final class GUIUtil {
 	  */
 	public static void showErrorDialog(String message)
 	{
-		// message type: ERROR_MESSAGE
 		JOptionPane.showMessageDialog(
 			null, 
 			message,
 			"JFMI Error",
 			JOptionPane.ERROR_MESSAGE
 		);
+	}
+
+	/** Utility method that can be used to display a debug message.
+	  @param message The message to display
+	  */
+	public static void debug(String message)
+	{
+		JOptionPane.showMessageDialog(null, message);
 	}
 
 }

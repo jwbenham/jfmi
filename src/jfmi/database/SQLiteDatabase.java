@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 import jfmi.control.TaggedFile;
+import jfmi.gui.GUIUtil;
 
 /**
   An SQLiteDatabase object handles interation with an SQLite database. The

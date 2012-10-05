@@ -58,6 +58,30 @@ public class TagRecord extends DatabaseRecord {
 		selectAllSQL = "SELECT * FROM " + SQLiteDatabase.TBL_TAGS;
 	}
 
+	/** Gets the uniqueColumnLabel String.
+	  @return the uniqueColumnLabel String
+	  */
+	public static String getUniqueColumnLabel()
+	{
+		return uniqueColumnLabel;
+	}
+
+	/** Gets the matchesPSQL String.
+	  @return the matchesPSQL field
+	  */
+	public static String getMatchesPSQL()
+	{
+		return matchesPSQL;
+	}
+
+	/** Gets the selectAllSQL String.
+	  @return the selectAllSQL field
+	  */
+	public static String getSelectAllSQL()
+	{
+		return selectAllSQL;
+	}
+
 	/** An implementation of the DatabaseRecord method.
 	  */
 	public void setMatchesPS(PreparedStatement matches) throws
@@ -65,8 +89,6 @@ public class TagRecord extends DatabaseRecord {
 	{
 		matches.setString(1, tag);
 	}
-
-
 
 	/** Return a String representation of this object.
 	  @return This object's string value.

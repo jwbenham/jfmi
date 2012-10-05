@@ -1,5 +1,5 @@
 
 # Ignore everything except for the .jar file that contains the documentation
-./*
-./*/
+*
+!*.jar
 
