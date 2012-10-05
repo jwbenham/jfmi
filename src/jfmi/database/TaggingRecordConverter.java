@@ -8,7 +8,9 @@ import java.sql.SQLException;
   */
 public class TaggingRecordConverter implements RecordConverter {
 
-	/** Convert a row in a result set to a TaggingRecord.
+	/** Convert a row in a result set to a TaggingRecord. This implementation
+	  maintains the convention that the ResultSet rs has already been set
+	  to or past the first row in the results.
 	  */
 	public Object convertToObject(ResultSet rs)
 		throws SQLException
