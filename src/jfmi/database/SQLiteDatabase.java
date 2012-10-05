@@ -133,7 +133,9 @@ public class SQLiteDatabase {
 				   	records = new LinkedList<DatabaseRecord>();
 
 					while (rs.next()) {
-						records.add(converter.convertToObject(rs));
+						records.add(
+							(DatabaseRecord)converter.convertToObject(rs)
+						);
 					}
 
 					return records;

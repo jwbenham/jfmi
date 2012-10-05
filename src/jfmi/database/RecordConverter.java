@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /** Classes which implement the RecordConverter interface are stating that
-  they can perform conversion from a database table record to a 
-  jfmi.database.DatabaseRecord object, and vice versa.
+  they can perform conversion from a database table record to a Java Object,
+  and vice versa.
   */
 public interface RecordConverter {
 
@@ -15,7 +15,7 @@ public interface RecordConverter {
 	  @return the DatabaseRecord resulting from the conversion
 	  @throws SQLException
 	  */
-	public DatabaseRecord convertToObject(ResultSet rs) throws 
+	public Object convertToObject(ResultSet rs) throws 
 		SQLException;
 
 }

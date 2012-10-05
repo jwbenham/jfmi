@@ -10,7 +10,7 @@ public class TagRecordConverter implements RecordConverter {
 
 	/** Convert a row in a result set to a TagRecord.
 	  */
-	public DatabaseRecord convertToObject(ResultSet rs)
+	public Object convertToObject(ResultSet rs)
 		throws SQLException
 	{
 		TagRecord convert = new TagRecord();	

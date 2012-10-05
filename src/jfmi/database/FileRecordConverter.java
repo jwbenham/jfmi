@@ -10,7 +10,7 @@ public class FileRecordConverter implements RecordConverter {
 
 	/** Convert a row in a result set to a FileRecord.
 	  */
-	public DatabaseRecord convertToObject(ResultSet rs)
+	public Object convertToObject(ResultSet rs)
 		throws SQLException
 	{
 		FileRecord convert = new FileRecord();	
