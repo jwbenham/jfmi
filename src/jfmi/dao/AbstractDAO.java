@@ -1,6 +1,9 @@
 package jfmi.dao;
 
 
+/** The AbstractDAO defines the base services which should be provided by
+  all data access objects.
+  */
 public abstract class AbstractDAO<T, U> {
 
 	// create
