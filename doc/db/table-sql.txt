@@ -1,5 +1,5 @@
-This file contains the sql statments used to create the sqlite3
-database tables used by menrva.
+This file contains the sql statements used to create the sqlite3
+database tables used by the application.
 
 Table: "files"
 ---------------------------------------------
