@@ -8,6 +8,25 @@ package jfmi.repo;
   */
 public abstract class AbstractRepository {
 
-	public abstract void initialize() throws Exception;
+	// PRIVATE CLASS Fields
+	private static AbstractRepository repository;
 
+	//************************************************************
+	// PUBLIC CLASS Methods
+	//************************************************************
+
+	public static AbstractRepository getInstance()
+	{
+		if (repository == null) {
+			repository = new SQLiteRepository("./dao.db");
+		}
+
+		return repository;
+	}
+
+	//************************************************************
+	// PUBLIC INSTANCE Methods
+	//************************************************************
+
+	public abstract void initialize() throws Exception;
 }

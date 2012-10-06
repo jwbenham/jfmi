@@ -1,6 +1,7 @@
 package jfmi.repo;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
@@ -27,7 +28,7 @@ public class SQLiteRepository extends AbstractRepository {
 	/** Returns a new Connection for the database.
 	  @throws SQLException if a connection can not be established
 	  */
-	public getConnection() throws SQLException 
+	public Connection getConnection() throws SQLException 
 	{
 		return DriverManager.getConnection(repoURL);
 	}
