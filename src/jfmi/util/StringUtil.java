@@ -22,4 +22,13 @@ public final class StringUtil {
 		}
 	}
 
+	/** Surround a string in double quotes.
+	  @param str the String to surround in double quotes
+	  @return a new String surrouned in double quotes
+	  */
+	public static String doubleQuote(String str)
+	{
+		return "\"" + str + "\"";
+	}
+
 }
