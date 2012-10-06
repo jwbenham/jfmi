@@ -1,23 +1,7 @@
 
-./src/jfmi/control/JFMIApp.java
-./src/jfmi/control/JFMIMain.java
 ./src/jfmi/control/TaggedFile.java
-./src/jfmi/database/SQLiteDatabase.java
-./src/jfmi/database/DatabaseRecord.java
-./src/jfmi/database/FileRecord.java
-./src/jfmi/database/TagRecord.java
-./src/jfmi/database/TaggingRecord.java
-./src/jfmi/database/RecordConverter.java
-./src/jfmi/database/FileRecordConverter.java
-./src/jfmi/database/TagRecordConverter.java
-./src/jfmi/database/TaggingRecordConverter.java
-./src/jfmi/gui/JFMIFrame.java
-./src/jfmi/gui/TaggedFileJListRenderer.java
-./src/jfmi/gui/TaggedFileJListCellPanel.java
-./src/jfmi/gui/Styles.java
-./src/jfmi/gui/TagHandlerDialog.java
-./src/jfmi/gui/GUIException.java
-./src/jfmi/gui/GUIUtil.java
-./src/jfmi/util/StringUtil.java
-./src/jfmi/util/TestUtil.java
+./src/jfmi/control/FileTag.java
+./src/jfmi/control/FileTagging.java
+./src/jfmi/dao/AbstractDAO.java
+./src/jfmi/dao/TaggedFileDAO.java
 

@@ -3,16 +3,16 @@ database tables used by menrva.
 
 Table: "files"
 ---------------------------------------------
-CREATE TABLE IF NOT EXISTS main.files (
-fileid 	INTEGER 	NOT NULL CONSTRAINT fileid_nonnegative CHECK (fileid >= 0),
+CREATE TABLE IF NOT EXISTS main.TaggedFile (
+fileId 	INTEGER 	NOT NULL CONSTRAINT fileId_nonnegative CHECK (fileId >= 0),
 path 	TEXT 		NOT NULL UNIQUE,
-CONSTRAINT filed_is_pk PRIMARY KEY (fileid)
+CONSTRAINT fileId_is_pk PRIMARY KEY (fileId)
 );
 
 
 Table: "tags"
 ---------------------------------------------
-REATE TABLE IF NOT EXISTS main.tags (
+CREATE TABLE IF NOT EXISTS main.FileTag (
 tag 	TEXT 		NOT NULL,
 CONSTRAINT tag_is_pk PRIMARY KEY (tag)
 );
@@ -21,12 +21,13 @@ CONSTRAINT tag_is_pk PRIMARY KEY (tag)
 
 Table: "taggings"
 ---------------------------------------------
-CREATE TABLE IF NOT EXISTS main.taggings (
-fileid 	INTEGER 	NOT NULL,
-tag 	TEXT	 	NOT NULL,
-comment	TEXT,
-CONSTRAINT fileid_tag_are_pk PRIMARY KEY(fileid, tag),
-CONSTRAINT fileid_is_fk FOREIGN KEY(fileid) REFERENCES files(fileid),
-CONSTRAINT tag_is_fk FOREIGN KEY(tag) REFERENCES tags(tag)
+CREATE TABLE IF NOT EXISTS main.FileTagging (
+taggingId	INTEGER		NOT NULL CONSTRAINT taggingId_nonnegative CHECK (taggingId >= 0),
+fileId 		INTEGER 	NOT NULL,
+tag 		TEXT	 	NOT NULL,
+comment		TEXT,
+CONSTRAINT taggingId_is_pk PRIMARY KEY(taggingId),
+CONSTRAINT fileId_is_fk FOREIGN KEY(fileId) REFERENCES TaggedFile(fileId),
+CONSTRAINT tag_is_fk FOREIGN KEY(tag) REFERENCES FileTag(tag)
 );
 

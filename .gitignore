@@ -2,8 +2,10 @@
 # Ignore databases
 *.db
 
-# Ignore tmp Vim files
+# Ignore tmp files
 *.swp
+*~
+
 
 # Ignore byte code
 *.class
