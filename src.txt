@@ -4,4 +4,6 @@
 ./src/jfmi/control/FileTagging.java
 ./src/jfmi/dao/AbstractDAO.java
 ./src/jfmi/dao/TaggedFileDAO.java
+./src/jfmi/repo/AbstractRepository.java
+./src/jfmi/repo/SQLiteRepository.java
 
