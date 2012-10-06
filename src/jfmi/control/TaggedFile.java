@@ -1,176 +1,130 @@
 package jfmi.control;
 
-import java.util.ArrayList;
+import java.io.File;
+
+import java.util.List;
 import java.util.Arrays;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
-import jfmi.database.FileRecord;
-import jfmi.database.TaggingRecord;
-import jfmi.database.SQLiteDatabase;
-import jfmi.util.StringUtil;
 
-/** A composite class of a FileRecord and a collection of TaggingRecords. An
-  instance of this class represents all information that the JFMP app has
-  stored about a file. This class does not represent any single table in the
-  application's database.
+/** Represents a file in the file system, along with its associated taggings (if
+  any).
   */
 public class TaggedFile {
-	// Class fields
-	private static final String SELECT_PSQL;
 
-	static {
-		SELECT_PSQL = "SELECT f.fileid, f.path, t.tag, t.comment "
-			+ "FROM " + SQLiteDatabase.TBL_FILES + " f, "
-			+ SQLiteDatabase.TBL_TAGGINGS + " t "
-			+ "WHERE f.fileid = t.fileid "
-			+ "AND f.fileid = ? ";
-	}
-
-	// Instance fields
-	private FileRecord fileRecord;
-	private ArrayList<TaggingRecord> taggings;
-
-	//************************************************************
-	// PUBLIC CLASS Methods
-	//************************************************************
-
-	/** Returns a parameterized SQL SELECT statement which will return a table
-	  of all the taggings for a particular file. The columns in the table 
-	  include "fileid", "path", "tag", "comment". The "fileid" and "path"
-	  column should have the same value in each result record.
-	  @return an SQL SELECT statement to get tagging information for a file
-	  */
-	public static String getSelectPSQL()
-	{
-		return SELECT_PSQL;	
-	}
-
-	/** Sets the file id in a PreparedStatement compiled with the parameterized 
-	  SQL statement returned from getSelectPSQL. 
-	  @param ps the PrepareStatement whose parameter will be set
-	  @param fileid the value to use for the file id parameter
-	  @throws SQLException if setting the parameter fails
-	  */
-	public static void setSelectPS(PreparedStatement ps, int fileid)
-		throws SQLException
-	{
-		ps.setInt(1, fileid);
-	}
+	// PRIVATE INSTANCE Fields
+	private int fileId;
+	private File file;
+	private List<FileTagging> fileTaggings;
 
 	//************************************************************
 	// PUBLIC INSTANCE Methods
 	//************************************************************
 
-	/** Constructs a TaggedFile with fields initialized to null.
+	/** Construct a default TaggedFile with negative id, an empty path, "", and
+	  null list of taggings.
 	  */
 	public TaggedFile()
 	{
-		fileRecord = null;
-		taggings = null;
+		this(-1, "", null);
 	}
 
-	/** Constructs a TaggedFile with the specified FileRecord and list of 
-	  tag/comment (tagging) combinations.
-	  @param fileRecord_ The file this instance refers to.
-	  @param tags_ A list of taggings associated with the file.
+	/** Construct a TaggedFile with the specified id, path, and list of
+	  taggings.
+	  @param id the new object's id
+	  @param path path of the new object
+	  @param taggings list of the file's taggings
 	  */
-	public TaggedFile(FileRecord fileRecord_, ArrayList<TaggingRecord> tags_)
+	public TaggedFile(int id, String path, List<FileTagging> taggings)
 	{
-		setFileRecord(fileRecord_);
-		setTaggings(tags_);
+		this(id, new File(path), taggings);	
 	}
 
-	/** Constructs a TaggedFile with the specified FileRecord and array of
-	  tag/comment (tagging) combinations.
-	  @param fileRecord_ The file this instance refers to.
-	  @param tags_ An array of taggings associated with the file.
+	/** Construct a TaggedFile with the specified id, path, and list of
+	  taggings.
+	  @param id the new object's id
+	  @param file File which has the path of the new object
+	  @param taggings list of the file's taggings
 	  */
-	public TaggedFile(FileRecord fileRecord_, TaggingRecord[] tags_)
+	public TaggedFile(int id, File file, List<FileTagging> taggings)
 	{
-		setFileRecord(fileRecord_);
-		setTaggings(tags_);
+		setFileId(id);
+		setFile(file);
+		setFileTaggings(taggings);
 	}
 
-	/** Returns the name of the file as a String.
-	  @return If the fileRecord.path field is null, it returns the empty string.
+	/** Access the file field.
+	  @return the instance's file field
 	  */
-	public String getFileName()
+	public File getFile()
 	{
-		String path = fileRecord.getPath();
+		return file;
+	}
 
-		if (path == null) {
-			return "";
+	/** Access the fileId field.
+	  @return the file's integer id
+	  */
+	public int getFileId()
+	{
+		return fileId;
+	}
+
+	/** Access the file name.
+	  @return the String value of the file's name
+	  */
+	public String getName() 
+	{
+		return file.getName();
+	}
+
+	/** Access the file path.
+	  @return the String value of the file's path
+	  */
+	public String getPath()
+	{
+		return file.getPath();
+	}
+
+	/** Sets this instance's file field.
+	  @param file File to use as this instance's - can be null
+	  */
+	public void setFile(File file)
+	{
+		this.file = file;
+	}
+
+	/** Sets the file id.
+	  @param id integer to use as this file's id
+	  */
+	public void setFileId(int id)
+	{
+		fileId = id;
+	}
+
+	/** Sets this instance's file path.
+	  @param path String whose value is the desired path
+	  */
+	public void setFilePath(String path)
+	{
+		setFile(new File(path));
+	}
+
+	/** Sets the list of taggings for this file.
+	  @param taggingList list of taggings for this file - can be null
+	  */
+	public void setFileTaggings(List<FileTagging> taggingList)
+	{
+		fileTaggings = taggingList;
+	}
+
+	/** Sets the list of taggings for this file from an array.
+	  @param taggingArray an array of FileTagging objects - null is a no-op
+	  */
+	public void setFileTaggings(FileTagging[] taggingArray)
+	{
+		if (taggingArray == null) {
+			return;
 		} else {
-			return StringUtil.parseNameFromPath(path);
+			setFileTaggings(Arrays.asList(taggingArray));
 		}
 	}
-
-	/** Returns the path of the fileRecord.
-	  @return If the fileRecord.path field is null, the empty string is returned.
-	  */
-	public String getFilePath()
-	{
-		return fileRecord.getPath();
-	}
-
-	/** Returns a String of the tags in the taggings field.
-	  @return String of tags contained in the TaggingRecord objects in
-	  the taggings ArrayList.
-	  */
-	public String getTagsAsString()
-	{
-		StringBuilder tags = new StringBuilder("");
-
-		for (TaggingRecord tr : taggings) {
-			tags.append(" [" + tr.getTag() + "] ");
-		}
-
-		return tags.toString();
-	}
-
-	/** Mutator for fileRecord field.
-	  @param fileRecord_ Non-null reference to FileRecord.
-	  */
-	public final void setFileRecord(FileRecord fileRecord_)
-	{
-		if (fileRecord_ == null) {
-		   throw new IllegalArgumentException("error: fileRecord_ is null");
-		}	   
-
-		fileRecord = fileRecord_;
-	}
-
-	/** Mutator for taggings field.
-	  @param taggings_ Non-null reference to an ArrayList<TaggingRecord>.
-	  */
-	public final void setTaggings(ArrayList<TaggingRecord> taggings_)
-	{
-		if (taggings_ == null) {
-		   throw new IllegalArgumentException("error: taggings_ is null");
-		}
-
-		taggings = taggings_;
-	}
-
-	/** Mutator for taggings field.
-	  @param taggings_ Non-null reference to a TaggingRecord[].
-	  */
-	public final void setTaggings(TaggingRecord[] taggings_)
-	{
-		if (taggings_ == null) {
-		   throw new IllegalArgumentException("error: taggings_ is null");
-		}
-
-		taggings = new ArrayList<TaggingRecord>(Arrays.asList(taggings_));	
-	}
-
-	/** Acessor for taggings field.
-	  @return This instance's list of taggings.
-	  */
-	public ArrayList<TaggingRecord> getTaggings()
-	{
-		return taggings;
-	}
-
 }
