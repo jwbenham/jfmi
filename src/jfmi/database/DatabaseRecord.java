@@ -36,6 +36,10 @@ public abstract class DatabaseRecord {
 		selectAllSQL = null;
 	}
 
+	//************************************************************
+	// CLASS Methods
+	//************************************************************
+
 	/** Gets the uniqueColumnLabel String.
 	  @return the uniqueColumnLabel String
 	  */
@@ -60,6 +64,10 @@ public abstract class DatabaseRecord {
 		return selectAllSQL;
 	}
 
+	//************************************************************
+	// INSTANCE Methods
+	//************************************************************
+
 	/** Given a PreparedStatement object constructed with the String field
 	  "matchesPSQL", this method sets the parameters in the PreparedStatement 
 	  to the values needed to check if the record represented by this object 
@@ -69,6 +77,12 @@ public abstract class DatabaseRecord {
 	  */
 	public abstract void setMatchesPS(PreparedStatement matches) throws 
 		SQLException;
+
+	/** Sets an instance of a DatabaseRecord subclass based on the field
+	  values of the specified record.
+	  @param record the instance's fields are set from this parameter
+	  */
+	public abstract void setFromDatabaseRecord(DatabaseRecord record);
 
 	/** Converts an instance of this interface to a String.
 	  @return A String representation of this object.

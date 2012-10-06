@@ -69,26 +69,73 @@ public class SQLiteDatabase {
 		}
 	}
 
+	/** Retrieves a single table record from the database, converts it to a 
+	  Java object, and uses calls the specified target's setFromRecord()
+	  method to fill in the object with the retrieved data.
+	  @param target a DatabaseRecord that has had its primary key field(s)
+	  		set, and will return a String from the instance method
+			getMatchesPSQL() that can be used to query for the entire record
+	  @param converter a RecordConverter for the target
+	  @return true if a matching database record was found
+	  @throws SQLException in the event of a database error
+	  */
+	public boolean getDatabaseRecord(
+		DatabaseRecord target,
+		RecordConverter converter
+	) throws SQLException
+	{
+		Connection conn = DriverManager.getConnection(dburl);
+
+		try {
+			String matchesSQL = target.getMatchesPSQL();
+			GUIUtil.debug("getDatabaseRecord: target = " 
+					+ target.toString());
+			GUIUtil.debug("getDatabaseRecord: " + matchesSQL);
+			PreparedStatement ps = conn.prepareStatement(matchesSQL.toString());
+
+			try {
+				target.setMatchesPS(ps);
+				ResultSet rs = ps.executeQuery();
+
+				try {
+					
+					if (rs.next()) {
+						target.setFromDatabaseRecord(
+							(DatabaseRecord)converter.convertToObject(rs)
+						);	
+
+						return true;
+
+					} else {
+						return false;
+					}
+
+				} finally {
+					closeResultSetIgnoreEx(rs);
+				}
+
+			} finally {
+				closeStatementIgnoreEx(ps);
+			}
+
+		} finally {
+			closeConnectionIgnoreEx(conn);	
+		}
+
+	}
 
 	/** Queries the database to check if a particular record exists.
 	  @param record DatabaseRecord whose existence will be checked.
-	  @return True if exists.
+	  @return true if exists
 	  @throws SQLException in the event of a database error
 	  */
 	public boolean recordExists(DatabaseRecord record) throws SQLException
 	{
-		if (record == null) {
-			throw new NullPointerException(
-				"SQLiteDatabase.recordExists(): record arg is null"
-			);
-		}
-
 		Connection conn = DriverManager.getConnection(dburl);
 
 		try {
 			String matchesPSQL = record.getMatchesPSQL();
 			PreparedStatement ps = conn.prepareStatement(matchesPSQL.toString());	
-
 			try {
 				record.setMatchesPS(ps);
 				ResultSet rs = ps.executeQuery();
@@ -180,6 +227,7 @@ public class SQLiteDatabase {
 
 					while (rs.next()) {
 						taggedFile = getTaggedFile(rs.getInt("fileid"));	
+
 						if (taggedFile != null) {
 							list.add(taggedFile);
 						}
@@ -202,11 +250,12 @@ public class SQLiteDatabase {
 
 	/** Given the specified file id, this method queries the database for
 	  all the taggings associated with the file, and creates a new TaggedFile
-	  from the results. Note that all files, if the user has not specified a
-	  tag, are automatically tagged with some indicator.
+	  from the results. Note that a file that is not associated with any
+	  tags is still retrieved by this method - its list of TaggingRecords will
+	  just be empty.
 	  @param fileid this determines which taggings are retrieved
-	  @return a new TaggedFile if there are taggings in the database for the
-	  		specified file id - otherwise null is returned
+	  @return a new TaggedFile with its taggings if they exist, and with none
+	  		otherwise; null is returned if no file with the file id exists
 	  @throws SQLException in the event of a database error
 	  */
 	public TaggedFile getTaggedFile(int fileid) throws SQLException
@@ -226,8 +275,21 @@ public class SQLiteDatabase {
 					TaggedFileRecordConverter converter; 
 					converter = new TaggedFileRecordConverter();
 
-					if (rs.next()) {
+					if (rs.next()) {	
+						// file has tags associated with it
 						taggedFile = (TaggedFile)converter.convertToObject(rs);
+						
+					} else {	
+						// file has no tags associated with it
+						FileRecord f =  new FileRecord();
+						f.setFileid(fileid);
+						
+						GUIUtil.debug("calling getDatabaseRecord: file = " 
+								+ f.toString());
+						if (getDatabaseRecord(f, new FileRecordConverter())) {
+							taggedFile = new TaggedFile();
+							taggedFile.setFileRecord(f);
+						}
 					}
 
 					return taggedFile;

@@ -90,6 +90,16 @@ public class TagRecord extends DatabaseRecord {
 		matches.setString(1, tag);
 	}
 
+	/** Sets an instance of a TagRecord based on the field values of the 
+	  specified record.
+	  @param record the instance's fields are set from this parameter
+	  */
+	public void setFromDatabaseRecord(DatabaseRecord record)
+	{
+		TagRecord tr = (TagRecord)record;
+		setTag(tr.getTag());
+	}
+
 	/** Return a String representation of this object.
 	  @return This object's string value.
 	  */

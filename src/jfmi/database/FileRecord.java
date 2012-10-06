@@ -92,7 +92,8 @@ public class FileRecord extends DatabaseRecord {
 	  */
 	public static String getMatchesPSQL()
 	{
-		return matchesPSQL;
+		//return matchesPSQL;
+		return "test";
 	}
 
 	/** Gets the selectAllSQL String.
@@ -109,6 +110,17 @@ public class FileRecord extends DatabaseRecord {
 		SQLException
 	{
 		matches.setInt(1, fileid);		
+	}
+
+	/** Sets an instance of a FileRecord based on the field values of the 
+	  specified record.
+	  @param record the instance's fields are set from this parameter
+	  */
+	public void setFromDatabaseRecord(DatabaseRecord record)
+	{
+		FileRecord fr = (FileRecord)record;
+		setFileid(fr.getFileid());
+		setPath(fr.getPath());
 	}
 
 	/** Return a String representation of this object.

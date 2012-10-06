@@ -166,8 +166,10 @@ public final class JFMIApp {
 		} catch (SQLException e) {
 			if (showError) {
 				GUIUtil.showErrorDialog(
-					"Failed to refresh the list of files from the database."
+					"Failed to refresh the list of files from the database.",
+					e.toString()
 				);
+				e.printStackTrace();
 			}
 			return false;
 		}

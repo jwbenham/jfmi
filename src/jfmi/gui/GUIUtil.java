@@ -20,6 +20,31 @@ public final class GUIUtil {
 		);
 	}
 
+	/** Uses the JOptionPane.showMessageDialog() method to display the
+	  specified message and details.
+	  @param message the message to display
+	  @param details additional details 
+	  */
+	public static void showErrorDialog(String message, String details)
+	{
+		StringBuilder str = new StringBuilder(message);
+
+		if (details != null) {
+			str.append("\n----------------------\n");
+			str.append("Details");
+			str.append("\n----------------------\n");
+			str.append(details);
+		}
+
+		JOptionPane.showMessageDialog(
+			null, 
+			str.toString(),
+			"JFMI Error",
+			JOptionPane.ERROR_MESSAGE
+		);
+	}
+
+
 	/** Utility method that can be used to display a debug message.
 	  @param message The message to display
 	  */

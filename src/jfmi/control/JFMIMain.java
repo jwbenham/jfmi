@@ -3,10 +3,7 @@ package jfmi.control;
 import java.sql.SQLException;
 
 import jfmi.gui.JFMIFrame;
-import jfmi.database.SQLiteDatabase;
-import jfmi.database.FileRecord;
-import jfmi.database.TagRecord;
-import jfmi.database.TaggingRecord;
+import jfmi.database.*;
 
 /** A skeleton class used to launch a JFMIApp instance.
   */
@@ -18,7 +15,25 @@ public final class JFMIMain {
 	public static void main(String[] args)
 	{
 		JFMIApp app = JFMIApp.getSingleton();
-		app.start();
+		//app.start();
+
+		DatabaseRecord file = new FileRecord();
+		DatabaseRecord tag = new TagRecord();
+		DatabaseRecord tagging = new TaggingRecord();
+
+		System.out.println("FileRecord:");
+		System.out.println("Should be: " + FileRecord.getMatchesPSQL());
+		System.out.println("Reality: " + file.getMatchesPSQL());
+		System.out.println();
+
+		System.out.println("TagRecord:");
+		System.out.println("Should be: " + TagRecord.getMatchesPSQL());
+		System.out.println("Reality: " + tag.getMatchesPSQL());
+		System.out.println();
+
+		System.out.println("TaggingRecord:");
+		System.out.println("Should be: " + TaggingRecord.getMatchesPSQL());
+		System.out.println("Reality: " + tagging.getMatchesPSQL());
 	}
 
 }

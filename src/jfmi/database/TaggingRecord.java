@@ -110,7 +110,7 @@ public class TaggingRecord extends DatabaseRecord {
 	static { 
 		uniqueColumnLabel = null; 
 		matchesPSQL = "SELECT * FROM " + SQLiteDatabase.TBL_TAGGINGS
-							+ " WHERE fileid = ? AND path = ? ";
+							+ " WHERE fileid = ? AND tag = ? ";
 		selectAllSQL = "SELECT * FROM " + SQLiteDatabase.TBL_TAGGINGS;
 	}
 
@@ -145,6 +145,18 @@ public class TaggingRecord extends DatabaseRecord {
 	{
 		matches.setInt(1, fileid);
 		matches.setString(2, tag);
+	}
+
+	/** Sets an instance of a TaggingRecord based on the field values of the 
+	  specified record.
+	  @param record the instance's fields are set from this parameter
+	  */
+	public void setFromDatabaseRecord(DatabaseRecord record)
+	{
+		TaggingRecord tr = (TaggingRecord)record;
+		setFileid(tr.getFileid());
+		setTag(tr.getTag());	
+		setComment(tr.getComment());
 	}
 
 	/** Return a String representation of this object.
