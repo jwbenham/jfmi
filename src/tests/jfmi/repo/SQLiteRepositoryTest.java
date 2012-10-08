@@ -23,12 +23,22 @@ public class SQLiteRepositoryTest {
 		System.out.println("testSetRepoPath_NonNullParams()");
 
 		final String path = "testpath/repo.db";
-		
 		SQLiteRepository.instance().setRepoPath(path);
 
 		String actual = SQLiteRepository.instance().getRepoPath();
-
 		assertEquals(path, actual);
+	}
+
+	@Test
+	public void testSetRepoPath_NullParams()
+	{
+		System.out.println("testSetRepoPath_NullParams()");
+		
+		final String expected = "";
+		SQLiteRepository.instance().setRepoPath(null);
+
+		String actual = SQLiteRepository.instance().getRepoPath();
+		assertEquals(expected, actual);
 	}
 
 }
