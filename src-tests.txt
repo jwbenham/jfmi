@@ -1,3 +1,4 @@
 
+./src/tests/jfmi/repo/SQLiteRepositoryTest.java
 ./src/tests/jfmi/util/StringUtilTest.java
 

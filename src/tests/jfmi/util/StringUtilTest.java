@@ -6,6 +6,8 @@ import static org.junit.Assert.assertEquals;
 
 import jfmi.util.StringUtil;
 
+/** Implements unit tests for the jfmi.util.StringUtil class.
+  */
 public class StringUtilTest {
 
 	@Test
