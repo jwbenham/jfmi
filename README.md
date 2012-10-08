@@ -33,7 +33,7 @@ Example:
 Say we have a class located at src/jfmi/util/StringUtil.class, and that we have
 written a JUnit test for it in src/tests/jfmi/util/StringUtilTest.class. The JUnit
 test can be started with the following command:
-`./runtest.sh util.StringUtilTest
+`./runtest.sh util.StringUtilTest`
 
 
 ## Documentation
