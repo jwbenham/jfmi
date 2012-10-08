@@ -12,7 +12,7 @@ SUB_PACK+=jfmi.control:jfmi.dao:jfmi.gui:jfmi.repo:jfmi.util
 JAVADOC_DEST+=./doc/javadoc
 
 # javac -classpath option
-CP+=.:./src:./lib/sqlite-jdbc-3.7.2.jar:./lib/junit-4.10.jar
+CP+=.:./src:./lib/*
 
 
 

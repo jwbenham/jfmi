@@ -84,11 +84,12 @@ public class SQLiteRepository extends AbstractRepository {
 	/** Initializes the SQLiteRepository by attempting to load the 
 	  SQLite driver.
 	  @throws ClassNotFoundException If the driver cannot be loaded.
-	  @throws SQLiteException If table creation is necessary, and fails.
+	  @throws SQLException If table creation is necessary, and fails.
 	  */
 	public void initialize() throws ClassNotFoundException, SQLException
 	{
 		Class.forName("org.sqlite.JDBC");
+		createTablesIfNecessary();
 	}	
 
 	/** Sets the path to an SQLite database.
@@ -112,9 +113,61 @@ public class SQLiteRepository extends AbstractRepository {
 	/** Constructs an SQLiteRepository using the specified path.
 	  @param path the file path to an SQLite database
 	  */
-	public SQLiteRepository(String path)
+	private SQLiteRepository(String path)
 	{
 		setRepoPath(path);
+	}
+
+	/** Creates the SQLite database tables if necessary.
+	  @throws SQLException if an error occurs while working with the database
+	  */
+	private void createTablesIfNecessary() throws SQLException
+	{
+		Connection conn = getConnection();	
+
+		try {
+			Statement stmt = conn.createStatement();
+
+			try {
+				String taggedFile;
+				taggedFile = "CREATE TABLE IF NOT EXISTS main.TaggedFile ("
+					+ "fileId INTEGER NOT NULL CONSTRAINT "
+					+ " fileId_nonnegative CHECK (fileId >= 0), "
+					+ " path TEXT NOT NULL UNIQUE,"
+					+ " CONSTRAINT fileId_is_pk PRIMARY KEY (fileId)"
+					+ " )";
+
+				String fileTag;
+				fileTag = "CREATE TABLE IF NOT EXISTS main.FileTag ("
+					+ " tag TEXT NOT NULL," 
+					+ " CONSTRAINT tag_is_pk PRIMARY KEY (tag)"
+					+ " )";
+
+				String fileTagging;
+				fileTagging = "CREATE TABLE IF NOT EXISTS main.FileTagging ("
+					+ " taggingId INTEGER NOT NULL"
+					+ " CONSTRAINT taggingId_nonnegative CHECK (taggingId >= 0),"
+					+ " fileId INTEGER NOT NULL,"
+					+ " tag TEXT NOT NULL,"
+					+ " comment TEXT,"
+					+ " CONSTRAINT taggingId_is_pk PRIMARY KEY(taggingId),"
+					+ " CONSTRAINT fileId_is_fk FOREIGN KEY(fileId)"
+				    + " REFERENCES TaggedFile(fileId),"
+					+ " CONSTRAINT tag_is_fk FOREIGN KEY(tag) "
+					+ " REFERENCES FileTag(tag)"
+					+ " )";
+
+				stmt.executeUpdate(taggedFile);
+				stmt.executeUpdate(fileTag);
+				stmt.executeUpdate(fileTagging);
+
+			} finally {
+				closeQuietly(stmt);
+			}
+
+		} finally {
+			closeQuietly(conn);
+		}
 	}
 
 	/** Sets the database URL for the SQLiteRepository.

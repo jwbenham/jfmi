@@ -1,7 +1,7 @@
 This file contains the sql statements used to create the sqlite3
 database tables used by the application.
 
-Table: "files"
+Table: "TaggedFile"
 ---------------------------------------------
 CREATE TABLE IF NOT EXISTS main.TaggedFile (
 fileId 	INTEGER 	NOT NULL CONSTRAINT fileId_nonnegative CHECK (fileId >= 0),
@@ -10,7 +10,7 @@ CONSTRAINT fileId_is_pk PRIMARY KEY (fileId)
 );
 
 
-Table: "tags"
+Table: "FileTag"
 ---------------------------------------------
 CREATE TABLE IF NOT EXISTS main.FileTag (
 tag 	TEXT 		NOT NULL,
@@ -19,7 +19,7 @@ CONSTRAINT tag_is_pk PRIMARY KEY (tag)
 
 
 
-Table: "taggings"
+Table: "FileTagging"
 ---------------------------------------------
 CREATE TABLE IF NOT EXISTS main.FileTagging (
 taggingId	INTEGER		NOT NULL CONSTRAINT taggingId_nonnegative CHECK (taggingId >= 0),
