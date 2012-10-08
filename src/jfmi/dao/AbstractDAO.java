@@ -13,7 +13,7 @@ public abstract class AbstractDAO<T, U> {
 	public abstract T readById(U id) throws Exception;
 
 	// update
-	public abstract void update(T updateMe) throws Exception;
+	public abstract boolean update(T updateMe) throws Exception;
 
 	// delete
 	public abstract void delete(T deleteMe) throws Exception;

@@ -22,10 +22,12 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	// PRIVATE CLASS Fields
 	private static final String CREATE_PSQL;
 	private static final String READ_BY_ID_PSQL;
+	private static final String UPDATE_PSQL;
 
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?, ?)";
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
+		UPDATE_PSQL = "UPDATE " + TABLE_NAME + " SET path = ? WHERE fileId = ? ";
 	}
 		
 
@@ -107,11 +109,35 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 		}
 	}
 
-	// update
-	public void update(TaggedFile updateMe) throws SQLException
+	/** Update the specified TaggedFile's corresponding record in the database,
+	  if it exists.
+	  @param updateMe the TaggedFile whose record will be updated
+	  @return true if the record existed and was updated successfully
+	  @throws SQLException if a database error occurs
+	  */
+	public boolean update(TaggedFile updateMe) throws SQLException
 	{
 		if (updateMe == null) {
-			return;
+			return false;
+		}
+
+		Connection conn = SQLiteRepository.instance().getConnection();
+
+		try {
+			PreparedStatement ps = conn.prepareStatement(UPDATE_PSQL);
+
+			try {
+				ps.setString(1, updateMe.getFilePath());
+				ps.setInt(2, updateMe.getFileId());
+
+				return ps.executeUpdate() == 1;	// 1 row should be updated
+				
+			} finally {
+				SQLiteRepository.closeQuietly(ps);				
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
 		}
 	}
 
