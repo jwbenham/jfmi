@@ -38,18 +38,14 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	// PUBLIC INSTANCE Methods
 	//************************************************************
 
-	/** Creates a new TaggedFile record in the underlying database. If the
-	  createMe parameter is null, a no-op occurs.
+	/** Creates a new TaggedFile record in the underlying database.
 	  @param createMe a TaggedFile instance containing the necessary information
 					  to replicate it in the database
 	  @param true if the record was created successfully
+	  @throws SQLException if a problem occurs working with the database
 	  */
 	public boolean create(TaggedFile createMe) throws SQLException
 	{
-		if (createMe == null) {
-			return false;
-		}
-
 		Connection conn = SQLiteRepository.instance().getConnection();
 
 		try {
@@ -75,7 +71,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	  from the relevant database tables.
 	  @param id the file id of the record to search for
 	  @return a new TaggedFile if the read was successful, null otherwise
-	  @throws SQLException if there is a problem with the database
+	  @throws SQLException if a problem occurs working with the database
 	  */
 	public TaggedFile readById(Integer id) throws SQLException
 	{
@@ -117,14 +113,10 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	  @param updateMe the TaggedFile whose information will update the record 
 	  @param id the id used to choose which record is updated
 	  @return true if the record existed and was updated successfully
-	  @throws SQLException if a database error occurs
+	  @throws SQLException if a problem occurs working with the database
 	  */
 	public boolean update(TaggedFile updateMe, Integer id) throws SQLException
 	{
-		if (updateMe == null) {
-			return false;
-		}
-
 		Connection conn = SQLiteRepository.instance().getConnection();
 
 		try {
@@ -150,14 +142,10 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	  database if it exists.
 	  @param deleteMe the TaggedFile whose record should be deleted
 	  @return true if the record was deleted, or did not exist
-	  @throws SQLException if a database error occurs
+	  @throws SQLException if a problem occurs working with the database
 	  */
 	public boolean delete(TaggedFile deleteMe) throws SQLException
 	{
-		if (deleteMe == null) {
-			return false;
-		}
-
 		Connection conn = SQLiteRepository.instance().getConnection();
 
 		try {
