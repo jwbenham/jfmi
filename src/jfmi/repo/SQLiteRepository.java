@@ -12,6 +12,7 @@ import java.sql.Statement;
 public class SQLiteRepository extends AbstractRepository {
 	// PRIVATE CLASS Fields
 	private static SQLiteRepository singleton;
+	private static final String DB_PATH = "./testdb.db";
 
 	// PRIVATE INSTANCE Fields
 	private String repoPath;
@@ -27,7 +28,7 @@ public class SQLiteRepository extends AbstractRepository {
 	public static SQLiteRepository instance()
 	{
 		if (singleton == null) {
-		 	singleton = new SQLiteRepository("./dao.db");
+		 	singleton = new SQLiteRepository(DB_PATH);
 		}
 
 		return singleton;
@@ -79,6 +80,22 @@ public class SQLiteRepository extends AbstractRepository {
 	public Connection getConnection() throws SQLException 
 	{
 		return DriverManager.getConnection(repoURL);
+	}
+
+	/** Retrieves the path of the SQLite repository.
+	  @return the String value of the repository path
+	  */
+	public String getRepoPath()
+	{
+		return repoPath;
+	}
+
+	/** Retrieves the url of the SQLite repository.
+	  @return the String value of the repository url
+	  */
+	public String getRepoURL()
+	{
+		return repoURL;
 	}
 
 	/** Initializes the SQLiteRepository by attempting to load the 
