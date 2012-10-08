@@ -5,24 +5,24 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Vector;
 
-import jfmi.database.SQLiteDatabase;
+import jfmi.dao.TaggedFileDAO;
 import jfmi.gui.JFMIFrame;
 import jfmi.gui.GUIUtil;
-import jfmi.util.TestUtil;
+import jfmi.repo.SQLiteRepository;
 
 /** JFMIApp is the primary application controller class.
   */
 public final class JFMIApp {
 	// Class fields
-	public static final String DATABASE_PATH = "./jfmi.db";
 	private static JFMIApp singleton = null;
+	private static final String DB_PATH = "./testdb.db";
 
 	// Instance fields
-	private TagHandler tagHandler;
-	private SQLiteDatabase jfmiDatabase;
 	private JFMIFrame jfmiGUI;
-
-	private Vector<TaggedFile> taggedFileVector; 
+	private Vector<TaggedFile> taggedFiles; 
+	
+	private SQLiteRepository jfmiRepo;
+	private TaggedFileDAO taggedFileDAO;
 
 
 	//************************************************************	
@@ -36,7 +36,7 @@ public final class JFMIApp {
 	  @throws SQLException if the database must be newly created and an SQL error
 	  			occurs.
 	  */
-	public static JFMIApp getSingleton()
+	public static JFMIApp instance()
 	{
 		if (singleton == null) {
 			singleton = new JFMIApp();
@@ -54,15 +54,11 @@ public final class JFMIApp {
 	  */
 	public boolean start() 
 	{
-		if (initJFMIDatabase(true)) {
+		if (initJFMIRepo(true) && readTaggedFilesFromRepo(true)) {
+			updateGUITaggedFileJList();
+			jfmiGUI.setVisible(true);
 
-			if (refreshTaggedFileVectorFromDatabase(true)) {
-				updateGUITaggedFileJList();
-				jfmiGUI.setVisible(true);
-
-				return true;
-			} 
-
+			return true;
 		} 
 
 		GUIUtil.showErrorDialog(
@@ -72,27 +68,12 @@ public final class JFMIApp {
 		return false;
 	}
 
-	/** Let the user manage/add/remove what tags are used by jfmi.
-	  */
-	public void manageTags()
-	{
-		tagHandler.manageTags();
-	}
-
 	/** Accessor for jfmiGUI field.
 	  @return a reference to the instance's JFMIFrame
 	  */
 	public JFMIFrame getJFMIGUI()
 	{
 		return jfmiGUI;
-	}
-
-	/** Accessor for the jfmiDatabase field.
-	  @return a reference to the instance's SQLiteDatabase
-	  */
-	public SQLiteDatabase getJFMIDatabase()
-	{
-		return jfmiDatabase;
 	}
 
 	//************************************************************	
@@ -105,38 +86,39 @@ public final class JFMIApp {
 	 */
 	private JFMIApp()
 	{
-		tagHandler = new TagHandler(this);
 		jfmiGUI = new JFMIFrame(this);
+		taggedFileDAO = new TaggedFileDAO();
 	}
 
-	/** Tries to construct an SQLiteDatabase object associated with the
-	  SQLite database located at DATABASE_PATH. If the SQLiteDatabase
-	  constructor throws and exception, an error message is displayed if
-	  "showError" is true.
+	/** Tries to initialize an SQLiteRepository object associated with the
+	  SQLite database located at DB_PATH. If an error occurs while initializing
+	  repository, an error message is displayed if "showError" is true.
 	  @param showError if true, and an error occurs, display a message
-	  @return true if the database was successfully initialized
+	  @return true if the repository was successfully initialized
 	  */
-	private boolean initJFMIDatabase(boolean showError)
+	private boolean initJFMIRepo(boolean showError)
 	{
 		try {
-			jfmiDatabase = new SQLiteDatabase(DATABASE_PATH);
+			jfmiRepo = SQLiteRepository.instance();
+			jfmiRepo.setRepoPath(DB_PATH);
+			jfmiRepo.initialize();
+
 			return true;
 
 		} catch (ClassNotFoundException e) {
 			if (showError) {
 				GUIUtil.showErrorDialog(
-						"The application failed to load the "
-						+ "SQLite database driver."
-						+ "\n\nDetails:\n" + e.getMessage()
+						"The application failed to load the SQLite database"
+						+ "driver.", 
+						e.getMessage()
 				);
 			}
 		} catch (SQLException e) {
 			if (showError) {
 				GUIUtil.showErrorDialog(
 						 "An error occurred while attempting to access the "
-						+ "application database at: "
-						+ "\n" + DATABASE_PATH
-						+ "\n\nDetails:\n" + e.getMessage()
+						+ "application database at: " + "\n" + DB_PATH,
+						e.getMessage()
 				);
 			}
 		}
@@ -148,20 +130,20 @@ public final class JFMIApp {
 	  specified Collection.
 	  @param collection The Collection to construct a new Vector from.
 	  */
-	private void setTaggedFileVector(Collection<TaggedFile> collection)
+	private void setTaggedFiles(Collection<TaggedFile> collection)
 	{
-		taggedFileVector = new Vector<TaggedFile>(collection);
+		taggedFiles = new Vector<TaggedFile>(collection);
 	}
 
-	/** Gets an updated list of TaggedFiles from the database, and updates
-	  the taggedFileVector.
-	  @param showError if true, and an error occurs, displays a message
+	/** Gets an updated list of TaggedFiles from the repository, and updates
+	  the taggedFiles field.
+	  @param showError if true, and an error occurs, display a message
 	  @return true if the files were refreshed successfully
 	  */
-	private boolean refreshTaggedFileVectorFromDatabase(boolean showError)
+	private boolean readTaggedFilesFromRepo(boolean showError)
 	{
 		try {
-			setTaggedFileVector(jfmiDatabase.getAllTaggedFiles());
+			setTaggedFiles(taggedFileDAO.readAll());
 
 		} catch (SQLException e) {
 			if (showError) {
@@ -169,7 +151,6 @@ public final class JFMIApp {
 					"Failed to refresh the list of files from the database.",
 					e.toString()
 				);
-				e.printStackTrace();
 			}
 			return false;
 		}
@@ -182,6 +163,6 @@ public final class JFMIApp {
 	  */
 	private void updateGUITaggedFileJList()
 	{
-		jfmiGUI.setTaggedFileJListData(taggedFileVector);
+		jfmiGUI.setTaggedFileJListData(taggedFiles);
 	}
 }

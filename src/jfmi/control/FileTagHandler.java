@@ -5,17 +5,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 import jfmi.database.TagRecord;
-import jfmi.gui.TagHandlerDialog;
+import jfmi.gui.FileTagHandlerDialog;
 
-/** A TagHandler handles application logic concerned with adding, removing,
-  and updating tag records in the database. A TagHandler uses its parent
-  JFMIApp's database to save tag changes, and a TagHandlerDialog to interface
+/** A FileTagHandler handles application logic concerned with adding, removing,
+  and updating tag records in the database. A FileTagHandler uses its parent
+  JFMIApp's database to save tag changes, and a FileTagHandlerDialog to interface
   with a user.
   */
-public class TagHandler {
+public class FileTagHandler {
 
 	private JFMIApp jfmiApp;
-	private TagHandlerDialog tagHandlerDialog;
+	private FileTagHandlerDialog tagHandlerDialog;
 
 	private List<TagRecord> tagRecordList;
 
@@ -23,14 +23,14 @@ public class TagHandler {
 	// PUBLIC INSTANCE Methods
 	//************************************************************
 
-	/** Construct a TagHandler with the specified JFMIApp as its parent.
+	/** Construct a FileTagHandler with the specified JFMIApp as its parent.
 	  @param jfmiApp_ JFMIApp reference used as this instance's parent.
 	  */
-	public TagHandler(JFMIApp jfmiApp_) 
+	public FileTagHandler(JFMIApp jfmiApp_) 
 	{
 		setJFMIApp(jfmiApp_);
 
-		tagHandlerDialog = new TagHandlerDialog(jfmiApp.getJFMIGUI(), this);
+		tagHandlerDialog = new FileTagHandlerDialog(jfmiApp.getJFMIGUI(), this);
 		tagHandlerDialog.setVisible(false);
 
 		tagRecordList = null;
@@ -42,14 +42,6 @@ public class TagHandler {
 	public void manageTags()
 	{
 		tagHandlerDialog.setVisible(true);
-	}
-
-	/** Updates the list of tags from the database. 
-	  @throws SQLException If an SQL error occurs.
-	 */
-	public void updateTagRecordList() throws SQLException
-	{
-		tagRecordList = jfmiApp.getJFMIDatabase().getAllTagRecords();	
 	}
 
 	/** Accessor for the tagRecordList field. This may be null. The
@@ -74,9 +66,5 @@ public class TagHandler {
 		jfmiApp = jfmiApp_;
 	}
 
-
-	//************************************************************
-	// PRIVATE INSTANCE Methods
-	//************************************************************
 
 }

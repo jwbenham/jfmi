@@ -71,7 +71,7 @@ public class TaggedFile {
 	/** Access the file name.
 	  @return the String value of the file's name
 	  */
-	public String getName() 
+	public String getFileName() 
 	{
 		return file.getName();
 	}
@@ -82,6 +82,20 @@ public class TaggedFile {
 	public String getFilePath()
 	{
 		return file.getPath();
+	}
+
+	/** Returns this TaggedFile's associated tags as a String.
+	  @return the tags associated with this file as a String
+	  */
+	public String getFileTagsAsString()
+	{
+		StringBuilder str = new StringBuilder("");
+
+		for (FileTagging ftagging : fileTaggings) {
+			str.append(ftagging.getTag());
+		}
+
+		return str.toString();
 	}
 
 	/** Sets this instance's file field.

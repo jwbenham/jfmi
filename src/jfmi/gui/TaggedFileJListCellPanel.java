@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import jfmi.control.TaggedFile;
-import jfmi.database.TaggingRecord;
 
 public class TaggedFileJListCellPanel extends JPanel {
 
@@ -88,7 +87,7 @@ public class TaggedFileJListCellPanel extends JPanel {
 	  */
 	private final void initTagLabel()
 	{
-		tagLabel = new JLabel(taggedFile.getTagsAsString());
+		tagLabel = new JLabel(taggedFile.getFileTagsAsString());
 		tagLabel.setFont(Styles.SS_PLAIN_12);
 		tagLabel.setForeground(Color.ORANGE);
 	}

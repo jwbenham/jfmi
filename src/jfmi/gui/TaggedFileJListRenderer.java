@@ -27,7 +27,8 @@ public class TaggedFileJListRenderer implements ListCellRenderer {
 		boolean cellHasFocus
 	)
 	{
-		TaggedFileJListCellPanel newPanel = new TaggedFileJListCellPanel((TaggedFile)value);
+		TaggedFileJListCellPanel newPanel;
+	    newPanel = new TaggedFileJListCellPanel((TaggedFile)value);
 		
 		if (isSelected) {
 			newPanel.setBackground(Styles.DARKER_GRAY);

@@ -12,7 +12,6 @@ import java.sql.Statement;
 public class SQLiteRepository extends AbstractRepository {
 	// PRIVATE CLASS Fields
 	private static SQLiteRepository singleton;
-	private static final String DB_PATH = "./testdb.db";
 
 	// PRIVATE INSTANCE Fields
 	private String repoPath;
@@ -29,7 +28,7 @@ public class SQLiteRepository extends AbstractRepository {
 	public static SQLiteRepository instance()
 	{
 		if (singleton == null) {
-		 	singleton = new SQLiteRepository(DB_PATH);
+		 	singleton = new SQLiteRepository("");
 		}
 
 		return singleton;
@@ -101,7 +100,8 @@ public class SQLiteRepository extends AbstractRepository {
 	}
 
 	/** Initializes the SQLiteRepository by attempting to load the 
-	  SQLite driver.
+	  SQLite driver. The path to the repository should be set before
+	  calling this method.
 	  @throws ClassNotFoundException If the driver cannot be loaded.
 	  @throws SQLException If table creation is necessary, and fails.
 	  */

@@ -19,7 +19,6 @@ import java.util.Vector;
 
 import jfmi.control.JFMIApp;
 import jfmi.control.TaggedFile;
-import jfmi.util.TestUtil;
 
 
 /** A JFMIFrame acts as the parent Swing Component for the JFMI application's
@@ -152,7 +151,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		Object src = e.getSource();
 
 		if (src == buttonManageTags) {
-			jfmiApp.manageTags();
+			// TODO
 		}
 	}
 
