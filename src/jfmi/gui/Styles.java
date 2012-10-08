@@ -30,6 +30,14 @@ public final class Styles {
 	public static final Color DANGER_COLOR = Color.RED;
 	/** A gray darker than Color.DARK_GRAY. */
 	public static final Color DARKER_GRAY;
+	/** A green darker than Color.GREEN */
+	public static final Color DARKER_GREEN;
+	/** A blue lighter than Color.BLUE */
+	public static final Color LIGHT_BLUE;
+	/** A yellow lighter than Color.YELLOW */
+	public static final Color LIGHT_YELLOW;
+	/** A yellow lighter than Styles.LIGHT_YELLOW */
+	public static final Color LIGHTEST_YELLOW;
 
 	/** Color used for a level 3 header. */
 	public static final Color H3_COLOR;
@@ -47,9 +55,13 @@ public final class Styles {
 		SS_PLAIN_12 = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 
 		DARKER_GRAY = new Color(30, 30, 30);
+		DARKER_GREEN = new Color(20, 200, 20);
+		LIGHT_BLUE = new Color(0, 100, 225);
+		LIGHT_YELLOW = new Color(245, 245, 210);
+		LIGHTEST_YELLOW = new Color(255, 255, 220);
 
-		H3_COLOR = Color.CYAN;
-		H4_COLOR = Color.MAGENTA;
+		H3_COLOR = Color.BLUE;
+		H4_COLOR = LIGHT_BLUE;
 	}
 
 	/** Sets the visual properties of a Component.

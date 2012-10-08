@@ -31,11 +31,11 @@ public class TaggedFileJListRenderer implements ListCellRenderer {
 	    newPanel = new TaggedFileJListCellPanel((TaggedFile)value);
 		
 		if (isSelected) {
-			newPanel.setBackground(Styles.DARKER_GRAY);
+			newPanel.setBackground(Styles.LIGHTEST_YELLOW);
 		}
 
 		if (cellHasFocus) {
-			newPanel.setBackground(Color.BLACK);
+			newPanel.setBackground(Styles.LIGHT_YELLOW);
 		}
 
 		return newPanel;

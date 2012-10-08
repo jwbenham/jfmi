@@ -92,7 +92,9 @@ public class TaggedFile {
 		StringBuilder str = new StringBuilder("");
 
 		for (FileTagging ftagging : fileTaggings) {
+			str.append(" [");
 			str.append(ftagging.getTag());
+			str.append("] ");
 		}
 
 		return str.toString();

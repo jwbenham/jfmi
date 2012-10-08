@@ -34,8 +34,8 @@ public class TaggedFileJListCellPanel extends JPanel {
 	{
 		// Initialize instance
 		setLayout(new BorderLayout(10, 12));
-		setBorder(new MatteBorder(5, 5, 5, 5, Color.BLACK));
-		setBackground(Color.DARK_GRAY);
+		setBorder(new MatteBorder(5, 5, 5, 5, Color.DARK_GRAY));
+		setBackground(Color.WHITE);
 		setTaggedFile(taggedFile_);
 
 		// Initialize file display area
@@ -89,7 +89,7 @@ public class TaggedFileJListCellPanel extends JPanel {
 	{
 		tagLabel = new JLabel(taggedFile.getFileTagsAsString());
 		tagLabel.setFont(Styles.SS_PLAIN_12);
-		tagLabel.setForeground(Color.ORANGE);
+		tagLabel.setForeground(Styles.DARKER_GREEN);
 	}
 
 	/** Mutator of taggedFile field.
