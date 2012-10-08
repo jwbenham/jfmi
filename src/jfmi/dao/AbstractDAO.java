@@ -16,6 +16,6 @@ public abstract class AbstractDAO<T, U> {
 	public abstract boolean update(T updateMe) throws Exception;
 
 	// delete
-	public abstract void delete(T deleteMe) throws Exception;
+	public abstract boolean delete(T deleteMe) throws Exception;
 
 }

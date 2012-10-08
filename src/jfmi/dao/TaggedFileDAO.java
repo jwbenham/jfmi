@@ -23,11 +23,13 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	private static final String CREATE_PSQL;
 	private static final String READ_BY_ID_PSQL;
 	private static final String UPDATE_PSQL;
+	private static final String DELETE_PSQL;
 
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?, ?)";
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME + " SET path = ? WHERE fileId = ? ";
+		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE fileId = ? ";
 	}
 		
 
@@ -141,11 +143,36 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 		}
 	}
 
-	// delete
-	public void delete(TaggedFile deleteMe) throws SQLException
+	/** Delete the specified TaggedFile's corresponding record from the 
+	  database if it exists.
+	  @param deleteMe the TaggedFile whose record should be deleted
+	  @return true if the record was deleted, or did not exist
+	  @throws SQLException if a database error occurs
+	  */
+	public boolean delete(TaggedFile deleteMe) throws SQLException
 	{
 		if (deleteMe == null) {
-			return;
+			return false;
+		}
+
+		Connection conn = SQLiteRepository.instance().getConnection();
+
+		try {
+			PreparedStatement ps = conn.prepareStatement(DELETE_PSQL);
+
+			try {
+				ps.setInt(1, deleteMe.getFileId());
+				int rowCount = ps.executeUpdate();
+
+				return rowCount == 0 || rowCount == 1;
+				
+			} finally {
+				SQLiteRepository.closeQuietly(ps);				
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
 		}
 	}
+
 }
