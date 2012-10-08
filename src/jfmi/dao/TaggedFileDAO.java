@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import jfmi.control.TaggedFile;
 import jfmi.repo.SQLiteRepository;
@@ -21,12 +23,14 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	// PRIVATE CLASS Fields
 	private static final String CREATE_PSQL;
 	private static final String READ_BY_ID_PSQL;
+	private static final String READ_ALL_SQL;
 	private static final String UPDATE_PSQL;
 	private static final String DELETE_PSQL;
 
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?, ?)";
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
+		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME 
 					+ " SET fileId = ?, path = ? WHERE fileId = ? ";
 		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE fileId = ? ";
@@ -107,7 +111,48 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 		}
 	}
 
-	/** Update the specified TaggedFile's corresponding record in the database,
+	/** Reads all TaggedFile records from the database.
+	  @return a list of retrieved TaggedFile records
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public List<TaggedFile> readAll() throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();
+
+		try {
+			Statement stmt = conn.createStatement();
+
+			try {
+				ResultSet rs = stmt.executeQuery(READ_ALL_SQL);
+
+				try {
+					LinkedList<TaggedFile> list = new LinkedList<TaggedFile>();
+					TaggedFile next = null;
+
+					while (rs.next()) {
+						next = new TaggedFile();
+						next.setFileId(rs.getInt("fileId"));
+						next.setFilePath(rs.getString("path"));
+
+						list.add(next);
+					}
+
+					return list;
+
+				} finally {
+					SQLiteRepository.closeQuietly(rs);
+				}
+
+			} finally {
+				SQLiteRepository.closeQuietly(stmt);				
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		}
+	}
+
+	/** Updates the specified TaggedFile's corresponding record in the database,
 	  if it exists.
 	  @param updateMe the TaggedFile whose information will update the record 
 	  @param id the id used to choose which record is updated
@@ -137,7 +182,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 		}
 	}
 
-	/** Delete the specified TaggedFile's corresponding record from the 
+	/** Deletes the specified TaggedFile's corresponding record from the 
 	  database if it exists.
 	  @param deleteMe the TaggedFile whose record should be deleted
 	  @return true if the record was deleted, or did not exist

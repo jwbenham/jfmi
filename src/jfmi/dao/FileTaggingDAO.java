@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import jfmi.control.FileTagging;
 import jfmi.repo.SQLiteRepository;
@@ -21,6 +23,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 	// PRIVATE CLASS Fields
 	private static final String CREATE_PSQL;
 	private static final String READ_BY_ID_PSQL;
+	private static final String READ_ALL_SQL;
 	private static final String UPDATE_PSQL;
 	private static final String DELETE_PSQL;
 
@@ -28,6 +31,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?, ?, ?, ?)";
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME 
 						+ " WHERE taggingId = ? ";
+		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME 
 					+ " SET taggingId = ?, fileId = ?, tag = ?, comment = ? " 
 					+ " WHERE taggingId = ? ";
@@ -113,7 +117,50 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 		}
 	}
 
-	/** Update the specified FileTagging's corresponding record in the database,
+	/** Reads all FileTagging records from the database.
+	  @return a list of retrieved FileTagging records
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public List<FileTagging> readAll() throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();
+
+		try {
+			Statement stmt = conn.createStatement();
+
+			try {
+				ResultSet rs = stmt.executeQuery(READ_ALL_SQL);
+
+				try {
+					LinkedList<FileTagging> list = new LinkedList<FileTagging>();
+					FileTagging next = null;
+
+					while (rs.next()) {
+						next = new FileTagging();
+						next.setTaggingId(rs.getInt("taggingId"));
+						next.setFileId(rs.getInt("fileId"));
+						next.setTag(rs.getString("tag"));
+						next.setComment(rs.getString("comment"));
+
+						list.add(next);
+					}
+
+					return list;
+
+				} finally {
+					SQLiteRepository.closeQuietly(rs);
+				}
+
+			} finally {
+				SQLiteRepository.closeQuietly(stmt);				
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		}
+	}
+
+	/** Updates the specified FileTagging's corresponding record in the database,
 	  if it exists.
 	  @param updateMe the FileTagging whose information will update the record 
 	  @param id the id used to choose which record is updated
@@ -145,7 +192,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 		}
 	}
 
-	/** Delete the specified FileTagging's corresponding record from the 
+	/** Deletes the specified FileTagging's corresponding record from the 
 	  database if it exists.
 	  @param deleteMe the FileTagging whose record should be deleted
 	  @return true if the record was deleted, or did not exist

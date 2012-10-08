@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 import jfmi.control.FileTag;
 import jfmi.repo.SQLiteRepository;
@@ -21,12 +23,14 @@ public class FileTagDAO extends AbstractDAO<FileTag, String> {
 	// PRIVATE CLASS Fields
 	private static final String CREATE_PSQL;
 	private static final String READ_BY_ID_PSQL;
+	private static final String READ_ALL_SQL;
 	private static final String UPDATE_PSQL;
 	private static final String DELETE_PSQL;
 
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?)";
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE tag = ? ";
+		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME + " SET tag = ? WHERE tag = ? ";
 		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE tag = ? ";
 	}
@@ -104,7 +108,47 @@ public class FileTagDAO extends AbstractDAO<FileTag, String> {
 		}
 	}
 
-	/** Update the specified FileTag's corresponding record in the database,
+	/** Reads all FileTag records from the database.
+	  @return a list of retrieved FileTag records
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public List<FileTag> readAll() throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();
+
+		try {
+			Statement stmt = conn.createStatement();
+
+			try {
+				ResultSet rs = stmt.executeQuery(READ_ALL_SQL);
+
+				try {
+					LinkedList<FileTag> list = new LinkedList<FileTag>();
+					FileTag next = null;
+
+					while (rs.next()) {
+						next = new FileTag();
+						next.setTag(rs.getString("tag"));
+
+						list.add(next);
+					}
+
+					return list;
+
+				} finally {
+					SQLiteRepository.closeQuietly(rs);
+				}
+
+			} finally {
+				SQLiteRepository.closeQuietly(stmt);				
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		}
+	}
+
+	/** Updates the specified FileTag's corresponding record in the database,
 	  if it exists.
 	  @param updateMe the FileTag which will be used to update the database
 	  @param id the id of the record to update 
@@ -133,7 +177,7 @@ public class FileTagDAO extends AbstractDAO<FileTag, String> {
 		}
 	}
 
-	/** Delete the specified FileTag's corresponding record from the 
+	/** Deletes the specified FileTag's corresponding record from the 
 	  database if it exists.
 	  @param deleteMe the FileTag whose record should be deleted
 	  @return true if the record was deleted, or did not exist
