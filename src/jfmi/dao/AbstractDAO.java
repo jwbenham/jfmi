@@ -43,4 +43,10 @@ public abstract class AbstractDAO<T, U> {
 	  */
 	public abstract boolean delete(T deleteMe) throws Exception;
 
+	/** Deletes all storage records of type T.
+	  @return true if the operation was successful
+	  @throws Exception if an error occurs
+	  */
+	public abstract boolean deleteAll() throws Exception;
+
 }

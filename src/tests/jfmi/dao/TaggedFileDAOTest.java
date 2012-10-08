@@ -16,6 +16,7 @@ import jfmi.repo.SQLiteRepository;
   */
 public class TaggedFileDAOTest {
 	private SQLiteRepository repo;
+	private TaggedFile crudFile;
 
 	@Before
 	public void setUp()
@@ -44,6 +45,24 @@ public class TaggedFileDAOTest {
 			
 		} catch (SQLException e) {
 			fail("test failed: " + e.toString());
+		}
+	}
+
+	/* Uses crudFile. */
+	@Test
+	public void testCreate_NonNullParams()
+	{
+		System.out.println("testCreate_NullParams()");
+
+		crudFile = new TaggedFile(0, "path/to/file", null);
+		TaggedFileDAO taggedFileDAO = new TaggedFileDAO();
+
+		try {
+			boolean created = taggedFileDAO.create(crudFile);
+			assertTrue(created);
+			
+		} catch (SQLException e) {
+			System.out.println(e.toString());
 		}
 	}
 
