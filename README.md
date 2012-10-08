@@ -6,19 +6,41 @@ tags and comments.
 
 ## Building
 
-Running `make all` in the top-level directory will build the project.
+### Building the Project Source Classes
+
+Running `make all` in the top-level directory will build the project source files.
+
+### Building the Project Unit Tests
+
+Running `make tests` in the top-level directory will build the project JUnit
+test classes.
 
 
 ## Running
 
+### Running the JFMI Application
+
 The "jfmi/control/JFMIMain" class contains the `main()` method for starting the
-application. The 'run.sh' shell script will pass JFMIMain to the java launcher
+application. The "run.sh" shell script will pass JFMIMain to the java launcher
 and set the classpath to the appropriate value.
+
+### Running Unit Tests
+
+The "runtest.sh" shell script located in the top-level project directory is
+a convenience script for running unit tests.
+
+Example:
+Say we have a class located at src/jfmi/util/StringUtil.class, and that we have
+written a JUnit test for it in src/tests/jfmi/util/StringUtilTest.class. The JUnit
+test can be started with the following command:
+`./runtest.sh util.StringUtilTest
 
 
 ## Documentation
 
-Documentation associated with JFMI is contained in the 'docs/' directory.
+Documentation associated with JFMI is contained in the 'docs/' directory. This
+included javadoc documentation as well as other information - e.g. the SQL
+statements used to build the application's database tables.
 
 ### Java Class Documentation
 
