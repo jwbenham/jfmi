@@ -6,17 +6,17 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import jfmi.control.TaggedFile;
+import jfmi.control.FileTagging;
 import jfmi.repo.SQLiteRepository;
 
 
-/** A TaggedFileDAO provides data access for storing TaggedFile objects
+/** A FileTaggingDAO provides data access for storing FileTagging objects
   in an underlying database.
   */
-public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
+public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 
 	// PUBLIC CLASS Fields
-	public static final String TABLE_NAME = "main.TaggedFile";
+	public static final String TABLE_NAME = "main.FileTagging";
 
 	// PRIVATE CLASS Fields
 	private static final String CREATE_PSQL;
@@ -25,11 +25,13 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	private static final String DELETE_PSQL;
 
 	static {
-		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?, ?)";
-		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
+		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?, ?, ?, ?)";
+		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME 
+						+ " WHERE taggingId = ? ";
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME 
-					+ " SET fileId = ?, path = ? WHERE fileId = ? ";
-		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE fileId = ? ";
+					+ " SET taggingId = ?, fileId = ?, tag = ?, comment = ? " 
+					+ " WHERE taggingId = ? ";
+		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE taggingId = ? ";
 	}
 		
 
@@ -37,13 +39,13 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	// PUBLIC INSTANCE Methods
 	//************************************************************
 
-	/** Creates a new TaggedFile record in the underlying database.
-	  @param createMe a TaggedFile instance containing the necessary information
+	/** Creates a new FileTagging record in the underlying database.
+	  @param createMe a FileTagging instance containing the necessary information
 					  to replicate it in the database
 	  @param true if the record was created successfully
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public boolean create(TaggedFile createMe) throws SQLException
+	public boolean create(FileTagging createMe) throws SQLException
 	{
 		Connection conn = SQLiteRepository.instance().getConnection();
 
@@ -51,8 +53,10 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 			PreparedStatement ps = conn.prepareStatement(CREATE_PSQL);
 
 			try {
-				ps.setInt(1, createMe.getFileId());
-				ps.setString(2, createMe.getFilePath());
+				ps.setInt(1, createMe.getTaggingId());
+				ps.setInt(2, createMe.getFileId());
+				ps.setString(3, createMe.getTag());
+				ps.setString(4, createMe.getComment());
 
 				return ps.executeUpdate() == 1;	// 1 row should be created
 				
@@ -66,13 +70,13 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	}
 
 
-	/** Retrieves the information necessary to create a TaggedFile object
+	/** Retrieves the information necessary to create a FileTagging object
 	  from the relevant database tables.
 	  @param id the file id of the record to search for
-	  @return a new TaggedFile if the read was successful, null otherwise
+	  @return a new FileTagging if the read was successful, null otherwise
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public TaggedFile readById(Integer id) throws SQLException
+	public FileTagging readById(Integer id) throws SQLException
 	{
 		Connection conn = SQLiteRepository.instance().getConnection();
 
@@ -84,12 +88,14 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 				ResultSet rs = ps.executeQuery();
 
 				try {
-					TaggedFile result = null;
+					FileTagging result = null;
 
 					if (rs.next()) {
-						result = new TaggedFile();
-						result.setFileId(id);
-						result.setFilePath(rs.getString("path"));	
+						result = new FileTagging();
+						result.setTaggingId(id);
+						result.setFileId(rs.getInt("fileId"));
+						result.setTag(rs.getString("tag"));
+						result.setComment(rs.getString("comment"));
 					}
 
 					return result;
@@ -107,14 +113,14 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 		}
 	}
 
-	/** Update the specified TaggedFile's corresponding record in the database,
+	/** Update the specified FileTagging's corresponding record in the database,
 	  if it exists.
-	  @param updateMe the TaggedFile whose information will update the record 
+	  @param updateMe the FileTagging whose information will update the record 
 	  @param id the id used to choose which record is updated
 	  @return true if the record existed and was updated successfully
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public boolean update(TaggedFile updateMe, Integer id) throws SQLException
+	public boolean update(FileTagging updateMe, Integer id) throws SQLException
 	{
 		Connection conn = SQLiteRepository.instance().getConnection();
 
@@ -122,9 +128,11 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 			PreparedStatement ps = conn.prepareStatement(UPDATE_PSQL);
 
 			try {
-				ps.setInt(1, updateMe.getFileId());
-				ps.setString(2, updateMe.getFilePath());
-				ps.setInt(3, id);
+				ps.setInt(1, updateMe.getTaggingId());
+				ps.setInt(2, updateMe.getFileId());
+				ps.setString(3, updateMe.getTag());
+				ps.setString(4, updateMe.getComment());
+				ps.setInt(5, id);
 
 				return ps.executeUpdate() == 1;	// 1 row should be updated
 				
@@ -137,13 +145,13 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 		}
 	}
 
-	/** Delete the specified TaggedFile's corresponding record from the 
+	/** Delete the specified FileTagging's corresponding record from the 
 	  database if it exists.
-	  @param deleteMe the TaggedFile whose record should be deleted
+	  @param deleteMe the FileTagging whose record should be deleted
 	  @return true if the record was deleted, or did not exist
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public boolean delete(TaggedFile deleteMe) throws SQLException
+	public boolean delete(FileTagging deleteMe) throws SQLException
 	{
 		Connection conn = SQLiteRepository.instance().getConnection();
 
@@ -151,7 +159,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 			PreparedStatement ps = conn.prepareStatement(DELETE_PSQL);
 
 			try {
-				ps.setInt(1, deleteMe.getFileId());
+				ps.setInt(1, deleteMe.getTaggingId());
 				int rowCount = ps.executeUpdate();
 
 				return rowCount == 0 || rowCount == 1;
