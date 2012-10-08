@@ -28,7 +28,8 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?, ?)";
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
-		UPDATE_PSQL = "UPDATE " + TABLE_NAME + " SET path = ? WHERE fileId = ? ";
+		UPDATE_PSQL = "UPDATE " + TABLE_NAME 
+					+ " SET fileId = ?, path = ? WHERE fileId = ? ";
 		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE fileId = ? ";
 	}
 		
@@ -113,11 +114,12 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 
 	/** Update the specified TaggedFile's corresponding record in the database,
 	  if it exists.
-	  @param updateMe the TaggedFile whose record will be updated
+	  @param updateMe the TaggedFile whose information will update the record 
+	  @param id the id used to choose which record is updated
 	  @return true if the record existed and was updated successfully
 	  @throws SQLException if a database error occurs
 	  */
-	public boolean update(TaggedFile updateMe) throws SQLException
+	public boolean update(TaggedFile updateMe, Integer id) throws SQLException
 	{
 		if (updateMe == null) {
 			return false;
@@ -129,8 +131,9 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 			PreparedStatement ps = conn.prepareStatement(UPDATE_PSQL);
 
 			try {
-				ps.setString(1, updateMe.getFilePath());
-				ps.setInt(2, updateMe.getFileId());
+				ps.setInt(1, updateMe.getFileId());
+				ps.setString(2, updateMe.getFilePath());
+				ps.setInt(3, id);
 
 				return ps.executeUpdate() == 1;	// 1 row should be updated
 				
