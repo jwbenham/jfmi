@@ -8,21 +8,11 @@ package jfmi.repo;
   */
 public abstract class AbstractRepository {
 
-	// PRIVATE CLASS Fields
-	private static AbstractRepository repository;
-
 	//************************************************************
 	// PUBLIC CLASS Methods
 	//************************************************************
 
-	public static AbstractRepository getInstance()
-	{
-		if (repository == null) {
-			repository = new SQLiteRepository("./dao.db");
-		}
-
-		return repository;
-	}
+	
 
 	//************************************************************
 	// PUBLIC INSTANCE Methods

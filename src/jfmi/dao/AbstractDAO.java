@@ -7,15 +7,15 @@ package jfmi.dao;
 public abstract class AbstractDAO<T, U> {
 
 	// create
-	public abstract void create(T createMe);
+	public abstract boolean create(T createMe) throws Exception;
 
 	// read
-	public abstract T readById(U id);
+	public abstract T readById(U id) throws Exception;
 
 	// update
-	public abstract void update(T updateMe);
+	public abstract void update(T updateMe) throws Exception;
 
 	// delete
-	public abstract void delete(T deleteMe);
+	public abstract void delete(T deleteMe) throws Exception;
 
 }

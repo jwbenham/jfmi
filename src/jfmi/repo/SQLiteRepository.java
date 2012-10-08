@@ -2,28 +2,76 @@ package jfmi.repo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 /** Implements an SQLite-based repository.
   */
 public class SQLiteRepository extends AbstractRepository {
+	// PRIVATE CLASS Fields
+	private static SQLiteRepository singleton;
 
 	// PRIVATE INSTANCE Fields
 	private String repoPath;
 	private String repoURL;
 
 	//************************************************************
-	// PUBLIC INSTANCE Methods
+	// PUBLIC CLASS Methods
 	//************************************************************
 
-	/** Constructs an SQLiteRepository using the specified path.
-	  @param path the file path to an SQLite database
+	/** Retrieves the singleton instance of the SQLiteRepository.
+	  @return the singleton instance
 	  */
-	public SQLiteRepository(String path)
+	public static SQLiteRepository instance()
 	{
-		setRepoPath(path);
+		if (singleton == null) {
+		 	singleton = new SQLiteRepository("./dao.db");
+		}
+
+		return singleton;
 	}
+
+	/** Closes a Connection object, ignoring any exceptions.
+	  @param conn the Connection object to close
+	  */
+	public static void closeQuietly(Connection conn)
+	{
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// ignore
+		}
+	}
+
+	/** Closes a ResultSet object, ignoring any exceptions.
+	  @param rs the ResultSet object to close
+	  */
+	public static void closeQuietly(ResultSet rs)
+	{
+		try {
+			rs.close();
+		} catch (SQLException e) {
+			// ignore
+		}
+	}
+
+	/** Closes a Statement object, ignoring any exceptions.
+	  @param stmt the Statement object to close
+	  */
+	public static void closeQuietly(Statement stmt)
+	{
+		try {
+			stmt.close();
+		} catch (SQLException e) {
+			// ignore
+		}
+	}
+
+	//************************************************************
+	// PUBLIC INSTANCE Methods
+	//************************************************************
 
 	/** Returns a new Connection for the database.
 	  @throws SQLException if a connection can not be established
@@ -60,6 +108,14 @@ public class SQLiteRepository extends AbstractRepository {
 	//************************************************************
 	// PRIVATE INSTANCE Methods
 	//************************************************************
+
+	/** Constructs an SQLiteRepository using the specified path.
+	  @param path the file path to an SQLite database
+	  */
+	public SQLiteRepository(String path)
+	{
+		setRepoPath(path);
+	}
 
 	/** Sets the database URL for the SQLiteRepository.
 	  @param url value to set the repoURL field to
