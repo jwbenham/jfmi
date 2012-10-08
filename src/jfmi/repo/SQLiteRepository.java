@@ -17,6 +17,7 @@ public class SQLiteRepository extends AbstractRepository {
 	// PRIVATE INSTANCE Fields
 	private String repoPath;
 	private String repoURL;
+	private boolean initialized;
 
 	//************************************************************
 	// PUBLIC CLASS Methods
@@ -75,6 +76,7 @@ public class SQLiteRepository extends AbstractRepository {
 	//************************************************************
 
 	/** Returns a new Connection for the database.
+	  @return a Connection for the database, or null if not initialized
 	  @throws SQLException if a connection can not be established
 	  */
 	public Connection getConnection() throws SQLException 
@@ -105,9 +107,21 @@ public class SQLiteRepository extends AbstractRepository {
 	  */
 	public void initialize() throws ClassNotFoundException, SQLException
 	{
-		Class.forName("org.sqlite.JDBC");
-		createTablesIfNecessary();
+		if (!isInitialized()) {
+			Class.forName("org.sqlite.JDBC");
+			createTablesIfNecessary();
+
+			setInitialized(true);
+		}
 	}	
+
+	/** Indicates whether or not the repository has been initialized.
+	  @return true if the repository is initialized
+	  */
+	public boolean isInitialized()
+	{
+		return initialized;
+	}
 
 	/** Sets the path to an SQLite database.
 	  @param path the file path to set repoPath to
@@ -133,6 +147,7 @@ public class SQLiteRepository extends AbstractRepository {
 	private SQLiteRepository(String path)
 	{
 		setRepoPath(path);
+		setInitialized(false);
 	}
 
 	/** Creates the SQLite database tables if necessary.
@@ -185,6 +200,14 @@ public class SQLiteRepository extends AbstractRepository {
 		} finally {
 			closeQuietly(conn);
 		}
+	}
+
+	/** Sets the initialization status of the instance.
+	  @param init boolean value indicating if the database is initialized
+	  */
+	public void setInitialized(boolean init)
+	{
+		initialized = init;
 	}
 
 	/** Sets the database URL for the SQLiteRepository.

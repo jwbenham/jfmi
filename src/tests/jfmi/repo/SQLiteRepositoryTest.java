@@ -1,8 +1,11 @@
 package tests.jfmi.repo;
 
+import java.sql.SQLException;
+
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import jfmi.repo.SQLiteRepository;
 
@@ -53,6 +56,22 @@ public class SQLiteRepositoryTest {
 		String actual = SQLiteRepository.instance().getRepoURL();
 
 		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testInitialize()
+	{
+		System.out.println("testInitialize()");
+
+		try {
+			SQLiteRepository.instance().initialize();
+		} catch (ClassNotFoundException e) {
+			fail("test failed: " + e.toString());
+		} catch (SQLException e) {
+			fail("test failed: " + e.toString());
+		}
+		
+		assertTrue(SQLiteRepository.instance().isInitialized());
 	}
 
 }
