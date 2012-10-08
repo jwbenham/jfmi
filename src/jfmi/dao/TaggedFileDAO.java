@@ -96,6 +96,9 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 						result = new TaggedFile();
 						result.setFileId(id);
 						result.setFilePath(rs.getString("path"));	
+
+						FileTaggingDAO taggingDAO = new FileTaggingDAO();
+						result.setFileTaggings(taggingDAO.readByFileId(id));
 					}
 
 					return result;
@@ -135,6 +138,11 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 						next = new TaggedFile();
 						next.setFileId(rs.getInt("fileId"));
 						next.setFilePath(rs.getString("path"));
+
+						FileTaggingDAO taggingDAO = new FileTaggingDAO();
+						next.setFileTaggings(
+							taggingDAO.readByFileId(next.getFileId())
+						);
 
 						list.add(next);
 					}

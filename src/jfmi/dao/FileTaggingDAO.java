@@ -23,6 +23,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 	// PRIVATE CLASS Fields
 	private static final String CREATE_PSQL;
 	private static final String READ_BY_ID_PSQL;
+	private static final String READ_BY_FILEID_PSQL;
 	private static final String READ_ALL_SQL;
 	private static final String UPDATE_PSQL;
 	private static final String DELETE_PSQL;
@@ -30,13 +31,21 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?, ?, ?, ?)";
+
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME 
 						+ " WHERE taggingId = ? ";
+
+		READ_BY_FILEID_PSQL = "SELECT * FROM " + TABLE_NAME 
+							+ " WHERE fileId = ? ";
+
 		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;
+
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME 
 					+ " SET taggingId = ?, fileId = ?, tag = ?, comment = ? " 
 					+ " WHERE taggingId = ? ";
+
 		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE taggingId = ? ";
+
 		DELETE_ALL_SQL = "DELETE FROM " + TABLE_NAME;
 	}
 		
@@ -117,6 +126,52 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 		} finally {
 			SQLiteRepository.closeQuietly(conn);
 		}
+	}
+
+	/** Reads all FileTagging records from the database whose fileId column
+	  matches the specified file id.
+	  @param fileId file id to match records to
+	  @return a list of records that contained the specified file id
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public List<FileTagging> readByFileId(int fileId) throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();	
+
+		try {
+			PreparedStatement ps = conn.prepareStatement(READ_BY_FILEID_PSQL);
+
+			try {
+				ps.setInt(1, fileId);
+				ResultSet rs = ps.executeQuery();
+
+				try {
+					LinkedList<FileTagging> list = new LinkedList<FileTagging>();
+					FileTagging next;
+
+					while (rs.next()) {
+						next = new FileTagging();
+						next.setTaggingId(rs.getInt("taggingId"));
+						next.setFileId(fileId);
+						next.setTag(rs.getString("tag"));
+						next.setComment(rs.getString("comment"));
+
+						list.add(next);
+					}
+
+					return list;
+
+				} finally {
+					SQLiteRepository.closeQuietly(rs);
+				}
+
+			} finally {
+				SQLiteRepository.closeQuietly(ps);
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		} 
 	}
 
 	/** Reads all FileTagging records from the database.
