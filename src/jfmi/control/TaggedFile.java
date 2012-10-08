@@ -79,7 +79,7 @@ public class TaggedFile {
 	/** Access the file path.
 	  @return the String value of the file's path
 	  */
-	public String getPath()
+	public String getFilePath()
 	{
 		return file.getPath();
 	}
