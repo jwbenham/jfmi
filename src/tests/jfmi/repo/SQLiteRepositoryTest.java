@@ -41,4 +41,18 @@ public class SQLiteRepositoryTest {
 		assertEquals(expected, actual);
 	}
 
+	@Test
+	public void testGetRepoURL()
+	{
+		System.out.println("testGetRepoURL()");
+
+		final String path = "test/path/repo.db";
+		final String expected = "jdbc:sqlite:" + path;
+
+		SQLiteRepository.instance().setRepoPath(path);
+		String actual = SQLiteRepository.instance().getRepoURL();
+
+		assertEquals(expected, actual);
+	}
+
 }
