@@ -6,16 +6,34 @@ package jfmi.dao;
   */
 public abstract class AbstractDAO<T, U> {
 
-	// create
+	/** Store the specified T instance. 
+	  @param createMe the new T to store
+	  @return true if a new storage record was created successfully
+	  @throws Exception if an error occurs
+	  */
 	public abstract boolean create(T createMe) throws Exception;
 
-	// read
+	/** Read the stored information of the T instance with the specified id.
+	  @param id the id of the target instance
+	  @return a new T instance if the id was valid, else null
+	  @throws Exception if an error occurs
+	  */
 	public abstract T readById(U id) throws Exception;
 
-	// update
+	/** Update the storage record with specified id to match the information
+	  contained in the specified T instance.
+	  @param updateMe contains the new information to be used as the update
+	  @param id the id of the storage record to update
+	  @return true if the storage record was found and updated
+	  @throws Exception if an error occurs
+	  */
 	public abstract boolean update(T updateMe, U id) throws Exception;
 
-	// delete
+	/** Delete the storage record of the specified T instance.
+	  @param deleteMe the T instance whose storage record will be deleted
+	  @return true if the record was deleted, or did not exist
+	  @throws Exception if an error occurs
+	  */
 	public abstract boolean delete(T deleteMe) throws Exception;
 
 }
