@@ -26,6 +26,7 @@ public class FileTagDAO extends AbstractDAO<FileTag, String> {
 	private static final String READ_ALL_SQL;
 	private static final String UPDATE_PSQL;
 	private static final String DELETE_PSQL;
+	private static final String DELETE_ALL_SQL;
 
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?)";
@@ -33,6 +34,7 @@ public class FileTagDAO extends AbstractDAO<FileTag, String> {
 		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME + " SET tag = ? WHERE tag = ? ";
 		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE tag = ? ";
+		DELETE_ALL_SQL = "DELETE FROM " + TABLE_NAME;
 	}
 		
 
@@ -198,6 +200,28 @@ public class FileTagDAO extends AbstractDAO<FileTag, String> {
 				
 			} finally {
 				SQLiteRepository.closeQuietly(ps);				
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		}
+	}
+
+	/** Deletes all FileTag records from the database.
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public void deleteAll() throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();
+
+		try {
+			Statement stmt = conn.createStatement();
+
+			try {
+				stmt.executeUpdate(DELETE_ALL_SQL);
+				
+			} finally {
+				SQLiteRepository.closeQuietly(stmt);				
 			}
 
 		} finally {

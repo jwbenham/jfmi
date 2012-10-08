@@ -26,6 +26,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	private static final String READ_ALL_SQL;
 	private static final String UPDATE_PSQL;
 	private static final String DELETE_PSQL;
+	private static final String DELETE_ALL_SQL;
 
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?, ?)";
@@ -34,6 +35,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME 
 					+ " SET fileId = ?, path = ? WHERE fileId = ? ";
 		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE fileId = ? ";
+		DELETE_ALL_SQL = "DELETE FROM " + TABLE_NAME;
 	}
 		
 
@@ -203,6 +205,28 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 				
 			} finally {
 				SQLiteRepository.closeQuietly(ps);				
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		}
+	}
+
+	/** Deletes all TaggedFile records from the database.
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public void deleteAll() throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();
+
+		try {
+			Statement stmt = conn.createStatement();
+
+			try {
+				stmt.executeUpdate(DELETE_ALL_SQL);
+				
+			} finally {
+				SQLiteRepository.closeQuietly(stmt);				
 			}
 
 		} finally {
