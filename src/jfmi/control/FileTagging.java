@@ -101,4 +101,17 @@ public class FileTagging {
 	{
 		comment = newComment;
 	}
+
+	/**
+	  @return a String representation of the FileTagging
+	  */
+	public String toString()
+	{
+		StringBuilder string = new StringBuilder("");
+		string.append("[");
+		string.append(tag);
+		string.append("] ");
+		string.append(comment);
+		return string.toString();
+	}
 }

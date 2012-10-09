@@ -143,4 +143,13 @@ public class TaggedFile {
 			setFileTaggings(Arrays.asList(taggingArray));
 		}
 	}
+
+	/**
+	  @return a String representation of the TaggedFile
+	  */
+	public String toString()
+	{
+		return getFilePath();
+	}
 }
+

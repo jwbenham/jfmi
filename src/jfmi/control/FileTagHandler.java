@@ -61,6 +61,10 @@ public class FileTagHandler {
 		updateDataAndGUI(true);
 	}
 
+	/** Begins an interaction with the user which allows them to remove
+	  tags from the repository.
+	  TODO Have to update all files which contain the deleted tags
+	  */
 	public void beginDeleteTagsInteraction(List<FileTag> selectedTags)
 	{
 		if (selectedTags == null) {
@@ -70,6 +74,7 @@ public class FileTagHandler {
 		String msg = "Are you sure you want to delete the selected tags?";
 
 		if (tagHandlerDialog.getUserConfirmation(msg)) {
+			// jfmiApp.getTaggingHandler().deleteTaggingsByTag(selectedTags);
 			deleteTagsFromRepo(selectedTags, true);
 			updateDataAndGUI(true);
 		}
