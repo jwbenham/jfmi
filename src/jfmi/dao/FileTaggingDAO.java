@@ -61,7 +61,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 	/** Creates a new FileTagging record in the underlying database.
 	  @param createMe a FileTagging instance containing the necessary information
 					  to replicate it in the database
-	  @param true if the record was created successfully
+	  @return true if the record was created successfully
 	  @throws SQLException if a problem occurs working with the database
 	  */
 	public boolean create(FileTagging createMe) throws SQLException

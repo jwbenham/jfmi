@@ -46,7 +46,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	/** Creates a new TaggedFile record in the underlying database.
 	  @param createMe a TaggedFile instance containing the necessary information
 					  to replicate it in the database
-	  @param true if the record was created successfully
+	  @return true if the record was created successfully
 	  @throws SQLException if a problem occurs working with the database
 	  */
 	public boolean create(TaggedFile createMe) throws SQLException
