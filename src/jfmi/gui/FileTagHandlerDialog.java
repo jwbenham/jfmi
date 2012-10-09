@@ -11,10 +11,12 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Vector;
 
 import jfmi.control.FileTagHandler;
 import jfmi.control.FileTag;
@@ -34,7 +36,7 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 	private JButton editTagButton;
 	private Box buttonBox;
 
-	private JList<FileTag> tagList;
+	private JList<FileTag> tagJList;
 	private JScrollPane tagScroller;
 	private Box listBox;
 
@@ -75,6 +77,42 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 		setVisible(false);
 	}
 
+	/** Sets the list of tags displayed by this dialog. If the data parameter
+	  is null, the list of tags is set to be empty.
+	  @param data Vector of FilTag objects
+	  */
+	public void setTagJListData(Vector<FileTag> data)
+	{
+		if (data == null) {
+			tagJList.setListData(new FileTag[0]);
+		} else {
+			tagJList.setListData(data);
+		}
+	}
+
+	/** Displays a dialog which allows the user to enter the value for a new
+	  file tag.
+	  @return the value entered by the user, null if user cancelled
+	  */
+	public String showAddTagDialog()
+	{
+		return showAddTagDialog("");
+	}
+
+	/** Displays a dialog which allows the user to enter the value for a new
+	  file tag.
+	  @param msg an additional message to be displayed to the user
+	  @return the value entered by the user, null if user cancelled
+	  */
+	public String showAddTagDialog(String msg)
+	{
+		return JOptionPane.showInputDialog(this, 
+											"What tag value should be added?"
+											+ "\n" + msg,
+											"Add Tag", 
+											JOptionPane.QUESTION_MESSAGE);
+	}
+
 	//************************************************************
 	// PRIVATE INSTANCE Methods
 	//************************************************************
@@ -86,7 +124,8 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 		// Initialize buttons
 		addTagButton = new JButton("Add Tag");
 		addTagButton.addActionListener(this);
-		Styles.setDefaultJButtonStyles(addTagButton);
+		Styles.setComponentStyles(addTagButton, Styles.DEFAULT_BUTTON_FONT,
+									null, null);
 
 		deleteTagsButton = new JButton("Delete Selected Tags");
 		deleteTagsButton.addActionListener(this);
@@ -95,7 +134,8 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 
 		editTagButton = new JButton("Edit Tag");
 		editTagButton.addActionListener(this);
-		Styles.setDefaultJButtonStyles(editTagButton);
+		Styles.setComponentStyles(editTagButton, Styles.DEFAULT_BUTTON_FONT,
+									null, null);
 
 		// Initialize the container
 		buttonBox = new Box(BoxLayout.X_AXIS);
@@ -114,11 +154,11 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 	  */
 	private final void initListBox()
 	{
-		tagList = new JList<FileTag>();
-		tagList.setLayoutOrientation(JList.VERTICAL);
+		tagJList = new JList<FileTag>();
+		tagJList.setLayoutOrientation(JList.VERTICAL);
 
 		// Initialize the scrollpane
-		tagScroller = new JScrollPane(tagList);
+		tagScroller = new JScrollPane(tagJList);
 
 		// Initialize the box
 		listBox = new Box(BoxLayout.X_AXIS);
@@ -151,7 +191,16 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 	  */
 	public void actionPerformed(ActionEvent e)
 	{
+		Object source = e.getSource();
 
+		if (source == addTagButton) {
+			tagHandler.beginAddTagInteraction();
+
+		} else if (source == deleteTagsButton) {
+
+		} else if (source == editTagButton) {
+
+		}
 	}
 
 }

@@ -47,10 +47,6 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 	// Controller related
 	private JFMIApp jfmiApp;
-	private TaggedFileHandler fileHandler;
-	private FileTagHandler tagHandler;
-	private FileTaggingHandler taggingHandler;
-
 
 	private JFileChooser fileChooser;
 
@@ -67,11 +63,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		super(FRAME_TITLE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(FRAME_DIMENSION);
-
 		setJFMIApp(jfmiApp_);
-		fileHandler = jfmiApp.getFileHandler();
-		tagHandler = jfmiApp.getTagHandler();
-		taggingHandler = jfmiApp.getTaggingHandler();
 	
 		// Initialize child components
 		initContentPanel();
@@ -220,11 +212,13 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		Object src = e.getSource();
 
 		if (src == manageTagsButton) {
+			jfmiApp.getTagHandler().beginManageTagsInteraction();
 
 		} else if (src == addFileButton) {
-			fileHandler.beginAddFileInteraction();
+			jfmiApp.getFileHandler().beginAddFileInteraction();
+
 		} else if (src == deleteFilesButton) {
-			fileHandler.beginDeleteFilesInteraction(
+			jfmiApp.getFileHandler().beginDeleteFilesInteraction(
 					taggedFileJList.getSelectedValuesList()
 			);
 		}

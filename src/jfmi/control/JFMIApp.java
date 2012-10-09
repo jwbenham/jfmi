@@ -104,12 +104,12 @@ public final class JFMIApp {
 	 */
 	private JFMIApp()
 	{
+		jfmiGUI = new JFMIFrame(this);
+
 		fileHandler = new TaggedFileHandler(this);
+		fileHandler.setJFMIGUI(jfmiGUI);
 		tagHandler = new FileTagHandler(this);
 		taggingHandler = new FileTaggingHandler();
-
-		jfmiGUI = new JFMIFrame(this);
-		fileHandler.setJFMIGui(jfmiGUI);
 	}
 
 	/** Tries to initialize an SQLiteRepository object associated with the

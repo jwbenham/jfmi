@@ -43,4 +43,12 @@ public class FileTag {
 	{
 		tag = newTag;
 	}
+
+	/** Returns a String representation of the FileTag instance.
+	  @return this instance's tag value
+	  */
+	public String toString()
+	{
+		return getTag();
+	}
 }

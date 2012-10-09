@@ -2,10 +2,14 @@ package jfmi.control;
 
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
+import java.util.Vector;
 
 import jfmi.control.FileTag;
+import jfmi.dao.FileTagDAO;
 import jfmi.gui.FileTagHandlerDialog;
+import jfmi.gui.GUIUtil;
 
 /** A FileTagHandler handles application logic concerned with adding, removing,
   and updating tag records in the database. A FileTagHandler uses its parent
@@ -14,10 +18,13 @@ import jfmi.gui.FileTagHandlerDialog;
   */
 public class FileTagHandler {
 
+	// PRIVATE INSTANCE Methods
 	private JFMIApp jfmiApp;
 	private FileTagHandlerDialog tagHandlerDialog;
 
-	private List<FileTag> fileTagList;
+	private FileTagDAO fileTagDAO;
+
+	private Vector<FileTag> fileTagData;
 
 	//************************************************************
 	// PUBLIC INSTANCE Methods
@@ -30,29 +37,54 @@ public class FileTagHandler {
 	{
 		setJFMIApp(jfmiApp_);
 
+		fileTagDAO = new FileTagDAO();
+
+		fileTagData = null;
+
 		tagHandlerDialog = new FileTagHandlerDialog(jfmiApp.getJFMIGUI(), this);
 		tagHandlerDialog.setVisible(false);
+	}
 
-		fileTagList = null;
+	/** Begins an interaction with the user that allows them to enter the
+	  value for a new FileTag and store it in the repository.
+	  */
+	public void beginAddTagInteraction()
+	{
+		String newTag = getNewTagFromUser();
+
+		if (newTag == null) {
+			return;	// user cancelled interaction
+		}
+
+		FileTag tag = new FileTag(newTag);
+		addTagToRepo(tag, true);
+		updateDataAndGUI(true);
 	}
 
 	/** When called, displays an interface to allow the user to
 	  add/remove tags.
 	  */
-	public void manageTags()
+	public void beginManageTagsInteraction()
 	{
+		updateDataAndGUI(true);
 		tagHandlerDialog.setVisible(true);
 	}
 
-	/** Accessor for the fileTagList field. This may be null. The
-	  updateFileTagList() method should be called first to guarantee
-	  the fileTagList is up to date.
+	/** Accessor for the fileTagData field. This may be null.
 	  @return Access to the list of tag records this instance has retrieved
-	  		from the application database.
+	  		from the application repository.
 	  */
-	public List<FileTag> getFileTagList()
+	public List<FileTag> getFileTagData()
 	{
-		return fileTagList;
+		return fileTagData;
+	}
+
+	/** Sets the handler's file tag data from a Collection of FileTag.
+	  @param tags the handler's tag data is initialized from this parameter
+	  */
+	public void setFileTagData(Collection<FileTag> tags)
+	{
+		fileTagData = new Vector<FileTag>(tags);
 	}
 
 	/** Mutator for the jfmiApp field.
@@ -66,5 +98,87 @@ public class FileTagHandler {
 		jfmiApp = jfmiApp_;
 	}
 
+	/** Tells the handler to update its data from the database, and refresh
+	  the data displayed by its GUI.
+	  @param showErrors if true, error messages are displayed
+	  */
+	public void updateDataAndGUI(boolean showErrors) 
+	{
+		readFileTagDataFromRepo(showErrors);
+		tagHandlerDialog.setTagJListData(fileTagData);
+	}
 
+	//************************************************************
+	// PRIVATE INSTANCE Methods
+	//************************************************************
+
+	/** Adds a tag to the repository.
+	  @param tag the tag to attempt to store
+	  @param showErrors if true, error messages are displayed
+	  @return true if the tag is added successfully
+	  */
+	private boolean addTagToRepo(FileTag tag, boolean showErrors)
+	{
+		try {
+			boolean created = fileTagDAO.create(tag);
+
+			if (created == false && showErrors) {
+				GUIUtil.showErrorDialog(
+					"Failed to create the new tag. Make sure the tag does not"
+					+ " already exist."
+				);
+			}
+			
+			return created;
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"An error occurred while attempting to create the tag "
+					+ "\"" + tag.getTag() + "\" in the repository.",
+					e.toString()
+				);
+			}
+		}
+
+		return false;
+	}
+
+	/** Gets the value of a new tag from the user.
+	  @return the new tag value, null if user cancelled
+	  */
+	private String getNewTagFromUser()
+	{
+		String emptyPrompt = "An empty tag value is not valid.";
+
+		String input = tagHandlerDialog.showAddTagDialog();
+		while (input != null && input.equals("")) {
+			input = tagHandlerDialog.showAddTagDialog(emptyPrompt);
+		}
+
+		return input;
+	}
+
+	/** Reads all file tags from the repository, and updates the handler's
+	  data list.
+	  @param showErrors if true, error messages are displayed
+	  */
+	private boolean readFileTagDataFromRepo(boolean showErrors)
+	{
+		try {
+			setFileTagData(fileTagDAO.readAll());
+			return true;
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"An error occurred refreshing the list of tags from the"
+					+ " repository.",
+					e.toString()
+				);
+			}
+		}
+
+		return false;
+	}
 }

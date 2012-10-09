@@ -67,7 +67,7 @@ public class TaggedFileHandler {
 	  @param jfmiGUI_ the JFMIFrame to set as this handler's GUI
 	  @throws IllegalArgumentException if jfmiGUI_ is null
 	  */
-	public void setJFMIGui(JFMIFrame jfmiGUI_)
+	public void setJFMIGUI(JFMIFrame jfmiGUI_)
 	{
 		if (jfmiGUI_ == null) {
 			throw new IllegalArgumentException("jfmiGUI_ cannot be null");
