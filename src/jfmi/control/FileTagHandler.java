@@ -62,21 +62,29 @@ public class FileTagHandler {
 	}
 
 	/** Begins an interaction with the user which allows them to remove
-	  tags from the repository.
-	  TODO Have to update all files which contain the deleted tags
+	  tags from the repository. 
+	  @param tags a list of tags to be deleted from the repository
 	  */
-	public void beginDeleteTagsInteraction(List<FileTag> selectedTags)
+	public void beginDeleteTagsInteraction(List<FileTag> tags)
 	{
-		if (selectedTags == null) {
+		if (tags == null) {
 			return;
 		}
 
 		String msg = "Are you sure you want to delete the selected tags?";
 
+		/* 	First we delete FileTagging records from the repo based on the
+		   tags the user has selected - it won't make sense for the 
+		   FileTagging records to be there if their associated tags are gone.
+		   	We then delete the tags from the repo. We then update handler
+		   data.
+		   */
 		if (tagHandlerDialog.getUserConfirmation(msg)) {
-			// jfmiApp.getTaggingHandler().deleteTaggingsByTag(selectedTags);
-			deleteTagsFromRepo(selectedTags, true);
+			jfmiApp.getTaggingHandler().deleteTaggingsByTags(tags, true);
+			deleteTagsFromRepo(tags, true);
+
 			updateDataAndGUI(true);
+			jfmiApp.getFileHandler().updateDataAndGUI(true);
 		}
 	}
 
