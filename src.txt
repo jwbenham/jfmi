@@ -21,4 +21,5 @@
 ./src/jfmi/repo/AbstractRepository.java
 ./src/jfmi/repo/SQLiteRepository.java
 ./src/jfmi/util/StringUtil.java
+./src/jfmi/util/TestUtil.java
 
