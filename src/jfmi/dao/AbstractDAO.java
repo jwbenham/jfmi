@@ -48,4 +48,5 @@ public abstract class AbstractDAO<T, U> {
 	  */
 	public abstract void deleteAll() throws Exception;
 
+
 }

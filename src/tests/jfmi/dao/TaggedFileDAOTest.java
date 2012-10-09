@@ -24,6 +24,7 @@ public class TaggedFileDAOTest {
 		System.out.println("setup()");
 
 		try {
+			SQLiteRepository.instance().setRepoPath("./jfmi-test.db");
 			SQLiteRepository.instance().initialize();
 
 			crudFile = new TaggedFile(0, "path/to/file", null);

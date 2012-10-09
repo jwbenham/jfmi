@@ -30,7 +30,8 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 	private static final String DELETE_ALL_SQL;
 
 	static {
-		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?, ?, ?, ?)";
+		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + "(fileId, tag, comment)"
+		   			+ " VALUES(?, ?, ?)";
 
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME 
 						+ " WHERE taggingId = ? ";
@@ -68,10 +69,9 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 			PreparedStatement ps = conn.prepareStatement(CREATE_PSQL);
 
 			try {
-				ps.setInt(1, createMe.getTaggingId());
-				ps.setInt(2, createMe.getFileId());
-				ps.setString(3, createMe.getTag());
-				ps.setString(4, createMe.getComment());
+				ps.setInt(1, createMe.getFileId());
+				ps.setString(2, createMe.getTag());
+				ps.setString(3, createMe.getComment());
 
 				return ps.executeUpdate() == 1;	// 1 row should be created
 				

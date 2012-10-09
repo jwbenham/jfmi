@@ -29,7 +29,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	private static final String DELETE_ALL_SQL;
 
 	static {
-		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + " VALUES(?, ?)";
+		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + "(path) VALUES(?)";
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
 		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME 
@@ -57,8 +57,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 			PreparedStatement ps = conn.prepareStatement(CREATE_PSQL);
 
 			try {
-				ps.setInt(1, createMe.getFileId());
-				ps.setString(2, createMe.getFilePath());
+				ps.setString(1, createMe.getFilePath());
 
 				return ps.executeUpdate() == 1;	// 1 row should be created
 				
