@@ -14,15 +14,18 @@ JAVADOC_DEST+=./doc/javadoc
 # javac -classpath option
 CP+=.:./src:./lib/*
 
+# javac options
+OPT+=-Xlint:unchecked
+
 
 
 # Build the whole project source
 all:
-	javac -classpath ${CLASSPATH}:${CP} @src.txt
+	javac -classpath ${CLASSPATH}:${CP} ${OPT} @src.txt
 
 # Build the project tests
 tests:
-	javac -classpath ${CLASSPATH}:${CP} @src-tests.txt
+	javac -classpath ${CLASSPATH}:${CP} ${OPT} @src-tests.txt
 
 # Generate javadoc HTML documentation
 jdoc: cleandoc

@@ -8,7 +8,7 @@ import javax.swing.ListCellRenderer;
 import jfmi.control.TaggedFile;
 import jfmi.gui.TaggedFileJListCellPanel;
 
-public class TaggedFileJListRenderer implements ListCellRenderer {
+public class TaggedFileJListRenderer implements ListCellRenderer<TaggedFile> {
 
 	/** Ctor: default.
 	  */
@@ -20,15 +20,15 @@ public class TaggedFileJListRenderer implements ListCellRenderer {
 	  is responsible for displaying a TaggedFile instance.
 	  */
 	public Component getListCellRendererComponent(
-		JList list,
-		Object value,
+		JList<? extends TaggedFile> list,
+		TaggedFile value,
 		int index,
 		boolean isSelected,
 		boolean cellHasFocus
 	)
 	{
 		TaggedFileJListCellPanel newPanel;
-	    newPanel = new TaggedFileJListCellPanel((TaggedFile)value);
+	    newPanel = new TaggedFileJListCellPanel(value);
 		
 		if (isSelected) {
 			newPanel.setBackground(Styles.PALEST_GREEN); 

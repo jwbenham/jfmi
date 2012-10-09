@@ -40,7 +40,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 	// List related
 	private JScrollPane taggedFileScroller;	// Holds the taggedFileJList
-	private JList taggedFileJList;
+	private JList<TaggedFile> taggedFileJList;
 
 	// Controller related
 	private JFMIApp jfmiApp;
@@ -89,6 +89,20 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		} else {
 			return null;
 		}
+	}
+
+	/** Prompts a user to confirm an action with the specified message, and 
+	  returns the user's decision.
+	  @param confirmMsg the message to display to the user
+	  @return true if the user confirmed
+	  */
+	public boolean getConfirmation(String confirmMsg)
+	{
+		int choice = JOptionPane.showConfirmDialog(this, confirmMsg,
+											"Please Provide Confirmation",
+											JOptionPane.OK_CANCEL_OPTION);
+
+		return choice == JOptionPane.OK_OPTION;
 	}
 
 	/** Sets the list data of the taggedFileJList list. Passing a null
@@ -151,7 +165,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private final void initTagScroller()
 	{
 		// Instantiate the taggedFileJList
-		taggedFileJList = new JList();
+		taggedFileJList = new JList<TaggedFile>();
 		taggedFileJList.setLayoutOrientation(JList.VERTICAL);
 		taggedFileJList.setCellRenderer(new TaggedFileJListRenderer());
 
@@ -198,7 +212,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		} else if (src == addFileButton) {
 			jfmiApp.beginAddFileInteraction();
 		} else if (src == deleteFilesButton) {
-
+			taggedFileJList.getSelectedValuesList();
 		}
 	}
 

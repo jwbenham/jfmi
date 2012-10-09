@@ -51,8 +51,8 @@ public final class JFMIApp {
 	// PUBLIC INSTANCE Methods
 	//************************************************************	
 
-	/** Begin an interaction with the user that allows them to add a new
-	  file to the repository for tagging.
+	/** Begins an interaction with the user that allows them to add new files
+	  to the repository for tagging.
 	  */
 	public void beginAddFileInteraction()
 	{
@@ -60,6 +60,17 @@ public final class JFMIApp {
 		addFilesToRepo(selectedFiles);
 		readTaggedFilesFromRepo(true);
 		updateGUITaggedFileJList();
+	}
+
+	/** Begins an interaction with the user that allows them to delete
+	  selected files from the repository.
+	  @param selectedFiles files selected by the user for deletion
+	  */
+	public void beginDeleteFilesInteraction(Object[] selectedFiles)
+	{
+		if (jfmiGUI.getConfirmation("Confirm deletion of files.")) {
+			
+		}
 	}
 
 	/** Starts execution of the application.
