@@ -30,6 +30,10 @@ public final class Styles {
 	public static final Color DANGER_COLOR = Color.RED;
 	/** A gray darker than Color.DARK_GRAY. */
 	public static final Color DARKER_GRAY;
+	/** A green somewhat paler than Color.GREEN */
+	public static final Color PALE_GREEN;
+	/** A very pale green color. */
+	public static final Color PALEST_GREEN;
 	/** A green darker than Color.GREEN */
 	public static final Color DARKER_GREEN;
 	/** A blue lighter than Color.BLUE */
@@ -55,10 +59,12 @@ public final class Styles {
 		SS_PLAIN_12 = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 
 		DARKER_GRAY = new Color(30, 30, 30);
+		PALE_GREEN = new Color(119, 255, 80);
+		PALEST_GREEN = new Color(166, 255, 140);
 		DARKER_GREEN = new Color(20, 200, 20);
 		LIGHT_BLUE = new Color(0, 100, 225);
-		LIGHT_YELLOW = new Color(245, 245, 210);
-		LIGHTEST_YELLOW = new Color(255, 255, 220);
+		LIGHT_YELLOW = new Color(225, 225, 190);
+		LIGHTEST_YELLOW = new Color(245, 245, 210);
 
 		H3_COLOR = Color.BLUE;
 		H4_COLOR = LIGHT_BLUE;

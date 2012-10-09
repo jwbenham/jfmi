@@ -3,6 +3,7 @@ package jfmi.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -45,11 +46,15 @@ public class TaggedFileJListCellPanel extends JPanel {
 		initTagLabel();
 
 		// Add content
+		Box paddingBox = Box.createVerticalBox();
+		paddingBox.setBorder(new EmptyBorder(3, 3, 3, 3));
+		paddingBox.add(fileBox);
+		paddingBox.add(Box.createVerticalStrut(10));
+		paddingBox.add(tagLabel);
+		paddingBox.add(Box.createVerticalStrut(10));
+
 		contentBox = new Box(BoxLayout.Y_AXIS);
-		contentBox.add(fileBox);
-		contentBox.add(Box.createVerticalStrut(10));
-		contentBox.add(tagLabel);
-		contentBox.add(Box.createVerticalStrut(10));
+		contentBox.add(paddingBox);
 
 		add(contentBox, BorderLayout.CENTER);
 	}
