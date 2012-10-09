@@ -47,7 +47,7 @@ public final class Styles {
 	static {
 		DEFAULT_BUTTON_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 		DEFAULT_BUTTON_FONT_COLOR = Color.DARK_GRAY;
-		DEFAULT_BUTTON_SIZE = new Dimension(100, 30);
+		DEFAULT_BUTTON_SIZE = new Dimension(180, 30);
 
 		H3_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 12);
 		H4_FONT = new Font(Font.SANS_SERIF, Font.ITALIC, 11);
@@ -102,7 +102,7 @@ public final class Styles {
 
 		b.setFont(DEFAULT_BUTTON_FONT);
 		b.setForeground(DEFAULT_BUTTON_FONT_COLOR);
-		b.setSize(DEFAULT_BUTTON_SIZE);
+		setAllSizes(b, DEFAULT_BUTTON_SIZE);
 	}
 
 	/** Sets the font and foreground properties of a Component considered

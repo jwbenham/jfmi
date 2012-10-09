@@ -4,11 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -32,7 +34,9 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 	// Button related
 	private Box buttonBox;	// Holds buttons
-	private JButton buttonManageTags;
+	private JButton manageTagsButton;
+	private JButton addFileButton;
+	private JButton deleteFilesButton;
 
 	// List related
 	private JScrollPane taggedFileScroller;	// Holds the taggedFileJList
@@ -40,6 +44,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 	// Controller related
 	private JFMIApp jfmiApp;
+	private JFileChooser fileChooser;
 
 	//************************************************************
 	// PUBLIC INSTANCE Methods
@@ -67,6 +72,22 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 		// Do not display initially
 		setVisible(false);
+	}
+
+	/** Displays a window for the user to select one or more files and/or
+	  directories.
+	  @return an array of selected files if the user indicated approval, else
+	  		null if the user cancelled
+	  */
+	public File[] displayFileChooser()
+	{
+		int returnVal = fileChooser.showDialog(this, "Add File");
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			return fileChooser.getSelectedFiles();
+		} else {
+			return null;
+		}
 	}
 
 	/** Sets the list data of the taggedFileJList list. Passing a null
@@ -101,14 +122,26 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private final void initButtonBox()
 	{
 		// Initialize buttons
-		buttonManageTags = new JButton("Manage Tags");
-		Styles.setDefaultJButtonStyles(buttonManageTags);
-		buttonManageTags.addActionListener(this);
+		manageTagsButton = new JButton("Manage Tags");
+		manageTagsButton.addActionListener(this);
+		Styles.setDefaultJButtonStyles(manageTagsButton);
+
+		addFileButton = new JButton("Add New File");
+		addFileButton.addActionListener(this);
+		Styles.setDefaultJButtonStyles(addFileButton);
+
+		deleteFilesButton = new JButton("Delete Selected Files");
+		deleteFilesButton.addActionListener(this);
+		Styles.setDefaultJButtonStyles(deleteFilesButton);
 
 		// Initialize buttonBox
 		buttonBox = new Box(BoxLayout.Y_AXIS);
 		buttonBox.add(Box.createVerticalStrut(50));
-		buttonBox.add(buttonManageTags);
+		buttonBox.add(manageTagsButton);
+		buttonBox.add(Box.createVerticalStrut(50));
+		buttonBox.add(addFileButton);
+		buttonBox.add(Box.createVerticalStrut(10));
+		buttonBox.add(deleteFilesButton);
 		buttonBox.add(Box.createVerticalStrut(50));
 	}
 
@@ -125,6 +158,15 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		taggedFileScroller = new JScrollPane(taggedFileJList);
 	}
 
+	/** Initialize the file chooser.
+	  */
+	private final void initFileChooser()
+	{
+		fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Add a New File");
+		fileChooser.setMultiSelectionEnabled(true);
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+	}
 
 	/** Mutator for the jfmiApp field. 
 	  @param jfmiApp_ JFMIApp instance to set as this instance's controller.
@@ -150,8 +192,12 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	{
 		Object src = e.getSource();
 
-		if (src == buttonManageTags) {
-			// TODO
+		if (src == manageTagsButton) {
+
+		} else if (src == addFileButton) {
+			jfmiApp.beginAddFileInteraction();
+		} else if (src == deleteFilesButton) {
+
 		}
 	}
 

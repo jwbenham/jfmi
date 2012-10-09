@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 
 import jfmi.dao.TaggedFileDAO;
 import jfmi.gui.JFMIFrame;
@@ -48,6 +49,14 @@ public final class JFMIApp {
 	//************************************************************	
 	// PUBLIC INSTANCE Methods
 	//************************************************************	
+
+	/** Begin an interaction with the user that allows them to add a new
+	  file to the repository for tagging.
+	  */
+	public void beginAddFileInteraction()
+	{
+		jfmiGUI.displayFileChooser();
+	}
 
 	/** Starts execution of the application.
 	  @return true if the application starts successfully
