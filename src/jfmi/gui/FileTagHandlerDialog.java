@@ -77,6 +77,21 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 		setVisible(false);
 	}
 
+	/** Shows a confirmation dialog to the user and returns their choice.
+	  @param msg Confirmation message to be displayed
+	  @return true if the user confirmed
+	  */
+	public boolean getUserConfirmation(String msg)
+	{
+		int choice = JOptionPane.showConfirmDialog(this, msg, "Confirm Action",
+												JOptionPane.OK_CANCEL_OPTION);
+		if (choice == JOptionPane.OK_OPTION) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	/** Sets the list of tags displayed by this dialog. If the data parameter
 	  is null, the list of tags is set to be empty.
 	  @param data Vector of FilTag objects
@@ -181,6 +196,7 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 		tagHandler = tagHandler_;
 	}
 
+
 	
 	//************************************************************
 	// IMPLEMENTATION ActionListener
@@ -197,6 +213,9 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 			tagHandler.beginAddTagInteraction();
 
 		} else if (source == deleteTagsButton) {
+			tagHandler.beginDeleteTagsInteraction(
+				tagJList.getSelectedValuesList()
+			);
 
 		} else if (source == editTagButton) {
 

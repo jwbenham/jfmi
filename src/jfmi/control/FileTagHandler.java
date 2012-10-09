@@ -61,6 +61,20 @@ public class FileTagHandler {
 		updateDataAndGUI(true);
 	}
 
+	public void beginDeleteTagsInteraction(List<FileTag> selectedTags)
+	{
+		if (selectedTags == null) {
+			return;
+		}
+
+		String msg = "Are you sure you want to delete the selected tags?";
+
+		if (tagHandlerDialog.getUserConfirmation(msg)) {
+			deleteTagsFromRepo(selectedTags, true);
+			updateDataAndGUI(true);
+		}
+	}
+
 	/** When called, displays an interface to allow the user to
 	  add/remove tags.
 	  */
@@ -136,6 +150,52 @@ public class FileTagHandler {
 				GUIUtil.showErrorDialog(
 					"An error occurred while attempting to create the tag "
 					+ "\"" + tag.getTag() + "\" in the repository.",
+					e.toString()
+				);
+			}
+		}
+
+		return false;
+	}
+
+	/** Deletes a collection of tags from the repository.
+	  @param tags the FileTags to be deleted
+	  @param showErrors if true, error messages are displayed
+	  @return true if no problems occurred deleting the tags 
+	  */
+	private boolean deleteTagsFromRepo(Collection<FileTag> tags,
+										boolean showErrors)
+	{
+		if (tags == null) {
+			return true;	// technically 0 tags were deleted successfully
+		}
+
+		boolean allWereDeleted = true;
+
+		for (FileTag fileTag : tags) {
+			if (deleteTagFromRepo(fileTag, showErrors) == false) {
+				allWereDeleted = false;
+			}
+		}
+
+		return allWereDeleted;
+	}
+
+	/** Deletes a file tag from the underlying repository.
+	  @param tag the file tag to delete
+	  @param showErrors if true, error messages are displayed
+	  @return true if the tag was deleted successfully
+	  */
+	private boolean deleteTagFromRepo(FileTag tag, boolean showErrors)
+	{
+		try {
+			return fileTagDAO.delete(tag);
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"An error occurred with the repository while attempting to"
+					+ " delete the tag \"" + tag.getTag() + "\".",
 					e.toString()
 				);
 			}
