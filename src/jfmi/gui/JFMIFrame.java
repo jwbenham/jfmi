@@ -20,6 +20,9 @@ import javax.swing.ListSelectionModel;
 import java.util.Vector;
 
 import jfmi.control.JFMIApp;
+import jfmi.control.TaggedFileHandler;
+import jfmi.control.FileTagHandler;
+import jfmi.control.FileTaggingHandler;
 import jfmi.control.TaggedFile;
 
 
@@ -44,6 +47,11 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 	// Controller related
 	private JFMIApp jfmiApp;
+	private TaggedFileHandler fileHandler;
+	private FileTagHandler tagHandler;
+	private FileTaggingHandler taggingHandler;
+
+
 	private JFileChooser fileChooser;
 
 	//************************************************************
@@ -59,8 +67,12 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		super(FRAME_TITLE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(FRAME_DIMENSION);
-		setJFMIApp(jfmiApp_);
 
+		setJFMIApp(jfmiApp_);
+		fileHandler = jfmiApp.getFileHandler();
+		tagHandler = jfmiApp.getTagHandler();
+		taggingHandler = jfmiApp.getTaggingHandler();
+	
 		// Initialize child components
 		initContentPanel();
 		setContentPane(contentPanel);
@@ -210,9 +222,9 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		if (src == manageTagsButton) {
 
 		} else if (src == addFileButton) {
-			jfmiApp.beginAddFileInteraction();
+			fileHandler.beginAddFileInteraction();
 		} else if (src == deleteFilesButton) {
-			jfmiApp.beginDeleteFilesInteraction(
+			fileHandler.beginDeleteFilesInteraction(
 					taggedFileJList.getSelectedValuesList()
 			);
 		}

@@ -2,13 +2,17 @@
 ./src/jfmi/control/JFMIMain.java
 ./src/jfmi/control/JFMIApp.java
 ./src/jfmi/control/TaggedFile.java
+./src/jfmi/control/TaggedFileHandler.java
 ./src/jfmi/control/FileTag.java
+./src/jfmi/control/FileTagHandler.java
 ./src/jfmi/control/FileTagging.java
+./src/jfmi/control/FileTaggingHandler.java
 ./src/jfmi/dao/AbstractDAO.java
 ./src/jfmi/dao/TaggedFileDAO.java
 ./src/jfmi/dao/FileTagDAO.java
 ./src/jfmi/dao/FileTaggingDAO.java
 ./src/jfmi/gui/JFMIFrame.java
+./src/jfmi/gui/FileTagHandlerDialog.java
 ./src/jfmi/gui/GUIException.java
 ./src/jfmi/gui/GUIUtil.java
 ./src/jfmi/gui/Styles.java

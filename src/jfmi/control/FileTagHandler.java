@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 import java.sql.SQLException;
 import java.util.List;
 
-import jfmi.database.TagRecord;
+import jfmi.control.FileTag;
 import jfmi.gui.FileTagHandlerDialog;
 
 /** A FileTagHandler handles application logic concerned with adding, removing,
@@ -17,7 +17,7 @@ public class FileTagHandler {
 	private JFMIApp jfmiApp;
 	private FileTagHandlerDialog tagHandlerDialog;
 
-	private List<TagRecord> tagRecordList;
+	private List<FileTag> fileTagList;
 
 	//************************************************************
 	// PUBLIC INSTANCE Methods
@@ -33,7 +33,7 @@ public class FileTagHandler {
 		tagHandlerDialog = new FileTagHandlerDialog(jfmiApp.getJFMIGUI(), this);
 		tagHandlerDialog.setVisible(false);
 
-		tagRecordList = null;
+		fileTagList = null;
 	}
 
 	/** When called, displays an interface to allow the user to
@@ -44,15 +44,15 @@ public class FileTagHandler {
 		tagHandlerDialog.setVisible(true);
 	}
 
-	/** Accessor for the tagRecordList field. This may be null. The
-	  updateTagRecordList() method should be called first to guarantee
-	  the tagRecordList is up to date.
+	/** Accessor for the fileTagList field. This may be null. The
+	  updateFileTagList() method should be called first to guarantee
+	  the fileTagList is up to date.
 	  @return Access to the list of tag records this instance has retrieved
 	  		from the application database.
 	  */
-	public List<TagRecord> getTagRecordList()
+	public List<FileTag> getFileTagList()
 	{
-		return tagRecordList;
+		return fileTagList;
 	}
 
 	/** Mutator for the jfmiApp field.

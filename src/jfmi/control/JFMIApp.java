@@ -1,12 +1,6 @@
 package jfmi.control;
 
-import java.io.File;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Vector;
-import javax.swing.JOptionPane;
 
 import jfmi.dao.TaggedFileDAO;
 import jfmi.gui.JFMIFrame;
@@ -22,10 +16,12 @@ public final class JFMIApp {
 
 	// Instance fields
 	private JFMIFrame jfmiGUI;
-	private Vector<TaggedFile> taggedFiles; 
 	
 	private SQLiteRepository jfmiRepo;
-	private TaggedFileDAO taggedFileDAO;
+
+	private TaggedFileHandler fileHandler;
+	private FileTagHandler tagHandler;
+	private FileTaggingHandler taggingHandler;
 
 
 	//************************************************************	
@@ -35,9 +31,6 @@ public final class JFMIApp {
 	/** Get a reference to the JFMIApp singleton. The singleton is created
 	  if it does not already exist.
 	  @return A reference to the (possible newly created) JFMIApp singleton.
-	  @throws ClassNotFoundException if the driver for the database is not found
-	  @throws SQLException if the database must be newly created and an SQL error
-	  			occurs.
 	  */
 	public static JFMIApp instance()
 	{
@@ -52,30 +45,28 @@ public final class JFMIApp {
 	// PUBLIC INSTANCE Methods
 	//************************************************************	
 
-	/** Begins an interaction with the user that allows them to add new files
-	  to the repository for tagging.
+	/** Provides access to the application file handler.
+	  @return a reference to the application file handler
 	  */
-	public void beginAddFileInteraction()
+	public TaggedFileHandler getFileHandler()
 	{
-		File[] selectedFiles = jfmiGUI.displayFileChooser();
-		addFilesToRepo(selectedFiles);
-		readTaggedFilesFromRepo(true);
-		updateGUITaggedFileJList();
+		return fileHandler;
 	}
 
-	/** Begins an interaction with the user that allows them to delete
-	  selected files from the repository.
-	  @param selectedFiles files selected by the user for deletion
+	/** Provides access to the application tag handler.
+	  @return a reference to the application tag handler
 	  */
-	public void beginDeleteFilesInteraction(List<TaggedFile> selectedFiles)
+	public FileTagHandler getTagHandler()
 	{
-		if (jfmiGUI.getConfirmation("Confirm deletion of files.") == false) {
-			return;	
-		}
+		return tagHandler;
+	}
 
-		deleteFilesFromRepo(selectedFiles);
-		readTaggedFilesFromRepo(true);
-		updateGUITaggedFileJList();
+	/** Provides access to the application tagging handler.
+	  @return a reference to the application tagging handler
+	  */
+	public FileTaggingHandler getTaggingHandler()
+	{
+		return taggingHandler;
 	}
 
 	/** Starts execution of the application.
@@ -83,10 +74,8 @@ public final class JFMIApp {
 	  */
 	public boolean start() 
 	{
-		if (initJFMIRepo(true) && readTaggedFilesFromRepo(true)) {
-			updateGUITaggedFileJList();
+		if (initJFMIRepo(true) && fileHandler.updateDataAndGUI(true)) {
 			jfmiGUI.setVisible(true);
-
 			return true;
 		} 
 
@@ -115,97 +104,12 @@ public final class JFMIApp {
 	 */
 	private JFMIApp()
 	{
+		fileHandler = new TaggedFileHandler(this);
+		tagHandler = new FileTagHandler(this);
+		taggingHandler = new FileTaggingHandler();
+
 		jfmiGUI = new JFMIFrame(this);
-		taggedFileDAO = new TaggedFileDAO();
-	}
-
-	/** Given an array of File objects, attempts to create TaggedFile objects
-	  and insert them into the repository.
-	  @param files an array of File to be newly created in the repository
-	  */
-	private void addFilesToRepo(File[] files)
-	{
-		TaggedFile newFile;
-
-		if (files != null) {
-			for (File f : files) {
-				newFile = new TaggedFile();
-				newFile.setFile(f);
-				
-				addTaggedFileToRepo(newFile, true);
-			}
-		}
-
-	}
-
-	/** Attempts to add a TaggedFile to the repository. If showErrors is
-	  true, any errors which occur are displayed to the user.
-	  @param file the TaggedFile to be added to the repository
-	  @param showErrors if true, the user receives error messages
-	  @return true if the file was added successfully
-	  */
-	private boolean addTaggedFileToRepo(TaggedFile file, boolean showErrors)
-	{
-		try {
-			boolean creationSuccess = taggedFileDAO.create(file);
-
-			if (!creationSuccess && showErrors) {
-				GUIUtil.showErrorDialog(
-					"The following file could not be added: " 
-					+ file.getFilePath()
-				);
-			}
-
-			return creationSuccess;
-
-		} catch (SQLException e) {
-			if (showErrors) {
-				GUIUtil.showErrorDialog(
-					"An error occurred while adding the file: " 
-					+ file.getFilePath(), 
-					e.toString()
-				);
-			}
-		}
-
-		return false;
-	}
-
-	/** Deletes the TaggedFiles in the specified list from the repository.
-	  @param files list of files to be deleted
-	  */
-	private void deleteFilesFromRepo(List<TaggedFile> files)
-	{
-		if (files == null) {
-			return;
-		}
-	
-		for (TaggedFile tf : files) {
-			deleteTaggedFileFromRepo(tf, true);
-		}
-	}
-
-	/** Deletes a TaggedFile from the underlying repository.
-	  @param file the file to delete
-	  @param showErrors if true, the method displays any error messages
-	  @return true if the file was deleted successfully
-	  */
-	private boolean deleteTaggedFileFromRepo(TaggedFile file,
-											 boolean showErrors)
-	{
-		try {
-			return taggedFileDAO.delete(file);
-
-		} catch (SQLException e) {
-			if (showErrors) {
-				GUIUtil.showErrorDialog(
-					"Failed to delete file: " + file.getFilePath(),
-					e.toString()
-				);
-			}
-		}
-
-		return false;
+		fileHandler.setJFMIGui(jfmiGUI);
 	}
 
 	/** Tries to initialize an SQLiteRepository object associated with the
@@ -244,43 +148,4 @@ public final class JFMIApp {
 		return false;
 	}
 
-	/** Constructs a new Vector<TaggedFile> for this instance from the
-	  specified Collection.
-	  @param collection The Collection to construct a new Vector from.
-	  */
-	private void setTaggedFiles(Collection<TaggedFile> collection)
-	{
-		taggedFiles = new Vector<TaggedFile>(collection);
-	}
-
-	/** Gets an updated list of TaggedFiles from the repository, and updates
-	  the taggedFiles field.
-	  @param showError if true, and an error occurs, display a message
-	  @return true if the files were refreshed successfully
-	  */
-	private boolean readTaggedFilesFromRepo(boolean showError)
-	{
-		try {
-			setTaggedFiles(taggedFileDAO.readAll());
-
-		} catch (SQLException e) {
-			if (showError) {
-				GUIUtil.showErrorDialog(
-					"Failed to refresh the list of files from the database.",
-					e.toString()
-				);
-			}
-			return false;
-		}
-
-		return true;
-	}
-
-	/** Updates this instance's GUI with the latest values in the Vector
-	  of TaggedFile objects.
-	  */
-	private void updateGUITaggedFileJList()
-	{
-		jfmiGUI.setTaggedFileJListData(taggedFiles);
-	}
 }

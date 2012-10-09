@@ -16,15 +16,15 @@ import javax.swing.JScrollPane;
 import java.sql.SQLException;
 import java.util.List;
 
-import jfmi.control.TagHandler;
-import jfmi.database.TagRecord;
+import jfmi.control.FileTagHandler;
+import jfmi.control.FileTag;
 
-/** Implements a graphical user interface for an instance of the TagHandler
+/** Implements a graphical user interface for an instance of the FileTagHandler
   controller class.
   */
-public class TagHandlerDialog extends JDialog implements ActionListener {
+public class FileTagHandlerDialog extends JDialog implements ActionListener {
 	// CLASS fields
-	private static final String EPREFIX = "TagHandlerDialog";
+	private static final String EPREFIX = "FileTagHandlerDialog";
 
 	// INSTANCE fields
 	private Box thisLayout;
@@ -34,23 +34,23 @@ public class TagHandlerDialog extends JDialog implements ActionListener {
 	private JButton editTagButton;
 	private Box buttonBox;
 
-	private JList tagList;
+	private JList<FileTag> tagList;
 	private JScrollPane tagScroller;
 	private Box listBox;
 
-	private TagHandler tagHandler;
+	private FileTagHandler tagHandler;
 
 	//************************************************************
 	// PUBLIC INSTANCE Methods
 	//************************************************************
 
-	/** Constructs a TagHandlerDialog using the specified JFrame as its
-	  parent frame and TagHandler as the controller this instance acts for
+	/** Constructs a FileTagHandlerDialog using the specified JFrame as its
+	  parent frame and FileTagHandler as the controller this instance acts for
 	  as a GUI.
 	  @param parent This component's parent frame.
 	  @param tagHandler_ This component's corresponding controller.
 	  */
-	public TagHandlerDialog(JFrame parent, TagHandler tagHandler_)
+	public FileTagHandlerDialog(JFrame parent, FileTagHandler tagHandler_)
 	{
 		// Initialize instance
 		super(parent, "Manage Tags", true);
@@ -114,7 +114,7 @@ public class TagHandlerDialog extends JDialog implements ActionListener {
 	  */
 	private final void initListBox()
 	{
-		tagList = new JList();
+		tagList = new JList<FileTag>();
 		tagList.setLayoutOrientation(JList.VERTICAL);
 
 		// Initialize the scrollpane
@@ -129,10 +129,10 @@ public class TagHandlerDialog extends JDialog implements ActionListener {
 	}
 
 	/** Mutator for the tagHandler field.
-	  @param tagHandler_ TagHandler to set as this instance's controller.
+	  @param tagHandler_ FileTagHandler to set as this instance's controller.
 	  		Throws an IllegalArgumentException if null.
 	  */
-	private void setTagHandler(TagHandler tagHandler_)
+	private void setTagHandler(FileTagHandler tagHandler_)
 	{
 		if (tagHandler_ == null) {
 			throw new IllegalArgumentException("error: tagHandler_ is null");
