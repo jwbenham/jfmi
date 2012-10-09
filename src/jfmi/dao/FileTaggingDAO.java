@@ -27,6 +27,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 	private static final String READ_ALL_SQL;
 	private static final String UPDATE_PSQL;
 	private static final String DELETE_PSQL;
+	private static final String DELETE_BY_TAG_PSQL;
 	private static final String DELETE_ALL_SQL;
 
 	static {
@@ -46,6 +47,8 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 					+ " WHERE taggingId = ? ";
 
 		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE taggingId = ? ";
+
+		DELETE_BY_TAG_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE tag = ? ";
 
 		DELETE_ALL_SQL = "DELETE FROM " + TABLE_NAME;
 	}
@@ -275,6 +278,31 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 		} finally {
 			SQLiteRepository.closeQuietly(conn);
 		}
+	}
+
+	/** Deletes a FileTaggings from the database based on the specified
+	  tag value.
+	  @param tag the tag string value to identify target records by
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public void deleteByTag(String tag) throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();
+
+		try {
+			PreparedStatement ps = conn.prepareStatement(DELETE_BY_TAG_PSQL);
+
+			try {
+				ps.setString(1, tag.toString());
+				ps.executeUpdate();
+
+			} finally {
+				SQLiteRepository.closeQuietly(ps);
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		}	
 	}
 
 	/** Deletes all FileTagging records from the database.
