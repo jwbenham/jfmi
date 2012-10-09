@@ -66,6 +66,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		setContentPane(contentPanel);
 		initButtonBox();
 		initTagScroller();
+		initFileChooser();
 
 		add(buttonBox, BorderLayout.WEST);
 		add(taggedFileScroller, BorderLayout.CENTER);

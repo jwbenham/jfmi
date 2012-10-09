@@ -1,5 +1,6 @@
 package jfmi.control;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,7 +17,7 @@ import jfmi.repo.SQLiteRepository;
 public final class JFMIApp {
 	// Class fields
 	private static JFMIApp singleton = null;
-	private static final String DB_PATH = "./testdb.db";
+	private static final String DB_PATH = "./jfmi.db";
 
 	// Instance fields
 	private JFMIFrame jfmiGUI;
@@ -55,7 +56,10 @@ public final class JFMIApp {
 	  */
 	public void beginAddFileInteraction()
 	{
-		jfmiGUI.displayFileChooser();
+		File[] selectedFiles = jfmiGUI.displayFileChooser();
+		addFilesToRepo(selectedFiles);
+		readTaggedFilesFromRepo(true);
+		updateGUITaggedFileJList();
 	}
 
 	/** Starts execution of the application.
@@ -97,6 +101,55 @@ public final class JFMIApp {
 	{
 		jfmiGUI = new JFMIFrame(this);
 		taggedFileDAO = new TaggedFileDAO();
+	}
+
+	/** Given an array of File objects, attempts to create TaggedFile objects
+	  and insert them into the repository.
+	  @param files an array of File to be newly created in the repository
+	  */
+	private void addFilesToRepo(File[] files)
+	{
+		TaggedFile newFile;
+
+		if (files != null) {
+
+			for (File f : files) {
+				newFile = new TaggedFile();
+				newFile.setFile(f);
+				
+				addTaggedFileToRepo(newFile, true);
+			}
+
+		}
+
+	}
+
+	/** Attempts to add a TaggedFile to the repository. If showErrors is
+	  true, any errors which occur are displayed to the user.
+	  @param file the TaggedFile to be added to the repository
+	  @param showErrors if true, the user receives error messages
+	  */
+	private void addTaggedFileToRepo(TaggedFile file, boolean showErrors)
+	{
+		try {
+			boolean creationSuccess = taggedFileDAO.create(file);
+
+			if (!creationSuccess && showErrors) {
+				GUIUtil.showErrorDialog(
+					"The following file could not be added: " 
+					+ file.getFilePath()
+				);
+			}
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"An error occurred while adding the file: " 
+					+ file.getFilePath(), 
+					e.toString()
+				);
+			}
+		}
 	}
 
 	/** Tries to initialize an SQLiteRepository object associated with the
