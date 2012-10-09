@@ -212,7 +212,9 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		} else if (src == addFileButton) {
 			jfmiApp.beginAddFileInteraction();
 		} else if (src == deleteFilesButton) {
-			taggedFileJList.getSelectedValuesList();
+			jfmiApp.beginDeleteFilesInteraction(
+					taggedFileJList.getSelectedValuesList()
+			);
 		}
 	}
 

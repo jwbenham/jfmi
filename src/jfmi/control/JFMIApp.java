@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 
@@ -66,11 +67,15 @@ public final class JFMIApp {
 	  selected files from the repository.
 	  @param selectedFiles files selected by the user for deletion
 	  */
-	public void beginDeleteFilesInteraction(Object[] selectedFiles)
+	public void beginDeleteFilesInteraction(List<TaggedFile> selectedFiles)
 	{
-		if (jfmiGUI.getConfirmation("Confirm deletion of files.")) {
-			
+		if (jfmiGUI.getConfirmation("Confirm deletion of files.") == false) {
+			return;	
 		}
+
+		deleteFilesFromRepo(selectedFiles);
+		readTaggedFilesFromRepo(true);
+		updateGUITaggedFileJList();
 	}
 
 	/** Starts execution of the application.
@@ -123,14 +128,12 @@ public final class JFMIApp {
 		TaggedFile newFile;
 
 		if (files != null) {
-
 			for (File f : files) {
 				newFile = new TaggedFile();
 				newFile.setFile(f);
 				
 				addTaggedFileToRepo(newFile, true);
 			}
-
 		}
 
 	}
@@ -139,8 +142,9 @@ public final class JFMIApp {
 	  true, any errors which occur are displayed to the user.
 	  @param file the TaggedFile to be added to the repository
 	  @param showErrors if true, the user receives error messages
+	  @return true if the file was added successfully
 	  */
-	private void addTaggedFileToRepo(TaggedFile file, boolean showErrors)
+	private boolean addTaggedFileToRepo(TaggedFile file, boolean showErrors)
 	{
 		try {
 			boolean creationSuccess = taggedFileDAO.create(file);
@@ -152,6 +156,8 @@ public final class JFMIApp {
 				);
 			}
 
+			return creationSuccess;
+
 		} catch (SQLException e) {
 			if (showErrors) {
 				GUIUtil.showErrorDialog(
@@ -161,6 +167,45 @@ public final class JFMIApp {
 				);
 			}
 		}
+
+		return false;
+	}
+
+	/** Deletes the TaggedFiles in the specified list from the repository.
+	  @param files list of files to be deleted
+	  */
+	private void deleteFilesFromRepo(List<TaggedFile> files)
+	{
+		if (files == null) {
+			return;
+		}
+	
+		for (TaggedFile tf : files) {
+			deleteTaggedFileFromRepo(tf, true);
+		}
+	}
+
+	/** Deletes a TaggedFile from the underlying repository.
+	  @param file the file to delete
+	  @param showErrors if true, the method displays any error messages
+	  @return true if the file was deleted successfully
+	  */
+	private boolean deleteTaggedFileFromRepo(TaggedFile file,
+											 boolean showErrors)
+	{
+		try {
+			return taggedFileDAO.delete(file);
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"Failed to delete file: " + file.getFilePath(),
+					e.toString()
+				);
+			}
+		}
+
+		return false;
 	}
 
 	/** Tries to initialize an SQLiteRepository object associated with the
