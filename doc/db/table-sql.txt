@@ -4,9 +4,9 @@ database tables used by the application.
 Table: "TaggedFile"
 ---------------------------------------------
 CREATE TABLE IF NOT EXISTS main.TaggedFile (
-fileId 	INTEGER 	NOT NULL CONSTRAINT fileId_nonnegative CHECK (fileId >= 0),
-path 	TEXT 		NOT NULL UNIQUE,
-CONSTRAINT fileId_is_pk PRIMARY KEY (fileId)
+fileId 	INTEGER 	CONSTRAINT fileId_nonnegative CHECK (fileId >= 0)
+					CONSTRAINT fileId_is_pk PRIMARY KEY ASC AUTOINCREMENT,
+path 	TEXT 		NOT NULL UNIQUE
 );
 
 
@@ -22,11 +22,11 @@ CONSTRAINT tag_is_pk PRIMARY KEY (tag)
 Table: "FileTagging"
 ---------------------------------------------
 CREATE TABLE IF NOT EXISTS main.FileTagging (
-taggingId	INTEGER		NOT NULL CONSTRAINT taggingId_nonnegative CHECK (taggingId >= 0),
+taggingId	INTEGER		CONSTRAINT taggingId_is_pk PRIMARY KEY ASC AUTOINCREMENT
+						CONSTRAINT taggingId_nonnegative CHECK (taggingId >= 0),
 fileId 		INTEGER 	NOT NULL,
 tag 		TEXT	 	NOT NULL,
 comment		TEXT,
-CONSTRAINT taggingId_is_pk PRIMARY KEY(taggingId),
 CONSTRAINT fileId_is_fk FOREIGN KEY(fileId) REFERENCES TaggedFile(fileId),
 CONSTRAINT tag_is_fk FOREIGN KEY(tag) REFERENCES FileTag(tag)
 );

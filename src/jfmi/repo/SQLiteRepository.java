@@ -163,10 +163,10 @@ public class SQLiteRepository extends AbstractRepository {
 			try {
 				String taggedFile;
 				taggedFile = "CREATE TABLE IF NOT EXISTS main.TaggedFile ("
-					+ "fileId INTEGER NOT NULL CONSTRAINT "
-					+ " fileId_nonnegative CHECK (fileId >= 0), "
-					+ " path TEXT NOT NULL UNIQUE,"
-					+ " CONSTRAINT fileId_is_pk PRIMARY KEY (fileId)"
+					+ "fileId INTEGER "
+					+ " CONSTRAINT fileId_is_pk PRIMARY KEY ASC AUTOINCREMENT "
+					+ " CONSTRAINT fileId_nonnegative CHECK (fileId >= 0), "
+					+ " path TEXT NOT NULL UNIQUE "
 					+ " )";
 
 				String fileTag;
@@ -177,12 +177,12 @@ public class SQLiteRepository extends AbstractRepository {
 
 				String fileTagging;
 				fileTagging = "CREATE TABLE IF NOT EXISTS main.FileTagging ("
-					+ " taggingId INTEGER NOT NULL"
+					+ " taggingId INTEGER "
+					+ " CONSTRAINT taggingId_is_pk PRIMARY KEY ASC AUTOINCREMENT"
 					+ " CONSTRAINT taggingId_nonnegative CHECK (taggingId >= 0),"
 					+ " fileId INTEGER NOT NULL,"
 					+ " tag TEXT NOT NULL,"
 					+ " comment TEXT,"
-					+ " CONSTRAINT taggingId_is_pk PRIMARY KEY(taggingId),"
 					+ " CONSTRAINT fileId_is_fk FOREIGN KEY(fileId)"
 				    + " REFERENCES TaggedFile(fileId),"
 					+ " CONSTRAINT tag_is_fk FOREIGN KEY(tag) "
