@@ -123,7 +123,11 @@ public class FileTagHandler {
 	public void beginEditTagInteraction(FileTag editMe)
 	{
 		// Ask GUI to get new value from user
-		getEditedTagFromUser(editMe.getTag());
+		String editVal = getEditedTagFromUser(editMe.getTag());
+
+		if (editVal == null || editMe.getTag().equals(editVal)) {
+			return;	// return if user cancelled, or did not edit tag
+		}
 
 		// updateTagInRepo()
 		// updateDataAndGUI(true);
@@ -221,6 +225,42 @@ public class FileTagHandler {
 	{
 		readFileTagDataFromRepo(showErrors);
 		tagHandlerDialog.setTagJListData(fileTagData);
+	}
+
+	/** Updates the FileTag record having the specified id, with the new
+	  data contained in the updateMe object.
+	  @param id the current tag/id of the target file tag
+	  @param updateMe a FileTag containing the new information
+	  @param showErrors if true, errors will be displayed to the user
+	  @return true if the tag was updated successfully
+	  */
+	public boolean updateTagInRepo(String id, 
+								   FileTag updateMe, 
+								   boolean showErrors)
+	{
+		try {
+			boolean updated = fileTagDAO.update(updateMe, id.toString());
+
+			if (!updated && showErrors) {
+				GUIUtil.showErrorDialog(
+					"Failed to update the tag \"" + id + "\""
+					+ " to \"" + updateMe.getTag()  + "\"."
+				);
+			}
+
+			return updated;
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"An error occurred while updating tag \"" + id + "\""
+					+ " to \"" + updateMe.getTag()  + "\".",
+					e.toString()
+				);
+			}
+		}
+
+		return false;
 	}
 
 
