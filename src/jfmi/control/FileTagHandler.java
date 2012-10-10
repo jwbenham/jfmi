@@ -73,16 +73,11 @@ public class FileTagHandler {
 
 		String msg = "Are you sure you want to delete the selected tags?";
 
-		/* 	First we delete FileTagging records from the repo based on the
-		   tags the user has selected - it won't make sense for the 
-		   FileTagging records to be there if their associated tags are gone.
-		   	We then delete the tags from the repo. We then update handler
-		   data.
+		/* We delete the tags from the repo. We then update handler data, as
+		   well as the the application's FileHandler's data.
 		   */
 		if (tagHandlerDialog.getUserConfirmation(msg)) {
-			jfmiApp.getTaggingHandler().deleteTaggingsByTags(tags, true);
 			deleteTagsFromRepo(tags, true);
-
 			updateDataAndGUI(true);
 			jfmiApp.getFileHandler().updateDataAndGUI(true);
 		}
