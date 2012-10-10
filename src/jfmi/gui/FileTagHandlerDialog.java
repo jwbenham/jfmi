@@ -128,6 +128,34 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 											JOptionPane.QUESTION_MESSAGE);
 	}
 
+	/** Displays a dialog which allows the user to enter a new value for
+	  a file tag.
+	  @param tag the current value of the file tag in question
+	  @return the value entered by the user, null if user cancelled
+	  */
+	public String showEditTagDialog(String tag)
+	{
+		return showEditTagDialog("");
+	}
+
+	/** Displays a dialog which allows the user to enter a new value for
+	  a file tag.
+	  @param tag the current value of the file tag in question
+	  @param msg an additional message to be displayed to the user
+	  @return the value entered by the user, null if user cancelled
+	  */
+	public String showEditTagDialog(String tag, String msg)
+	{
+		return JOptionPane.showInputDialog(
+					this, 
+					"What should the tag \"" + tag  + "\" be changed to?\n" 
+					+ msg,
+					"Add Tag", 
+					JOptionPane.QUESTION_MESSAGE
+				);
+	}
+
+
 	//************************************************************
 	// PRIVATE INSTANCE Methods
 	//************************************************************
