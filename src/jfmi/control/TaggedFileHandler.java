@@ -15,7 +15,6 @@ import jfmi.gui.JFMIFrame;
   files kept in the database.
   */
 public class TaggedFileHandler {
-
 	// PRIVATE INSTANCE Fields
 	private JFMIApp jfmiApp;
 	private JFMIFrame jfmiGUI;
@@ -23,6 +22,7 @@ public class TaggedFileHandler {
 	private TaggedFileDAO taggedFileDAO;
 
 	private Vector<TaggedFile> taggedFiles; 
+
 
 	//************************************************************	
 	// PUBLIC INSTANCE Methods
@@ -39,68 +39,11 @@ public class TaggedFileHandler {
 		taggedFileDAO = new TaggedFileDAO();
 	}
 
-	/** Begins an interaction with the user that allows them to add new files
-	  to the repository for tagging.
-	  */
-	public void beginAddFileInteraction()
-	{
-		File[] selectedFiles = jfmiGUI.displayFileChooser();
-		addFilesToRepo(selectedFiles);
-		updateDataAndGUI(true);
-	}
-
-	/** Begins an interaction with the user that allows them to delete
-	  selected files from the repository.
-	  @param selectedFiles files selected by the user for deletion
-	  */
-	public void beginDeleteFilesInteraction(List<TaggedFile> selectedFiles)
-	{
-		if (jfmiGUI.getConfirmation("Confirm deletion of files.") == false) {
-			return;	
-		}
-
-		deleteFilesFromRepo(selectedFiles);
-		updateDataAndGUI(true);
-	}
-
-	/** Sets this handler's GUI to the specified JFMIFrame.
-	  @param jfmiGUI_ the JFMIFrame to set as this handler's GUI
-	  @throws IllegalArgumentException if jfmiGUI_ is null
-	  */
-	public void setJFMIGUI(JFMIFrame jfmiGUI_)
-	{
-		if (jfmiGUI_ == null) {
-			throw new IllegalArgumentException("jfmiGUI_ cannot be null");
-		}
-
-		jfmiGUI = jfmiGUI_;
-	}
-
-	/** Refreshes the handler's data from the repository, and updates its
-	  associated GUI.
-	  @param showErrors if true, the method displays errors
-	  @return true if data was updated and sent to GUI successfully
-	  */
-	public boolean updateDataAndGUI(boolean showErrors)
-	{
-		boolean readSuccess = readTaggedFilesFromRepo(true);
-
-		if (readSuccess) {
-			updateGUITaggedFileJList();
-		}
-
-		return readSuccess;
-	}
-
-	//************************************************************	
-	// PRIVATE INSTANCE Methods
-	//************************************************************	
-
 	/** Given an array of File objects, attempts to create TaggedFile objects
 	  and insert them into the repository.
 	  @param files an array of File to be newly created in the repository
 	  */
-	private void addFilesToRepo(File[] files)
+	public void addFilesToRepo(File[] files)
 	{
 		TaggedFile newFile;
 
@@ -123,7 +66,7 @@ public class TaggedFileHandler {
 	  @param showErrors if true, the user receives error messages
 	  @return true if the file was added successfully
 	  */
-	private boolean addTaggedFileToRepo(TaggedFile file, boolean showErrors)
+	public boolean addTaggedFileToRepo(TaggedFile file, boolean showErrors)
 	{
 		try {
 			boolean creationSuccess = taggedFileDAO.create(file);
@@ -150,10 +93,34 @@ public class TaggedFileHandler {
 		return false;
 	}
 
+	/** Begins an interaction with the user that allows them to add new files
+	  to the repository for tagging.
+	  */
+	public void beginAddFileInteraction()
+	{
+		File[] selectedFiles = jfmiGUI.displayFileChooser();
+		addFilesToRepo(selectedFiles);
+		updateDataAndGUI(true);
+	}
+
+	/** Begins an interaction with the user that allows them to delete
+	  selected files from the repository.
+	  @param selectedFiles files selected by the user for deletion
+	  */
+	public void beginDeleteFilesInteraction(List<TaggedFile> selectedFiles)
+	{
+		if (jfmiGUI.getConfirmation("Confirm deletion of files.") == false) {
+			return;	
+		}
+
+		deleteFilesFromRepo(selectedFiles);
+		updateDataAndGUI(true);
+	}
+
 	/** Deletes the TaggedFiles in the specified list from the repository.
 	  @param files list of files to be deleted
 	  */
-	private void deleteFilesFromRepo(List<TaggedFile> files)
+	public void deleteFilesFromRepo(List<TaggedFile> files)
 	{
 		if (files == null) {
 			return;
@@ -169,7 +136,7 @@ public class TaggedFileHandler {
 	  @param showErrors if true, the method displays any error messages
 	  @return true if the file was deleted successfully
 	  */
-	private boolean deleteTaggedFileFromRepo(TaggedFile file,
+	public boolean deleteTaggedFileFromRepo(TaggedFile file,
 											 boolean showErrors)
 	{
 		try {
@@ -186,6 +153,62 @@ public class TaggedFileHandler {
 
 		return false;
 	}
+
+	/** Sets this instance's associated JFMIApp.
+	  @param jfmiApp_ the JFMIApp to associate this handler with
+	  @throws IllegalArgumentException if jfmiApp_ is null
+	  */
+	public final void setJFMIApp(JFMIApp jfmiApp_)
+	{
+		if (jfmiApp_ == null) {
+			throw new IllegalArgumentException("jfmiApp_ cannot be null");
+		} 
+
+		jfmiApp = jfmiApp_;
+	}
+
+	/** Sets this handler's GUI to the specified JFMIFrame.
+	  @param jfmiGUI_ the JFMIFrame to set as this handler's GUI
+	  @throws IllegalArgumentException if jfmiGUI_ is null
+	  */
+	public void setJFMIGUI(JFMIFrame jfmiGUI_)
+	{
+		if (jfmiGUI_ == null) {
+			throw new IllegalArgumentException("jfmiGUI_ cannot be null");
+		}
+
+		jfmiGUI = jfmiGUI_;
+	}
+
+	/** Constructs a new Vector<TaggedFile> for this instance from the
+	  specified Collection.
+	  @param collection The Collection to construct a new Vector from.
+	  */
+	public void setTaggedFiles(Collection<TaggedFile> collection)
+	{
+		taggedFiles = new Vector<TaggedFile>(collection);
+	}
+
+	/** Refreshes the handler's data from the repository, and updates its
+	  associated GUI.
+	  @param showErrors if true, the method displays errors
+	  @return true if data was updated and sent to GUI successfully
+	  */
+	public boolean updateDataAndGUI(boolean showErrors)
+	{
+		boolean readSuccess = readTaggedFilesFromRepo(true);
+
+		if (readSuccess) {
+			updateGUITaggedFileJList();
+		}
+
+		return readSuccess;
+	}
+
+
+	//************************************************************	
+	// PRIVATE INSTANCE Methods
+	//************************************************************	
 
 	/** Gets an updated list of TaggedFiles from the repository, and updates
 	  the taggedFiles field.
@@ -208,28 +231,6 @@ public class TaggedFileHandler {
 		}
 
 		return true;
-	}
-
-	/** Sets this instance's associated JFMIApp.
-	  @param jfmiApp_ the JFMIApp to associate this handler with
-	  @throws IllegalArgumentException if jfmiApp_ is null
-	  */
-	private final void setJFMIApp(JFMIApp jfmiApp_)
-	{
-		if (jfmiApp_ == null) {
-			throw new IllegalArgumentException("jfmiApp_ cannot be null");
-		} 
-
-		jfmiApp = jfmiApp_;
-	}
-
-	/** Constructs a new Vector<TaggedFile> for this instance from the
-	  specified Collection.
-	  @param collection The Collection to construct a new Vector from.
-	  */
-	private void setTaggedFiles(Collection<TaggedFile> collection)
-	{
-		taggedFiles = new Vector<TaggedFile>(collection);
 	}
 
 	/** Updates this instance's GUI with the latest values in the Vector
