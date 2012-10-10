@@ -9,15 +9,17 @@ import java.util.Vector;
 import jfmi.dao.TaggedFileDAO;
 import jfmi.gui.GUIUtil;
 import jfmi.gui.JFMIFrame;
+import jfmi.gui.TaggedFileHandlerGUI;
 
 
 /** A controller class for handling the logic of updating/adding/deleting which
   files kept in the database.
   */
 public class TaggedFileHandler {
+
 	// PRIVATE INSTANCE Fields
 	private JFMIApp jfmiApp;
-	private JFMIFrame jfmiGUI;
+	private TaggedFileHandlerGUI fileGUI;
 
 	private TaggedFileDAO taggedFileDAO;
 
@@ -37,6 +39,7 @@ public class TaggedFileHandler {
 	{
 		setJFMIApp(jfmiApp_);
 		taggedFileDAO = new TaggedFileDAO();
+		fileGUI = new TaggedFileHandlerGUI(jfmiApp.getJFMIGUI());
 	}
 
 	/** Given an array of File objects, attempts to create TaggedFile objects
@@ -98,7 +101,7 @@ public class TaggedFileHandler {
 	  */
 	public void beginAddFileInteraction()
 	{
-		File[] selectedFiles = jfmiGUI.displayFileChooser();
+		File[] selectedFiles = fileGUI.displayFileChooser();
 		addFilesToRepo(selectedFiles);
 		updateDataAndGUI(true);
 	}
@@ -109,12 +112,21 @@ public class TaggedFileHandler {
 	  */
 	public void beginDeleteFilesInteraction(List<TaggedFile> selectedFiles)
 	{
-		if (jfmiGUI.getConfirmation("Confirm deletion of files.") == false) {
+		if (fileGUI.getConfirmation("Confirm deletion of files.") == false) {
 			return;	
 		}
 
 		deleteFilesFromRepo(selectedFiles);
 		updateDataAndGUI(true);
+	}
+
+	/** Begins an interaction with the user that allows them to view and
+	  update a file.
+	  @param viewMe the file to view
+	  */
+	public void beginViewFileInteraction(TaggedFile viewMe)
+	{
+
 	}
 
 	/** Deletes the TaggedFiles in the specified list from the repository.
@@ -165,19 +177,6 @@ public class TaggedFileHandler {
 		} 
 
 		jfmiApp = jfmiApp_;
-	}
-
-	/** Sets this handler's GUI to the specified JFMIFrame.
-	  @param jfmiGUI_ the JFMIFrame to set as this handler's GUI
-	  @throws IllegalArgumentException if jfmiGUI_ is null
-	  */
-	public void setJFMIGUI(JFMIFrame jfmiGUI_)
-	{
-		if (jfmiGUI_ == null) {
-			throw new IllegalArgumentException("jfmiGUI_ cannot be null");
-		}
-
-		jfmiGUI = jfmiGUI_;
 	}
 
 	/** Constructs a new Vector<TaggedFile> for this instance from the
@@ -238,7 +237,7 @@ public class TaggedFileHandler {
 	  */
 	private void updateGUITaggedFileJList()
 	{
-		jfmiGUI.setTaggedFileJListData(taggedFiles);
+		jfmiApp.getJFMIGUI().setTaggedFileJListData(taggedFiles);
 	}
 
 }

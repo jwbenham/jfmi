@@ -107,7 +107,6 @@ public final class JFMIApp {
 		jfmiGUI = new JFMIFrame(this);
 
 		fileHandler = new TaggedFileHandler(this);
-		fileHandler.setJFMIGUI(jfmiGUI);
 		tagHandler = new FileTagHandler(this);
 		taggingHandler = new FileTaggingHandler(this);
 	}

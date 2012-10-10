@@ -10,13 +10,13 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import java.util.List;
 import java.util.Vector;
 
 import jfmi.control.JFMIApp;
@@ -50,7 +50,6 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	// Controller related
 	private JFMIApp jfmiApp;
 
-	private JFileChooser fileChooser;
 
 	//************************************************************
 	// PUBLIC INSTANCE Methods
@@ -72,29 +71,12 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		setContentPane(contentPanel);
 		initButtonBox();
 		initTagScroller();
-		initFileChooser();
 
 		add(buttonBox, BorderLayout.WEST);
 		add(taggedFileScroller, BorderLayout.CENTER);
 
 		// Do not display initially
 		setVisible(false);
-	}
-
-	/** Displays a window for the user to select one or more files and/or
-	  directories.
-	  @return an array of selected files if the user indicated approval, else
-	  		null if the user cancelled
-	  */
-	public File[] displayFileChooser()
-	{
-		int returnVal = fileChooser.showDialog(this, "Add File");
-
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			return fileChooser.getSelectedFiles();
-		} else {
-			return null;
-		}
 	}
 
 	/** Prompts a user to confirm an action with the specified message, and 
@@ -192,16 +174,6 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		taggedFileScroller = new JScrollPane(taggedFileJList);
 	}
 
-	/** Initialize the file chooser.
-	  */
-	private final void initFileChooser()
-	{
-		fileChooser = new JFileChooser();
-		fileChooser.setDialogTitle("Add a New File");
-		fileChooser.setMultiSelectionEnabled(true);
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-	}
-
 	/** Mutator for the jfmiApp field. 
 	  @param jfmiApp_ JFMIApp instance to set as this instance's controller.
 	  */
@@ -232,10 +204,17 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		} else if (src == addFileButton) {
 			jfmiApp.getFileHandler().beginAddFileInteraction();
 
+		} else if (src == editFileButton) {
+
+
+		} else if (src == viewFileButton) {
+			TaggedFile selectedFile = taggedFileJList.getSelectedValue();
+			jfmiApp.getFileHandler().beginViewFileInteraction(selectedFile);
+
 		} else if (src == deleteFilesButton) {
-			jfmiApp.getFileHandler().beginDeleteFilesInteraction(
-					taggedFileJList.getSelectedValuesList()
-			);
+			List<TaggedFile> files = taggedFileJList.getSelectedValuesList();
+			jfmiApp.getFileHandler().beginDeleteFilesInteraction(files);
+
 		}
 	}
 
