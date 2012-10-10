@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.sqlite.SQLiteConfig;
+
 
 /** Implements an SQLite-based repository.
   */
@@ -17,6 +19,8 @@ public class SQLiteRepository extends AbstractRepository {
 	private String repoPath;
 	private String repoURL;
 	private boolean initialized;
+
+	private SQLiteConfig sqliteConfig;
 
 	//************************************************************
 	// PUBLIC CLASS Methods
@@ -80,7 +84,7 @@ public class SQLiteRepository extends AbstractRepository {
 	  */
 	public Connection getConnection() throws SQLException 
 	{
-		return DriverManager.getConnection(repoURL);
+		return DriverManager.getConnection(repoURL, sqliteConfig.toProperties());
 	}
 
 	/** Retrieves the path of the SQLite repository.
@@ -148,6 +152,9 @@ public class SQLiteRepository extends AbstractRepository {
 	{
 		setRepoPath(path);
 		setInitialized(false);
+
+		sqliteConfig = new SQLiteConfig();
+		sqliteConfig.enforceForeignKeys(true);
 	}
 
 	/** Creates the SQLite database tables if necessary.
@@ -184,9 +191,11 @@ public class SQLiteRepository extends AbstractRepository {
 					+ " tag TEXT NOT NULL,"
 					+ " comment TEXT,"
 					+ " CONSTRAINT fileId_is_fk FOREIGN KEY(fileId)"
-				    + " REFERENCES TaggedFile(fileId),"
+				    + " REFERENCES TaggedFile(fileId)"
+					+ " ON DELETE CASCADE ON UPDATE CASCADE,"
 					+ " CONSTRAINT tag_is_fk FOREIGN KEY(tag) "
 					+ " REFERENCES FileTag(tag)"
+					+ " ON DELETE CASCADE ON UPDATE CASCADE"
 					+ " )";
 
 				stmt.executeUpdate(taggedFile);
