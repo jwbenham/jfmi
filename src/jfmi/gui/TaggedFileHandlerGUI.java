@@ -48,6 +48,14 @@ public class TaggedFileHandlerGUI {
 		}
 	}
 
+	/** Displays a file viewer for the user to see and update TaggedFile
+	  information.
+	  */
+	public void displayFileViewer()
+	{
+		fileViewer.setVisible(true);
+	}
+
 	/** Prompts a user to confirm an action with the specified message, and 
 	  returns the user's decision.
 	  @param confirmMsg the message to display to the user
