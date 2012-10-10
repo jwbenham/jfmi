@@ -218,6 +218,7 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 			);
 
 		} else if (source == editTagButton) {
+			tagHandler.beginEditTagInteraction(tagJList.getSelectedValue());
 
 		}
 	}

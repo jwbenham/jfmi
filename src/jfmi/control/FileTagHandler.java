@@ -116,6 +116,18 @@ public class FileTagHandler {
 		}
 	}
 
+	/** Begins an interaction with the user which allows them to enter
+	  a new value for a tag they have selected.
+	  @param editMe the file tag the user has selected to edit
+	  */
+	public void beginEditTagInteraction(FileTag editMe)
+	{
+		// Ask GUI to get new value from user
+		// updateTagInRepo()
+		// updateDataAndGUI(true);
+		// jfmiApp.getFileHandler().updateDataAndGUI(true);
+	}
+
 	/** When called, displays an interface to allow the user to
 	  add/remove tags.
 	  */
