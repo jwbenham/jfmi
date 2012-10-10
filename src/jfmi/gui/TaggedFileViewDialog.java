@@ -123,6 +123,7 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 	  */
 	private final void init(TaggedFileHandler fileHandler_)
 	{
+		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setFileHandler(fileHandler_);	
 	}
 
