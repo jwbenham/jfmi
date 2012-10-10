@@ -19,7 +19,7 @@
 ./src/jfmi/gui/TaggedFileHandlerGUI.java
 ./src/jfmi/gui/TaggedFileJListRenderer.java
 ./src/jfmi/gui/TaggedFileJListCellPanel.java
-./src/jfmi/gui/TaggedFileViewBox.java
+./src/jfmi/gui/TaggedFileViewDialog.java
 ./src/jfmi/repo/AbstractRepository.java
 ./src/jfmi/repo/SQLiteRepository.java
 ./src/jfmi/util/StringUtil.java

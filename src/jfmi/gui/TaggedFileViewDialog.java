@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -18,7 +19,7 @@ import jfmi.control.TaggedFileHandler;
   to the user, and allows the user to communicate changes to a
   TaggedFileHandler.
   */
-public class TaggedFileViewBox extends Box implements ActionListener {
+public class TaggedFileViewDialog extends JDialog implements ActionListener {
 
 	// PRIVATE INSTANCE Fields
 	private JLabel fileNameLabel;
@@ -46,21 +47,22 @@ public class TaggedFileViewBox extends Box implements ActionListener {
 	  @param fileHandler_ file handler to associate with this instance
 	  @throws IllegalArgumentException if fileHandler_ is null
 	  */
-	public TaggedFileViewBox(TaggedFileHandler fileHandler_)
+	public TaggedFileViewDialog(TaggedFileHandler fileHandler_)
 	{
-		super(BoxLayout.Y_AXIS);
-
 		// Initialize fields and child components
 		init(fileHandler_);
 		initFileInfoBox();
 		initFileTaggingBox();
 
 		// Add child components
-		add(Box.createVerticalStrut(5));
-		add(fileInfoBox);
-		add(Box.createVerticalStrut(10));
-		add(fileTaggingBox);
-		add(Box.createVerticalStrut(5));
+		Box content = Box.createVerticalBox();
+		content.add(Box.createVerticalStrut(5));
+		content.add(fileInfoBox);
+		content.add(Box.createVerticalStrut(10));
+		content.add(fileTaggingBox);
+		content.add(Box.createVerticalStrut(5));
+
+		add(content);
 
 		// Not visible initially	
 		setVisible(false);

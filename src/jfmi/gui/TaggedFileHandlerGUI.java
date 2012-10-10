@@ -13,7 +13,7 @@ public class TaggedFileHandlerGUI {
 	private TaggedFileHandler fileHandler;
 
 	private JFileChooser fileChooser;
-	private TaggedFileViewBox fileViewBox;
+	private TaggedFileViewDialog fileViewer;
 	private JFMIFrame jfmiGUI;
 
 	//************************************************************
@@ -100,7 +100,7 @@ public class TaggedFileHandlerGUI {
 		setFileHandler(handler_);
 		setJFMIGUI(jfmiGUI);
 
-		fileViewBox = new TaggedFileViewBox(fileHandler);
+		fileViewer = new TaggedFileViewDialog(fileHandler);
 	}
 
 	/** Initialize the file chooser.
