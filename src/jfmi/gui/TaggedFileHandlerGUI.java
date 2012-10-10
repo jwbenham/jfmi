@@ -106,7 +106,7 @@ public class TaggedFileHandlerGUI {
 	private final void init(JFMIFrame jfmiGUI_, TaggedFileHandler handler_)
 	{
 		setFileHandler(handler_);
-		setJFMIGUI(jfmiGUI);
+		setJFMIGUI(jfmiGUI_);
 
 		fileViewer = new TaggedFileViewDialog(jfmiGUI, fileHandler);
 	}
