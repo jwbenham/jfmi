@@ -135,7 +135,7 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 	  */
 	public String showEditTagDialog(String tag)
 	{
-		return showEditTagDialog("");
+		return showEditTagDialog(tag, "");
 	}
 
 	/** Displays a dialog which allows the user to enter a new value for

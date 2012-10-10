@@ -129,9 +129,13 @@ public class FileTagHandler {
 			return;	// return if user cancelled, or did not edit tag
 		}
 
-		// updateTagInRepo()
-		// updateDataAndGUI(true);
-		// jfmiApp.getFileHandler().updateDataAndGUI(true);
+		String oldTag = editMe.getTag();
+		editMe.setTag(editVal);
+
+		if (updateTagInRepo(oldTag, editMe, true)) {
+			updateDataAndGUI(true);
+		 	jfmiApp.getFileHandler().updateDataAndGUI(true);
+		}
 	}
 
 	/** When called, displays an interface to allow the user to
