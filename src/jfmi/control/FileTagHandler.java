@@ -26,6 +26,7 @@ public class FileTagHandler {
 
 	private Vector<FileTag> fileTagData;
 
+
 	//************************************************************
 	// PUBLIC INSTANCE Methods
 	//************************************************************
@@ -43,6 +44,38 @@ public class FileTagHandler {
 
 		tagHandlerDialog = new FileTagHandlerDialog(jfmiApp.getJFMIGUI(), this);
 		tagHandlerDialog.setVisible(false);
+	}
+
+	/** Adds a tag to the repository.
+	  @param tag the tag to attempt to store
+	  @param showErrors if true, error messages are displayed
+	  @return true if the tag is added successfully
+	  */
+	public boolean addTagToRepo(FileTag tag, boolean showErrors)
+	{
+		try {
+			boolean created = fileTagDAO.create(tag);
+
+			if (created == false && showErrors) {
+				GUIUtil.showErrorDialog(
+					"Failed to create the new tag. Make sure the tag does not"
+					+ " already exist."
+				);
+			}
+			
+			return created;
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"An error occurred while attempting to create the tag "
+					+ "\"" + tag.getTag() + "\" in the repository.",
+					e.toString()
+				);
+			}
+		}
+
+		return false;
 	}
 
 	/** Begins an interaction with the user that allows them to enter the
@@ -92,6 +125,52 @@ public class FileTagHandler {
 		tagHandlerDialog.setVisible(true);
 	}
 
+	/** Deletes a collection of tags from the repository.
+	  @param tags the FileTags to be deleted
+	  @param showErrors if true, error messages are displayed
+	  @return true if no problems occurred deleting the tags 
+	  */
+	public boolean deleteTagsFromRepo(Collection<FileTag> tags,
+										boolean showErrors)
+	{
+		if (tags == null) {
+			return true;	// technically 0 tags were deleted successfully
+		}
+
+		boolean allWereDeleted = true;
+
+		for (FileTag fileTag : tags) {
+			if (deleteTagFromRepo(fileTag, showErrors) == false) {
+				allWereDeleted = false;
+			}
+		}
+
+		return allWereDeleted;
+	}
+
+	/** Deletes a file tag from the underlying repository.
+	  @param tag the file tag to delete
+	  @param showErrors if true, error messages are displayed
+	  @return true if the tag was deleted successfully
+	  */
+	public boolean deleteTagFromRepo(FileTag tag, boolean showErrors)
+	{
+		try {
+			return fileTagDAO.delete(tag);
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"An error occurred with the repository while attempting to"
+					+ " delete the tag \"" + tag.getTag() + "\".",
+					e.toString()
+				);
+			}
+		}
+
+		return false;
+	}
+
 	/** Accessor for the fileTagData field. This may be null.
 	  @return Access to the list of tag records this instance has retrieved
 	  		from the application repository.
@@ -130,87 +209,10 @@ public class FileTagHandler {
 		tagHandlerDialog.setTagJListData(fileTagData);
 	}
 
+
 	//************************************************************
 	// PRIVATE INSTANCE Methods
 	//************************************************************
-
-	/** Adds a tag to the repository.
-	  @param tag the tag to attempt to store
-	  @param showErrors if true, error messages are displayed
-	  @return true if the tag is added successfully
-	  */
-	private boolean addTagToRepo(FileTag tag, boolean showErrors)
-	{
-		try {
-			boolean created = fileTagDAO.create(tag);
-
-			if (created == false && showErrors) {
-				GUIUtil.showErrorDialog(
-					"Failed to create the new tag. Make sure the tag does not"
-					+ " already exist."
-				);
-			}
-			
-			return created;
-
-		} catch (SQLException e) {
-			if (showErrors) {
-				GUIUtil.showErrorDialog(
-					"An error occurred while attempting to create the tag "
-					+ "\"" + tag.getTag() + "\" in the repository.",
-					e.toString()
-				);
-			}
-		}
-
-		return false;
-	}
-
-	/** Deletes a collection of tags from the repository.
-	  @param tags the FileTags to be deleted
-	  @param showErrors if true, error messages are displayed
-	  @return true if no problems occurred deleting the tags 
-	  */
-	private boolean deleteTagsFromRepo(Collection<FileTag> tags,
-										boolean showErrors)
-	{
-		if (tags == null) {
-			return true;	// technically 0 tags were deleted successfully
-		}
-
-		boolean allWereDeleted = true;
-
-		for (FileTag fileTag : tags) {
-			if (deleteTagFromRepo(fileTag, showErrors) == false) {
-				allWereDeleted = false;
-			}
-		}
-
-		return allWereDeleted;
-	}
-
-	/** Deletes a file tag from the underlying repository.
-	  @param tag the file tag to delete
-	  @param showErrors if true, error messages are displayed
-	  @return true if the tag was deleted successfully
-	  */
-	private boolean deleteTagFromRepo(FileTag tag, boolean showErrors)
-	{
-		try {
-			return fileTagDAO.delete(tag);
-
-		} catch (SQLException e) {
-			if (showErrors) {
-				GUIUtil.showErrorDialog(
-					"An error occurred with the repository while attempting to"
-					+ " delete the tag \"" + tag.getTag() + "\".",
-					e.toString()
-				);
-			}
-		}
-
-		return false;
-	}
 
 	/** Gets the value of a new tag from the user.
 	  @return the new tag value, null if user cancelled
@@ -249,4 +251,5 @@ public class FileTagHandler {
 
 		return false;
 	}
+
 }
