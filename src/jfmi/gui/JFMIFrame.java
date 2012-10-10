@@ -39,6 +39,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private Box buttonBox;	// Holds buttons
 	private JButton manageTagsButton;
 	private JButton addFileButton;
+	private JButton editFileButton;
+	private JButton viewFileButton;
 	private JButton deleteFilesButton;
 
 	// List related
@@ -141,7 +143,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private final void initButtonBox()
 	{
 		// Initialize buttons
-		manageTagsButton = new JButton("Manage Tags");
+		manageTagsButton = new JButton("Manage Tags..");
 		manageTagsButton.addActionListener(this);
 		Styles.setDefaultJButtonStyles(manageTagsButton);
 
@@ -149,9 +151,18 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		addFileButton.addActionListener(this);
 		Styles.setDefaultJButtonStyles(addFileButton);
 
+		editFileButton = new JButton("Edit File");
+		editFileButton.addActionListener(this);
+		Styles.setDefaultJButtonStyles(editFileButton);
+
+		viewFileButton = new JButton("View File");
+		viewFileButton.addActionListener(this);
+		Styles.setDefaultJButtonStyles(viewFileButton);
+
 		deleteFilesButton = new JButton("Delete Selected Files");
 		deleteFilesButton.addActionListener(this);
 		Styles.setDefaultJButtonStyles(deleteFilesButton);
+		deleteFilesButton.setForeground(Styles.DANGER_COLOR);
 
 		// Initialize buttonBox
 		buttonBox = new Box(BoxLayout.Y_AXIS);
@@ -159,6 +170,10 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		buttonBox.add(manageTagsButton);
 		buttonBox.add(Box.createVerticalStrut(50));
 		buttonBox.add(addFileButton);
+		buttonBox.add(Box.createVerticalStrut(10));
+		buttonBox.add(editFileButton);
+		buttonBox.add(Box.createVerticalStrut(10));
+		buttonBox.add(viewFileButton);
 		buttonBox.add(Box.createVerticalStrut(10));
 		buttonBox.add(deleteFilesButton);
 		buttonBox.add(Box.createVerticalStrut(50));
