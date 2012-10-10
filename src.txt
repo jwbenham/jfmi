@@ -16,8 +16,10 @@
 ./src/jfmi/gui/GUIException.java
 ./src/jfmi/gui/GUIUtil.java
 ./src/jfmi/gui/Styles.java
+./src/jfmi/gui/TaggedFileHandlerGUI.java
 ./src/jfmi/gui/TaggedFileJListRenderer.java
 ./src/jfmi/gui/TaggedFileJListCellPanel.java
+./src/jfmi/gui/TaggedFileViewBox.java
 ./src/jfmi/repo/AbstractRepository.java
 ./src/jfmi/repo/SQLiteRepository.java
 ./src/jfmi/util/StringUtil.java

@@ -3,12 +3,17 @@ package jfmi.gui;
 import java.io.File;
 import javax.swing.JFileChooser;
 
+import jfmi.control.TaggedFileHandler;
+
 /** Provides an interface between a TaggedFileHandler and the user.
   */
 public class TaggedFileHandlerGUI {
 
 	// PRIVATE INSTANCE Fields
+	private TaggedFileHandler fileHandler;
+
 	private JFileChooser fileChooser;
+	private TaggedFileViewBox fileViewBox;
 	private JFMIFrame jfmiGUI;
 
 	//************************************************************
@@ -16,11 +21,14 @@ public class TaggedFileHandlerGUI {
 	//************************************************************
 
 	/** Constructs a TaggedFileHandlerGUI that will use the specified
-	  JFMIFrame as a parent component.
+	  JFMIFrame as a parent component, and be associated with the specified
+	  TaggedFileHandler.
+	  @param jfmiGUI_ the JFMIFrame this object uses for a parent component
+	  @param handler_ the TaggedFileHandler this object is associated with
 	  */
-	public TaggedFileHandlerGUI(JFMIFrame jfmiGUI_)
+	public TaggedFileHandlerGUI(JFMIFrame jfmiGUI_, TaggedFileHandler handler_)
 	{
-		init(jfmiGUI_);
+		init(jfmiGUI_, handler_);
 		initFileChooser();
 	}
 
@@ -49,22 +57,50 @@ public class TaggedFileHandlerGUI {
 	{
 		return jfmiGUI.getConfirmation(confirmMsg);	
 	}
-	
-	//************************************************************
-	// PRIVATE INSTANCE Methods
-	//************************************************************
 
-	/** Initialize the instance.
-	  @param jfmiGUI_ the JFMIFrame to use as a parent component
-	  @throws IllegalArgumentException if jfmiGUI is null
+	/** Sets this object's associated TaggedFileHandler.
+	  @param fileHandler_ the file handler to associate with this instance
+	  @throws IllegalArgumentException if fileHandler_ is null
 	  */
-	private final void init(JFMIFrame jfmiGUI_)
+	public void setFileHandler(TaggedFileHandler fileHandler_)
+	{
+		if (fileHandler_ == null) {
+			throw new IllegalArgumentException("fileHandler_ cannot be null");
+		}
+
+		fileHandler = fileHandler_;
+	}
+
+	/** Sets the JFMIFrame that this instance will use as the parent component
+	  for some of the components it generates.
+	  @param jfmiGUI_ the JFMIFrame to use as a parent component
+	  @throws IllegalArgumentException if jfmiGUI_ is null
+	  */
+	public void setJFMIGUI(JFMIFrame jfmiGUI_)
 	{
 		if (jfmiGUI_ == null) {
 			throw new IllegalArgumentException("jfmiGUI_ cannot be null");
 		}
 
 		jfmiGUI = jfmiGUI_;
+	}
+
+
+	//************************************************************
+	// PRIVATE INSTANCE Methods
+	//************************************************************
+
+	/** Initialize the instance.
+	  @param jfmiGUI_ the JFMIFrame to use as a parent component
+	  @param handler_ the TaggedFileHandler this object is associated with
+	  @throws IllegalArgumentException if jfmiGUI_ or handler_ is null
+	  */
+	private final void init(JFMIFrame jfmiGUI_, TaggedFileHandler handler_)
+	{
+		setFileHandler(handler_);
+		setJFMIGUI(jfmiGUI);
+
+		fileViewBox = new TaggedFileViewBox(fileHandler);
 	}
 
 	/** Initialize the file chooser.

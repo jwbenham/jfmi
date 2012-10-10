@@ -1,8 +1,8 @@
 package jfmi.gui;
 
-import java.awt.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.border.EmptyBorder;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -46,7 +46,7 @@ public class TaggedFileViewBox extends Box implements ActionListener {
 	  @param fileHandler_ file handler to associate with this instance
 	  @throws IllegalArgumentException if fileHandler_ is null
 	  */
-	public TaggedFileViewPanel(TaggedFileHandler fileHandler_)
+	public TaggedFileViewBox(TaggedFileHandler fileHandler_)
 	{
 		super(BoxLayout.Y_AXIS);
 
@@ -59,7 +59,7 @@ public class TaggedFileViewBox extends Box implements ActionListener {
 		add(Box.createVerticalStrut(5));
 		add(fileInfoBox);
 		add(Box.createVerticalStrut(10));
-		add(TaggingBox);
+		add(fileTaggingBox);
 		add(Box.createVerticalStrut(5));
 
 		// Not visible initially	
@@ -148,7 +148,7 @@ public class TaggedFileViewBox extends Box implements ActionListener {
 		rightBox.add(changePathButton);
 
 		// Set up fileInfoBox
-		fileInfoBox = Box.createHorizonalBox();
+		fileInfoBox = Box.createHorizontalBox();
 		fileInfoBox.add(leftBox);
 		fileInfoBox.add(rightBox);
 	}

@@ -39,7 +39,7 @@ public class TaggedFileHandler {
 	{
 		setJFMIApp(jfmiApp_);
 		taggedFileDAO = new TaggedFileDAO();
-		fileGUI = new TaggedFileHandlerGUI(jfmiApp.getJFMIGUI());
+		fileGUI = new TaggedFileHandlerGUI(jfmiApp.getJFMIGUI(), this);
 	}
 
 	/** Given an array of File objects, attempts to create TaggedFile objects
