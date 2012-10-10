@@ -123,6 +123,8 @@ public class FileTagHandler {
 	public void beginEditTagInteraction(FileTag editMe)
 	{
 		// Ask GUI to get new value from user
+		getEditedTagFromUser(editMe.getTag());
+
 		// updateTagInRepo()
 		// updateDataAndGUI(true);
 		// jfmiApp.getFileHandler().updateDataAndGUI(true);
@@ -225,6 +227,22 @@ public class FileTagHandler {
 	//************************************************************
 	// PRIVATE INSTANCE Methods
 	//************************************************************
+	
+	/** Gets the edited value of a tag from the user. 
+	  @param currentVal the current value of the target tag
+	  @return the edited tag value, null if user cancelled
+	  */
+	private String getEditedTagFromUser(String currentVal)
+	{
+		String emptyPrompt = "An empty tag value is not valid.";
+
+		String input = tagHandlerDialog.showEditTagDialog(currentVal);
+		while (input != null && input.equals("")) {
+			input = tagHandlerDialog.showEditTagDialog(currentVal, emptyPrompt);
+		}
+
+		return input;
+	}
 
 	/** Gets the value of a new tag from the user.
 	  @return the new tag value, null if user cancelled
