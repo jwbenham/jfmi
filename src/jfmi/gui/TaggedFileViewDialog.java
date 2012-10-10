@@ -44,11 +44,14 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 	//************************************************************
 
 	/** Constructs a TaggedFileViewPanel.
+	  @param parent a JFrame to server as this dialog's owner
 	  @param fileHandler_ file handler to associate with this instance
 	  @throws IllegalArgumentException if fileHandler_ is null
 	  */
-	public TaggedFileViewDialog(TaggedFileHandler fileHandler_)
+	public TaggedFileViewDialog(JFrame parent, TaggedFileHandler fileHandler_)
 	{
+		super(parent, "File Viewer", true);
+
 		// Initialize fields and child components
 		init(fileHandler_);
 		initFileInfoBox();
