@@ -138,7 +138,7 @@ public class FileTaggingHandler {
 		boolean taggingsAreUpdated = true;
 
 		for (FileTagging ft : taggings) {
-			if (updateFileTaggingInRepo(ft, true) == false) {
+			if (updateFileTaggingInRepo(ft, showErrors) == false) {
 				taggingsAreUpdated = false;
 			}
 		}		
