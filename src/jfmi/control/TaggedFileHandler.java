@@ -147,13 +147,16 @@ public class TaggedFileHandler {
 		if (updateTaggedFileInRepo(saveMe, true)) {
 			GUIUtil.showAlert("File saved successfully.");
 
-			// Redisplay the current file
+			/* Redisplay the current file in the fileViewer and in
+			 the application's GUI */
 			fileGUI.getFileViewer().updateDisplayedFile(saveMe);
+			updateDataAndGUI(true);
 		}
 	}
 
 	/** Begins an interaction with the user that allows them to view and
-	  update a file.
+	  update a specific file. This method updates the list of files displayed
+	  by the 
 	  @param viewMe the file to view
 	  */
 	public void beginViewFileInteraction(TaggedFile viewMe)

@@ -6,6 +6,10 @@ import javax.swing.JOptionPane;
   */
 public final class GUIUtil {
 
+	//************************************************************
+	// PUBLIC CLASS Methods
+	//************************************************************
+
 	/** Uses the JOptionPane.showMessageDialog() method to display the
 	  specified alert message.
 	  @param message The message to display.
@@ -66,5 +70,11 @@ public final class GUIUtil {
 	{
 		JOptionPane.showMessageDialog(null, message);
 	}
+
+
+	//************************************************************
+	// PRIVATE CLASS Methods
+	//************************************************************
+
 
 }

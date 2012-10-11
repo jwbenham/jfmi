@@ -199,15 +199,18 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		Object src = e.getSource();
 
 		if (src == manageTagsButton) {
+
 			jfmiApp.getTagHandler().beginManageTagsInteraction();
 
 		} else if (src == addFileButton) {
+
 			jfmiApp.getFileHandler().beginAddFileInteraction();
 
 		} else if (src == editFileButton) {
 
 
 		} else if (src == viewFileButton) {
+
 			TaggedFile selectedFile = taggedFileJList.getSelectedValue();
 			
 			if (selectedFile != null) {
@@ -217,6 +220,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			}
 
 		} else if (src == deleteFilesButton) {
+
 			List<TaggedFile> files = taggedFileJList.getSelectedValuesList();
 			jfmiApp.getFileHandler().beginDeleteFilesInteraction(files);
 
