@@ -10,6 +10,7 @@ import jfmi.dao.TaggedFileDAO;
 import jfmi.gui.GUIUtil;
 import jfmi.gui.JFMIFrame;
 import jfmi.gui.TaggedFileHandlerGUI;
+import jfmi.gui.TaggedFileViewDialog;
 
 
 /** A controller class for handling the logic of updating/adding/deleting which
@@ -161,8 +162,18 @@ public class TaggedFileHandler {
 	  */
 	public void beginViewFileInteraction(TaggedFile viewMe)
 	{
-		fileGUI.getFileViewer().updateDisplayedFile(viewMe);
-		fileGUI.getFileViewer().setVisible(true);
+		TaggedFileViewDialog fileViewer = fileGUI.getFileViewer();
+		FileTag[] tags;
+
+		jfmiApp.getTagHandler().readFileTagDataFromRepo(true);
+		tags = jfmiApp.getTagHandler().getFileTagDataAsArray();
+
+		if (tags != null) {
+			fileViewer.getTagJList().setListData(tags);
+		}
+
+		fileViewer.updateDisplayedFile(viewMe);
+		fileViewer.setVisible(true);
 	}
 
 	/** Deletes the TaggedFiles in the specified list from the repository.
