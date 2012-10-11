@@ -126,7 +126,7 @@ public class TaggedFileHandler {
 	  */
 	public void beginViewFileInteraction(TaggedFile viewMe)
 	{
-		fileGUI.displayFileViewer();
+		fileGUI.displayFileViewer(viewMe);
 	}
 
 	/** Deletes the TaggedFiles in the specified list from the repository.

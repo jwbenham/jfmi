@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -18,6 +20,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import jfmi.control.FileTagging;
 import jfmi.control.TaggedFile;
 import jfmi.control.TaggedFileHandler;
 
@@ -25,7 +28,8 @@ import jfmi.control.TaggedFileHandler;
   to the user, and allows the user to communicate changes to a
   TaggedFileHandler.
   */
-public class TaggedFileViewDialog extends JDialog implements ActionListener {
+public class TaggedFileViewDialog extends JDialog 
+	implements ActionListener, ListSelectionListener {
 
 	// PRIVATE INSTANCE Fields
 	private JLabel fileNameLabel;
@@ -36,8 +40,8 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 	private JButton removeTagButton;
 	private JButton saveFileButton;
 
-	private JList fileTagJList;
-	private JTextArea tagCommentArea;
+	private JList<FileTagging> tagJList;
+	private JTextArea commentArea;
 
 	private Box fileInfoBox;
 	private Box fileTaggingBox;
@@ -104,7 +108,9 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 	  */
 	public void updateDisplay()
 	{
-
+		updateFileInfo();
+		updateTagJList();
+		updateCommentArea();
 	}
 
 	/** Tells this instance to display the specified file, and updates the
@@ -116,6 +122,47 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 	{
 		setDisplayedFile(file);
 		updateDisplay();
+	}
+
+	/** Updates the displayed file name and path with information from the 
+	  instance's FileTag.
+	  */
+	public void updateFileInfo()
+	{
+		fileNameLabel.setText(displayedFile.getFileName());
+		filePathLabel.setText(displayedFile.getFilePath());
+	}
+
+	/** Updates the displayed file's tags with information from the instance's 
+	  FileTag.
+	  */
+	public void updateTagJList()
+	{
+		FileTagging[] taggings = displayedFile.getFileTaggingsAsArray();
+
+		if (taggings != null) {
+			tagJList.setListData(taggings);
+			tagJList.setSelectedIndex(0);
+		}
+	}
+
+	/** Updates the displayed file's selected tag's comment with information 
+	  from the instance's FileTag.
+	  */
+	public void updateCommentArea()
+	{
+		FileTagging selectedTagging = tagJList.getSelectedValue();
+
+		if (selectedTagging == null) {
+			return;
+		}
+
+		String comment = selectedTagging.getComment();
+		if (comment == null || comment.equals("")) {
+			commentArea.setText("<No comment>");
+		} else {
+			commentArea.setText(comment);
+		}
 	}
 
 
@@ -174,9 +221,10 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 		JLabel fileTagLabel = new JLabel("File Tags");
 		fileTagLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-		fileTagJList = new JList();		
-		fileTagJList.setLayoutOrientation(JList.VERTICAL);
-		JScrollPane fileTagScroller = new JScrollPane(fileTagJList);
+		tagJList = new JList<FileTagging>();		
+		tagJList.addListSelectionListener(this);
+		tagJList.setLayoutOrientation(JList.VERTICAL);
+		JScrollPane fileTagScroller = new JScrollPane(tagJList);
 		fileTagScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		addTagButton = new JButton("Add Tag");
@@ -199,8 +247,8 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 		leftBox.add(buttonBox);
 
 		// Set up right part of box
-		tagCommentArea = new JTextArea();
-		JScrollPane tagCommentScroller = new JScrollPane(tagCommentArea);
+		commentArea = new JTextArea();
+		JScrollPane tagCommentScroller = new JScrollPane(commentArea);
 
 		Box rightBox = Box.createVerticalBox();
 		rightBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY));
@@ -249,5 +297,24 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 		}
 
 	}
+
+
+	//************************************************************
+	// IMPLEMENTATION ListSelectionListener 
+	//************************************************************
+
+	/** Determines what happens when the user generates a ListSelectionEvent
+	  on the dialog's list of file tags.
+	  @param e a user-generated ListSelectionEvent
+	  */
+	public void valueChanged(ListSelectionEvent e)
+	{
+		Object source = e.getSource();
+
+		if (source == tagJList) {
+			updateCommentArea();
+		}	
+	}
+
 
 }

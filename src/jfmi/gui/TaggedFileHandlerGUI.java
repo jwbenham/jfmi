@@ -4,6 +4,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 
 import jfmi.control.TaggedFileHandler;
+import jfmi.control.TaggedFile;
 
 /** Provides an interface between a TaggedFileHandler and the user.
   */
@@ -50,9 +51,11 @@ public class TaggedFileHandlerGUI {
 
 	/** Displays a file viewer for the user to see and update TaggedFile
 	  information.
+	  @param viewMe the TaggedFile do be displayed
 	  */
-	public void displayFileViewer()
+	public void displayFileViewer(TaggedFile viewMe)
 	{
+		fileViewer.updateDisplayedFile(viewMe);
 		fileViewer.setVisible(true);
 	}
 

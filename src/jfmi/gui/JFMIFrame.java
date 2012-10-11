@@ -209,7 +209,12 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 		} else if (src == viewFileButton) {
 			TaggedFile selectedFile = taggedFileJList.getSelectedValue();
-			jfmiApp.getFileHandler().beginViewFileInteraction(selectedFile);
+			
+			if (selectedFile != null) {
+				jfmiApp.getFileHandler().beginViewFileInteraction(selectedFile);
+			} else {
+				JOptionPane.showMessageDialog(this, "No file selected.");
+			}
 
 		} else if (src == deleteFilesButton) {
 			List<TaggedFile> files = taggedFileJList.getSelectedValuesList();
