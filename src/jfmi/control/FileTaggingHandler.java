@@ -90,6 +90,63 @@ public class FileTaggingHandler {
 		jfmiApp = jfmiApp_;
 	}
 
+	/** Updates a FileTagging in the repository.
+	  @param tagging the FileTagging to update
+	  @param showErrors if true, errors are displayed to the user
+	  @return true if no errors occurred
+	  */
+	public boolean updateFileTaggingInRepo(
+		FileTagging tagging, 
+		boolean showErrors
+	)
+	{
+		try {
+			boolean updated;
+		    updated = fileTaggingDAO.update(tagging, tagging.getTaggingId());
+
+			if (!updated && showErrors) {
+				GUIUtil.showErrorDialog(
+					"Failed to update the file tagging in the repository."
+				);
+			}
+
+			return updated;
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"An repository error occurred while updating the file"
+					+ " tagging.",
+					e.toString()
+				);
+			}
+		}
+
+		return false;
+	}
+
+	/** Updates a Collection of FileTaggings in the repository.
+	  @param taggings a Collection<FileTagging> to update
+	  @param showErrors if true, errors are displayed to the user
+	  @return true if no errors occurred
+	  */
+	public boolean updateFileTaggingsInRepo(
+		Collection<FileTagging> taggings,
+		boolean showErrors
+	)
+	{
+		boolean taggingsAreUpdated = true;
+
+		for (FileTagging ft : taggings) {
+			if (updateFileTaggingInRepo(ft, true) == false) {
+				taggingsAreUpdated = false;
+			}
+		}		
+
+		return taggingsAreUpdated;
+	}
+
+
 	//************************************************************	
 	// PRIVATE CLASS methods
 	//************************************************************	
