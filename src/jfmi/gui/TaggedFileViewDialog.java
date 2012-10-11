@@ -1,8 +1,13 @@
 package jfmi.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -31,11 +36,12 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 	private JButton removeTagButton;
 	private JButton saveFileButton;
 
-	private JList fileTagList;
+	private JList fileTagJList;
 	private JTextArea tagCommentArea;
 
 	private Box fileInfoBox;
 	private Box fileTaggingBox;
+	private Box saveFileBox;
 
 	private TaggedFileHandler fileHandler;
 	private TaggedFile displayedFile;
@@ -57,16 +63,12 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 		init(fileHandler_);
 		initFileInfoBox();
 		initFileTaggingBox();
+		initSaveFileBox();
 
 		// Add child components
-		Box content = Box.createVerticalBox();
-		content.add(Box.createVerticalStrut(5));
-		content.add(fileInfoBox);
-		content.add(Box.createVerticalStrut(10));
-		content.add(fileTaggingBox);
-		content.add(Box.createVerticalStrut(5));
-
-		add(content);
+		add(fileInfoBox, BorderLayout.NORTH);
+		add(fileTaggingBox, BorderLayout.CENTER);
+		add(saveFileBox, BorderLayout.SOUTH);
 
 		// Not visible initially	
 		setVisible(false);
@@ -128,7 +130,9 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 	private final void init(TaggedFileHandler fileHandler_)
 	{
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		setLayout(new BorderLayout(5, 5));
 		setFileHandler(fileHandler_);	
+		Styles.setAllSizes(this, new Dimension(600, 400));
 	}
 
 	/** Initializes the file information box, which displays the file path
@@ -137,7 +141,7 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 	private final void initFileInfoBox()
 	{
 		// Set up left part of fileInfoBox
-		fileNameLabel = new JLabel("");
+		fileNameLabel = new JLabel("No file loaded");
 
 		filePathLabel = new JLabel("");
 
@@ -156,6 +160,7 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 
 		// Set up fileInfoBox
 		fileInfoBox = Box.createHorizontalBox();
+		fileInfoBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY));
 		fileInfoBox.add(leftBox);
 		fileInfoBox.add(rightBox);
 	}
@@ -166,37 +171,58 @@ public class TaggedFileViewDialog extends JDialog implements ActionListener {
 	private final void initFileTaggingBox()
 	{
 		// Set up left part of box
-		fileTagList = new JList();		
-		fileTagList.setBorder(new EmptyBorder(2, 2, 2, 2));
+		JLabel fileTagLabel = new JLabel("File Tags");
+		fileTagLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		fileTagJList = new JList();		
+		fileTagJList.setLayoutOrientation(JList.VERTICAL);
+		JScrollPane fileTagScroller = new JScrollPane(fileTagJList);
+		fileTagScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		addTagButton = new JButton("Add Tag");
 
 		removeTagButton = new JButton("Remove Tag");
 		removeTagButton.setForeground(Styles.DANGER_COLOR);
+		
+		Box buttonBox = Box.createHorizontalBox();
+		buttonBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+		buttonBox.setMaximumSize(new Dimension(300, addTagButton.getHeight()));
+		buttonBox.add(addTagButton);
+		buttonBox.add(Box.createHorizontalStrut(10));
+		buttonBox.add(removeTagButton);
 
 		Box leftBox = Box.createVerticalBox();
-		leftBox.setBorder(new EmptyBorder(2, 2, 2, 2));
-		leftBox.add(new JLabel("File's Tags"));
-		leftBox.add(fileTagList);
-		leftBox.add(addTagButton);
-		leftBox.add(removeTagButton);
+		leftBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY));
+		leftBox.setMaximumSize(new Dimension(300, 800));
+		leftBox.add(fileTagLabel);
+		leftBox.add(fileTagScroller);
+		leftBox.add(buttonBox);
 
 		// Set up right part of box
 		tagCommentArea = new JTextArea();
-		tagCommentArea.setBorder(new EmptyBorder(2, 2, 2, 2));
-
-		saveFileButton = new JButton("Save File");
+		JScrollPane tagCommentScroller = new JScrollPane(tagCommentArea);
 
 		Box rightBox = Box.createVerticalBox();
-		rightBox.setBorder(new EmptyBorder(2, 2, 2, 2));
+		rightBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY));
 		rightBox.add(new JLabel("Tag Comments"));
-		rightBox.add(tagCommentArea);
-		rightBox.add(saveFileButton);
+		rightBox.add(tagCommentScroller);
 
 		// Set up fileTaggingBox
 		fileTaggingBox = Box.createHorizontalBox();
 		fileTaggingBox.add(leftBox);
+		fileTaggingBox.add(Box.createHorizontalStrut(30));
 		fileTaggingBox.add(rightBox);
+	}
+
+	/** Initializes the box containing the save button.
+	  */
+	private final void initSaveFileBox()
+	{
+		saveFileButton = new JButton("Save File");
+
+		saveFileBox = Box.createHorizontalBox();
+		saveFileBox.setBorder(new EmptyBorder(10, 10, 10, 10));
+		saveFileBox.add(saveFileButton);
 	}
 
 
