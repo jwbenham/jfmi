@@ -40,7 +40,7 @@ public class TaggedFileViewDialog extends JDialog
 	private JButton removeTagButton;
 	private JButton saveFileButton;
 
-	private JList<FileTagging> tagJList;
+	private JList<FileTagging> taggingJList;
 	private JTextArea commentArea;
 
 	private Box fileInfoBox;
@@ -109,7 +109,7 @@ public class TaggedFileViewDialog extends JDialog
 	public void updateDisplay()
 	{
 		updateFileInfo();
-		updateTagJList();
+		updateTaggingJList();
 		updateCommentArea();
 	}
 
@@ -136,13 +136,13 @@ public class TaggedFileViewDialog extends JDialog
 	/** Updates the displayed file's tags with information from the instance's 
 	  FileTag.
 	  */
-	public void updateTagJList()
+	public void updateTaggingJList()
 	{
 		FileTagging[] taggings = displayedFile.getFileTaggingsAsArray();
 
 		if (taggings != null) {
-			tagJList.setListData(taggings);
-			tagJList.setSelectedIndex(0);
+			taggingJList.setListData(taggings);
+			taggingJList.setSelectedIndex(0);
 		}
 	}
 
@@ -151,7 +151,7 @@ public class TaggedFileViewDialog extends JDialog
 	  */
 	public void updateCommentArea()
 	{
-		FileTagging selectedTagging = tagJList.getSelectedValue();
+		FileTagging selectedTagging = taggingJList.getSelectedValue();
 
 		if (selectedTagging == null) {
 			return;
@@ -222,10 +222,10 @@ public class TaggedFileViewDialog extends JDialog
 		JLabel fileTagLabel = new JLabel("File Tags");
 		fileTagLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-		tagJList = new JList<FileTagging>();		
-		tagJList.addListSelectionListener(this);
-		tagJList.setLayoutOrientation(JList.VERTICAL);
-		JScrollPane fileTagScroller = new JScrollPane(tagJList);
+		taggingJList = new JList<FileTagging>();		
+		taggingJList.addListSelectionListener(this);
+		taggingJList.setLayoutOrientation(JList.VERTICAL);
+		JScrollPane fileTagScroller = new JScrollPane(taggingJList);
 		fileTagScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		addTagButton = new JButton("Add Tag");
@@ -315,7 +315,7 @@ public class TaggedFileViewDialog extends JDialog
 	{
 		Object source = e.getSource();
 
-		if (source == tagJList) {
+		if (source == taggingJList) {
 			updateCommentArea();
 		}	
 	}
