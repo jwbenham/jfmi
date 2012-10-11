@@ -253,8 +253,13 @@ public class TaggedFileHandler {
 	public boolean updateFileTaggingsInRepo(TaggedFile updateMe, 
 											boolean showErrors)
 	{
-		
-		return false;
+		boolean updated;
+		updated = jfmiApp.getTaggingHandler().updateFileTaggingsInRepo(
+			updateMe.getFileTaggings(),
+			showErrors
+		);		
+
+		return updated;
 	}
 
 	/** Updates the specified TaggedFile's file information (id, path) as well

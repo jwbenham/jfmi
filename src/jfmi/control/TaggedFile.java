@@ -101,6 +101,14 @@ public class TaggedFile {
 		return str.toString();
 	}
 
+	/** Return a reference to this TaggedFile's taggings.
+	  @return a List<FileTagging> of this file's taggings
+	  */
+	public List<FileTagging> getFileTaggings()
+	{
+		return fileTaggings;
+	}
+
 	/** Returns the TaggedFile's list of FileTaggings as an array.
 	  @return an array of this file's taggings - null if none exist
 	  */
