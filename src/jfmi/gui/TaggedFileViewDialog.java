@@ -131,6 +131,7 @@ public class TaggedFileViewDialog extends JDialog
 	public void updateDisplay()
 	{
 		updateFileInfo();
+		updateTagJList();
 		updateTaggingJList();
 		updateCommentArea();
 	}
@@ -259,11 +260,20 @@ public class TaggedFileViewDialog extends JDialog
 		JLabel fileTagLabel = new JLabel("File Tags");
 		fileTagLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+		tagJList = new JList<FileTag>();
+		tagJList.setLayoutOrientation(JList.VERTICAL);
+		JScrollPane allTagScroller = new JScrollPane(tagJList);
+		allTagScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
+
 		taggingJList = new JList<FileTagging>();		
 		taggingJList.addListSelectionListener(this);
 		taggingJList.setLayoutOrientation(JList.VERTICAL);
 		JScrollPane fileTagScroller = new JScrollPane(taggingJList);
 		fileTagScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		Box listBox = Box.createHorizontalBox();
+		listBox.add(allTagScroller);
+		listBox.add(fileTagScroller);
 
 		addTagButton = new JButton("Add Tag");
 		addTagButton.addActionListener(this);
@@ -281,9 +291,9 @@ public class TaggedFileViewDialog extends JDialog
 
 		Box leftBox = Box.createVerticalBox();
 		leftBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY));
-		leftBox.setMaximumSize(new Dimension(300, 800));
+		leftBox.setMaximumSize(new Dimension(600, 800));
 		leftBox.add(fileTagLabel);
-		leftBox.add(fileTagScroller);
+		leftBox.add(listBox);
 		leftBox.add(buttonBox);
 
 		// Set up right part of box
