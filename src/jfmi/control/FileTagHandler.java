@@ -202,6 +202,29 @@ public class FileTagHandler {
 		return fileTagData;
 	}
 
+	/** Reads all file tags from the repository, and updates the handler's
+	  data list.
+	  @param showErrors if true, error messages are displayed
+	  */
+	public boolean readFileTagDataFromRepo(boolean showErrors)
+	{
+		try {
+			setFileTagData(fileTagDAO.readAll());
+			return true;
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"An error occurred refreshing the list of tags from the"
+					+ " repository.",
+					e.toString()
+				);
+			}
+		}
+
+		return false;
+	}
+
 	/** Sets the handler's file tag data from a Collection of FileTag.
 	  @param tags the handler's tag data is initialized from this parameter
 	  */
@@ -303,27 +326,6 @@ public class FileTagHandler {
 		return input;
 	}
 
-	/** Reads all file tags from the repository, and updates the handler's
-	  data list.
-	  @param showErrors if true, error messages are displayed
-	  */
-	private boolean readFileTagDataFromRepo(boolean showErrors)
-	{
-		try {
-			setFileTagData(fileTagDAO.readAll());
-			return true;
-
-		} catch (SQLException e) {
-			if (showErrors) {
-				GUIUtil.showErrorDialog(
-					"An error occurred refreshing the list of tags from the"
-					+ " repository.",
-					e.toString()
-				);
-			}
-		}
-
-		return false;
-	}
+	
 
 }
