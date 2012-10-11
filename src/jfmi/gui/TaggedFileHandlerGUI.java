@@ -40,6 +40,21 @@ public class TaggedFileHandlerGUI {
 	  */
 	public File[] displayFileChooser()
 	{
+		return displayFileChooser(null);
+	}
+
+	/** Displays a window for the user to select one or more files and/or
+	  directories.
+	  @param currentPath this file's path will be used as the current path
+	  @return an array of selected files if the user indicated approval, else
+	  		null if the user cancelled
+	  */
+	public File[] displayFileChooser(File currentPath)
+	{
+		if (currentPath != null) {
+			fileChooser.setCurrentDirectory(currentPath);
+		}
+
 		int returnVal = fileChooser.showDialog(jfmiGUI, "Choose File");
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
