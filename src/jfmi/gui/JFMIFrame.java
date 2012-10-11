@@ -152,11 +152,11 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		buttonBox.add(manageTagsButton);
 		buttonBox.add(Box.createVerticalStrut(50));
 		buttonBox.add(addFileButton);
-		buttonBox.add(Box.createVerticalStrut(10));
+		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(editFileButton);
-		buttonBox.add(Box.createVerticalStrut(10));
+		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(viewFileButton);
-		buttonBox.add(Box.createVerticalStrut(10));
+		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(deleteFilesButton);
 		buttonBox.add(Box.createVerticalStrut(50));
 	}
