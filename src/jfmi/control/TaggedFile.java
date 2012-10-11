@@ -16,6 +16,7 @@ public class TaggedFile {
 	private File file;
 	private List<FileTagging> fileTaggings;
 
+
 	//************************************************************
 	// PUBLIC INSTANCE Methods
 	//************************************************************
@@ -98,6 +99,18 @@ public class TaggedFile {
 		}
 
 		return str.toString();
+	}
+
+	/** Returns the TaggedFile's list of FileTaggings as an array.
+	  @return an array of this file's taggings - null if none exist
+	  */
+	public FileTagging[] getFileTaggingsAsArray()
+	{
+		if (fileTaggings == null || fileTaggings.isEmpty()) {
+			return null;
+		}
+
+		return fileTaggings.toArray(new FileTagging[0]);
 	}
 
 	/** Sets this instance's file field.
