@@ -213,6 +213,63 @@ public class TaggedFileHandler {
 		return readSuccess;
 	}
 
+	/** Updates a TaggedFile's file information (id, path) in the repository.
+	  @param updateMe the TaggedFile to update
+	  @param showErrors if true, errors are displayed to the user
+	  @return true if the update was performed successfully
+	  */ 
+	public boolean updateFileInfoInRepo(TaggedFile updateMe, boolean showErrors)
+	{
+		try {
+			boolean success;
+		    success = taggedFileDAO.update(updateMe, updateMe.getFileId());
+
+			if (!success && showErrors) {
+				GUIUtil.showErrorDialog(
+					"Failed to update the file in the repository."
+				);
+			}
+
+			return success;
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"An error occurred with the repository while performing"
+					+ " the update.",
+					e.toString()
+				);
+			}
+		}
+
+		return false;
+	}
+
+	/** Updates a TaggedFile's file taggings in the repository.
+	  @param updateMe the TaggedFile to update
+	  @param showErrors if true, errors are displayed to the user
+	  @return true if the update was performed successfully
+	  */ 
+	public boolean updateFileTaggingsInRepo(TaggedFile updateMe, 
+											boolean showErrors)
+	{
+		
+		return false;
+	}
+
+	/** Updates the specified TaggedFile's file information (id, path) as well
+	  as it's file taggings in the repository.
+	  @param updateMe the TaggedFile to update
+	  @param showErrors if true, errors are displayed to the user
+	  @return true if the update was performed successfully
+	  */
+	public boolean updateTaggedFileInRepo(TaggedFile updateMe, 
+											boolean showErrors)
+	{
+		boolean updatedInfo = updateFileInfoInRepo(updateMe, showErrors);
+		boolean updatedTaggings = updateFileTaggingsInRepo(updateMe, showErrors);
+		return updatedInfo && updatedTaggings;
+	}
 
 	//************************************************************	
 	// PRIVATE INSTANCE Methods
