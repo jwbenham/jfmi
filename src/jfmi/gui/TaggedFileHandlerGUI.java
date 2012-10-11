@@ -64,14 +64,12 @@ public class TaggedFileHandlerGUI {
 		}
 	}
 
-	/** Displays a file viewer for the user to see and update TaggedFile
-	  information.
-	  @param viewMe the TaggedFile do be displayed
+	/** Provides access to the file viewer.
+	  @return a reference to the file viewer
 	  */
-	public void displayFileViewer(TaggedFile viewMe)
+	public TaggedFileViewDialog getFileViewer()
 	{
-		fileViewer.updateDisplayedFile(viewMe);
-		fileViewer.setVisible(true);
+		return fileViewer;
 	}
 
 	/** Prompts a user to confirm an action with the specified message, and 

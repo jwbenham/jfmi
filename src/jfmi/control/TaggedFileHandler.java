@@ -120,13 +120,36 @@ public class TaggedFileHandler {
 		updateDataAndGUI(true);
 	}
 
+	
 	public void beginUpdateFilePathInteraction(TaggedFile updateMe)
 	{
 		// Get an updated path from the user
+		File[] selected = fileGUI.displayFileChooser(updateMe.getFile());
+		if (selected == null) {
+			return;
+		}
+
+		// Set the new path in the file and redisplay
+		updateMe.setFile(selected[0]);
+		fileGUI.getFileViewer().updateDisplayedFile(updateMe);	
+	}
+
+	public void beginSaveFileInteraction(TaggedFile saveMe)
+	{
 		// Confirm the update
+		boolean confirmed = fileGUI.getConfirmation("Are you sure you want to "
+													+ "save any file changes?");
+		if (!confirmed) {
+			return;
+		}
+
 		// Update the repository
-		// Update the current file
-		// Redisplay the current file
+		if (updateTaggedFileInRepo(saveMe, true)) {
+			GUIUtil.showAlert("File saved successfully.");
+
+			// Redisplay the current file
+			fileGUI.getFileViewer().updateDisplayedFile(saveMe);
+		}
 	}
 
 	/** Begins an interaction with the user that allows them to view and
@@ -135,7 +158,8 @@ public class TaggedFileHandler {
 	  */
 	public void beginViewFileInteraction(TaggedFile viewMe)
 	{
-		fileGUI.displayFileViewer(viewMe);
+		fileGUI.getFileViewer().updateDisplayedFile(viewMe);
+		fileGUI.getFileViewer().setVisible(true);
 	}
 
 	/** Deletes the TaggedFiles in the specified list from the repository.

@@ -200,6 +200,7 @@ public class TaggedFileViewDialog extends JDialog
 
 		// Set up right part of fileInfoBox
 		changePathButton = new JButton("Change Path");
+		changePathButton.addActionListener(this);
 
 		Box rightBox = Box.createVerticalBox();
 		rightBox.setBorder(new EmptyBorder(2, 2, 2, 2));
@@ -228,8 +229,10 @@ public class TaggedFileViewDialog extends JDialog
 		fileTagScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		addTagButton = new JButton("Add Tag");
+		addTagButton.addActionListener(this);
 
 		removeTagButton = new JButton("Remove Tag");
+		removeTagButton.addActionListener(this);
 		removeTagButton.setForeground(Styles.DANGER_COLOR);
 		
 		Box buttonBox = Box.createHorizontalBox();
@@ -267,6 +270,7 @@ public class TaggedFileViewDialog extends JDialog
 	private final void initSaveFileBox()
 	{
 		saveFileButton = new JButton("Save File");
+		saveFileButton.addActionListener(this);
 
 		saveFileBox = Box.createHorizontalBox();
 		saveFileBox.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -287,13 +291,13 @@ public class TaggedFileViewDialog extends JDialog
 		Object source = e.getSource();
 
 		if (source == changePathButton) {
-
+			fileHandler.beginUpdateFilePathInteraction(displayedFile);
 		} else if (source == addTagButton) {
 
 		} else if (source == removeTagButton) {
 
 		} else if (source == saveFileButton) {
-
+			fileHandler.beginSaveFileInteraction(displayedFile);
 		}
 
 	}

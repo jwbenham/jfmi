@@ -213,7 +213,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			if (selectedFile != null) {
 				jfmiApp.getFileHandler().beginViewFileInteraction(selectedFile);
 			} else {
-				JOptionPane.showMessageDialog(this, "No file selected.");
+				GUIUtil.showAlert("No file selected.");
 			}
 
 		} else if (src == deleteFilesButton) {

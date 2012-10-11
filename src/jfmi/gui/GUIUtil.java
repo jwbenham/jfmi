@@ -7,7 +7,21 @@ import javax.swing.JOptionPane;
 public final class GUIUtil {
 
 	/** Uses the JOptionPane.showMessageDialog() method to display the
-	  specified message.
+	  specified alert message.
+	  @param message The message to display.
+	  */
+	public static void showAlert(String message)
+	{
+		JOptionPane.showMessageDialog(
+			null, 
+			message,
+			"JFMI Alert",
+			JOptionPane.INFORMATION_MESSAGE
+		);
+	}
+
+	/** Uses the JOptionPane.showMessageDialog() method to display the
+	  specified error message.
 	  @param message The message to display.
 	  */
 	public static void showErrorDialog(String message)
