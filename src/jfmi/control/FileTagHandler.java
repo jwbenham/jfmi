@@ -219,6 +219,7 @@ public class FileTagHandler {
 	/** Reads all file tags from the repository, and updates the handler's
 	  data list.
 	  @param showErrors if true, error messages are displayed
+	  @return true if no errors occurred
 	  */
 	public boolean readFileTagDataFromRepo(boolean showErrors)
 	{
