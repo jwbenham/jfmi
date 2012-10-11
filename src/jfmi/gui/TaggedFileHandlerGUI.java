@@ -3,6 +3,7 @@ package jfmi.gui;
 import java.io.File;
 import javax.swing.JFileChooser;
 
+import jfmi.control.JFMIApp;
 import jfmi.control.TaggedFileHandler;
 import jfmi.control.TaggedFile;
 
@@ -21,15 +22,14 @@ public class TaggedFileHandlerGUI {
 	// PUBLIC INSTANCE Methods
 	//************************************************************
 
-	/** Constructs a TaggedFileHandlerGUI that will use the specified
-	  JFMIFrame as a parent component, and be associated with the specified
-	  TaggedFileHandler.
-	  @param jfmiGUI_ the JFMIFrame this object uses for a parent component
-	  @param handler_ the TaggedFileHandler this object is associated with
+	/** Constructs a TaggedFileHandlerGUI that will use the specified JFMIApp
+	  for determining which GUIs and handlers it is associated with.
+	  @param jfmiApp_ the JFMIApp that this instance should access other GUIs
+	  				and handlers from
 	  */
-	public TaggedFileHandlerGUI(JFMIFrame jfmiGUI_, TaggedFileHandler handler_)
+	public TaggedFileHandlerGUI(JFMIApp jfmiApp_)
 	{
-		init(jfmiGUI_, handler_);
+		init(jfmiApp_);
 		initFileChooser();
 	}
 
@@ -109,22 +109,24 @@ public class TaggedFileHandlerGUI {
 		jfmiGUI = jfmiGUI_;
 	}
 
-
+	
 	//************************************************************
 	// PRIVATE INSTANCE Methods
 	//************************************************************
 
 	/** Initialize the instance.
-	  @param jfmiGUI_ the JFMIFrame to use as a parent component
-	  @param handler_ the TaggedFileHandler this object is associated with
+	  @param jfmiApp_ the JFMIApp that this instance should access other GUIs
+	  				and handlers from
 	  @throws IllegalArgumentException if jfmiGUI_ or handler_ is null
 	  */
-	private final void init(JFMIFrame jfmiGUI_, TaggedFileHandler handler_)
+	private final void init(JFMIApp jfmiApp_)
 	{
-		setFileHandler(handler_);
-		setJFMIGUI(jfmiGUI_);
+		setFileHandler(jfmiApp_.getFileHandler());
+		setJFMIGUI(jfmiApp_.getJFMIGUI());
 
-		fileViewer = new TaggedFileViewDialog(jfmiGUI, fileHandler);
+		fileViewer = new TaggedFileViewDialog(jfmiGUI, 
+											  fileHandler, 
+											  jfmiApp_.getTagHandler());
 	}
 
 	/** Initialize the file chooser.

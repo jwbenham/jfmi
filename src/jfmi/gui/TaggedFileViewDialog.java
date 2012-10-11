@@ -20,6 +20,8 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import jfmi.control.FileTag;
+import jfmi.control.FileTagHandler;
 import jfmi.control.FileTagging;
 import jfmi.control.TaggedFile;
 import jfmi.control.TaggedFileHandler;
@@ -40,6 +42,7 @@ public class TaggedFileViewDialog extends JDialog
 	private JButton removeTagButton;
 	private JButton saveFileButton;
 
+	private JList<FileTag> tagJList;
 	private JList<FileTagging> taggingJList;
 	private JTextArea commentArea;
 
@@ -47,6 +50,7 @@ public class TaggedFileViewDialog extends JDialog
 	private Box fileTaggingBox;
 	private Box saveFileBox;
 
+	private FileTagHandler tagHandler;
 	private TaggedFileHandler fileHandler;
 	private TaggedFile displayedFile;
 
@@ -57,14 +61,19 @@ public class TaggedFileViewDialog extends JDialog
 	/** Constructs a TaggedFileViewPanel.
 	  @param parent a JFrame to server as this dialog's owner
 	  @param fileHandler_ file handler to associate with this instance
+	  @param tagHandler_ tag handler to associate with this instance
 	  @throws IllegalArgumentException if fileHandler_ is null
 	  */
-	public TaggedFileViewDialog(JFrame parent, TaggedFileHandler fileHandler_)
+	public TaggedFileViewDialog(
+		JFrame parent, 
+		TaggedFileHandler fileHandler_,
+		FileTagHandler tagHandler_
+	)
 	{
 		super(parent, "File Viewer", true);
 
 		// Initialize fields and child components
-		init(fileHandler_);
+		init(fileHandler_, tagHandler_);
 		initFileInfoBox();
 		initFileTaggingBox();
 		initSaveFileBox();
@@ -102,6 +111,19 @@ public class TaggedFileViewDialog extends JDialog
 		}
 
 		fileHandler = fileHandler_;
+	}
+
+	/** Sets this object's associated FileTagHandler.
+	  @param tagHandler_ the tag handler to associate with this instance
+	  @throws IllegalArgumentException if tagHandler_ is null
+	  */
+	public void setTagHandler(FileTagHandler tagHandler_)
+	{
+		if (tagHandler_ == null) {
+			throw new IllegalArgumentException("tagHandler_ cannot be null");
+		}
+
+		tagHandler = tagHandler_;
 	}
 
 	/** Updates the information displayed by all of this instance's components.
@@ -174,11 +196,13 @@ public class TaggedFileViewDialog extends JDialog
 	  @param fileHandler_ file handler to associate with this instance
 	  @throws IllegalArgumentException if fileHandler_ is null
 	  */
-	private final void init(TaggedFileHandler fileHandler_)
+	private final void init(TaggedFileHandler fileHandler_,
+							FileTagHandler tagHandler_ )
 	{
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setLayout(new BorderLayout(5, 5));
 		setFileHandler(fileHandler_);	
+		setTagHandler(tagHandler_);
 		Styles.setAllSizes(this, new Dimension(600, 400));
 	}
 
