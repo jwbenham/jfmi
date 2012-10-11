@@ -120,6 +120,15 @@ public class TaggedFileHandler {
 		updateDataAndGUI(true);
 	}
 
+	public void beginUpdateFilePathInteraction(TaggedFile updateMe)
+	{
+		// Get an updated path from the user
+		// Confirm the update
+		// Update the repository
+		// Update the current file
+		// Redisplay the current file
+	}
+
 	/** Begins an interaction with the user that allows them to view and
 	  update a file.
 	  @param viewMe the file to view
