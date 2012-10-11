@@ -21,7 +21,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import jfmi.control.FileTag;
-import jfmi.control.FileTagHandler;
 import jfmi.control.FileTagging;
 import jfmi.control.TaggedFile;
 import jfmi.control.TaggedFileHandler;
@@ -50,7 +49,6 @@ public class TaggedFileViewDialog extends JDialog
 	private Box fileTaggingBox;
 	private Box saveFileBox;
 
-	private FileTagHandler tagHandler;
 	private TaggedFileHandler fileHandler;
 	private TaggedFile displayedFile;
 
@@ -61,19 +59,14 @@ public class TaggedFileViewDialog extends JDialog
 	/** Constructs a TaggedFileViewPanel.
 	  @param parent a JFrame to server as this dialog's owner
 	  @param fileHandler_ file handler to associate with this instance
-	  @param tagHandler_ tag handler to associate with this instance
 	  @throws IllegalArgumentException if fileHandler_ is null
 	  */
-	public TaggedFileViewDialog(
-		JFrame parent, 
-		TaggedFileHandler fileHandler_,
-		FileTagHandler tagHandler_
-	)
+	public TaggedFileViewDialog(JFrame parent, TaggedFileHandler fileHandler_)
 	{
 		super(parent, "File Viewer", true);
 
 		// Initialize fields and child components
-		init(fileHandler_, tagHandler_);
+		init(fileHandler_);
 		initFileInfoBox();
 		initFileTaggingBox();
 		initSaveFileBox();
@@ -113,19 +106,6 @@ public class TaggedFileViewDialog extends JDialog
 		fileHandler = fileHandler_;
 	}
 
-	/** Sets this object's associated FileTagHandler.
-	  @param tagHandler_ the tag handler to associate with this instance
-	  @throws IllegalArgumentException if tagHandler_ is null
-	  */
-	public void setTagHandler(FileTagHandler tagHandler_)
-	{
-		if (tagHandler_ == null) {
-			throw new IllegalArgumentException("tagHandler_ cannot be null");
-		}
-
-		tagHandler = tagHandler_;
-	}
-
 	/** Updates the information displayed by all of this instance's components.
 	  */
 	public void updateDisplay()
@@ -160,13 +140,6 @@ public class TaggedFileViewDialog extends JDialog
 	  */
 	public void updateTagJList()
 	{
-		if (tagHandler.readFileTagDataFromRepo(true)) {
-
-			FileTag[] tags = tagHandler.getFileTagDataAsArray();
-			if (tags != null) {
-				tagJList.setListData(tags);
-			}
-		}
 	}
 
 	/** Updates the displayed file's tags with information from the instance's 
@@ -210,13 +183,11 @@ public class TaggedFileViewDialog extends JDialog
 	  @param fileHandler_ file handler to associate with this instance
 	  @throws IllegalArgumentException if fileHandler_ is null
 	  */
-	private final void init(TaggedFileHandler fileHandler_,
-							FileTagHandler tagHandler_ )
+	private final void init(TaggedFileHandler fileHandler_)
 	{
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setLayout(new BorderLayout(5, 5));
 		setFileHandler(fileHandler_);	
-		setTagHandler(tagHandler_);
 		Styles.setAllSizes(this, new Dimension(600, 400));
 	}
 

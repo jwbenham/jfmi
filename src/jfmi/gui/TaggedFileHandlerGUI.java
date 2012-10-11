@@ -24,12 +24,13 @@ public class TaggedFileHandlerGUI {
 
 	/** Constructs a TaggedFileHandlerGUI that will use the specified JFMIApp
 	  for determining which GUIs and handlers it is associated with.
-	  @param jfmiApp_ the JFMIApp that this instance should access other GUIs
-	  				and handlers from
+	  @param jfmiGUI_ frame to be used for a component parent
+	  @param handler_ TaggedFileHandler to be associated with this object
+	  @throws IllegalArgumentException if jfmiGUI_ or handler_ is null
 	  */
-	public TaggedFileHandlerGUI(JFMIApp jfmiApp_)
+	public TaggedFileHandlerGUI(JFMIFrame jfmiGUI_, TaggedFileHandler handler_)
 	{
-		init(jfmiApp_);
+		init(jfmiGUI_, handler_);
 		initFileChooser();
 	}
 
@@ -115,18 +116,16 @@ public class TaggedFileHandlerGUI {
 	//************************************************************
 
 	/** Initialize the instance.
-	  @param jfmiApp_ the JFMIApp that this instance should access other GUIs
-	  				and handlers from
-	  @throws IllegalArgumentException if jfmiGUI_ or handler_ is null
+	  @param jfmiGUI_ frame to be used for a component parent
+	  @param handler_ TaggedFileHandler to be associated with this object
+	  @throws IllegalArgumentException if jfmiGUI_ or fileHandler_ is null
 	  */
-	private final void init(JFMIApp jfmiApp_)
+	private final void init(JFMIFrame jfmiGUI_, TaggedFileHandler fileHandler_)
 	{
-		setFileHandler(jfmiApp_.getFileHandler());
-		setJFMIGUI(jfmiApp_.getJFMIGUI());
+		setFileHandler(fileHandler_);
+		setJFMIGUI(jfmiGUI_);
 
-		fileViewer = new TaggedFileViewDialog(jfmiGUI, 
-											  fileHandler, 
-											  jfmiApp_.getTagHandler());
+		fileViewer = new TaggedFileViewDialog(jfmiGUI, fileHandler);
 	}
 
 	/** Initialize the file chooser.
