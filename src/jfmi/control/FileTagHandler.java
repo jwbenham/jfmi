@@ -193,13 +193,27 @@ public class FileTagHandler {
 		return false;
 	}
 
-	/** Accessor for the fileTagData field. This may be null.
+	/** Accessor for the fileTagData field. This may be null. The method
+	  readFileTagDataFromRepo() should be called before this method.
 	  @return Access to the list of tag records this instance has retrieved
 	  		from the application repository.
 	  */
 	public List<FileTag> getFileTagData()
 	{
 		return fileTagData;
+	}
+
+	/** Accessor for the fileTagData field. This may be null. The method
+	  readFileTagDataFromRepo() should be called before this method.
+	  @return an array of file tags from the repository 
+	  */
+	public FileTag[] getFileTagDataAsArray()
+	{
+		if (fileTagData == null) {
+			return null;
+		} else {
+			return fileTagData.toArray(new FileTag[0]);
+		}
 	}
 
 	/** Reads all file tags from the repository, and updates the handler's
