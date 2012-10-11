@@ -155,6 +155,19 @@ public class TaggedFileViewDialog extends JDialog
 		filePathLabel.setText(displayedFile.getFilePath());
 	}
 
+	/** Updates the displayed list of tags.
+	  */
+	public void updateTagJList()
+	{
+		if (tagHandler.readFileTagDataFromRepo(true)) {
+
+			FileTag[] tags = tagHandler.getFileTagDataAsArray();
+			if (tags != null) {
+				tagJList.setListData(tags);
+			}
+		}
+	}
+
 	/** Updates the displayed file's tags with information from the instance's 
 	  FileTag.
 	  */
