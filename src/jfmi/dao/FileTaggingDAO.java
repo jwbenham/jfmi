@@ -148,7 +148,8 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 				ResultSet rs = ps.executeQuery();
 
 				try {
-					TreeSet<FileTagging> set = new TreeSet<FileTagging>();
+					TreeSet<FileTagging> set;
+				    set = new TreeSet<FileTagging>(new FileTaggingComparator());
 					FileTagging next;
 
 					while (rs.next()) {
@@ -191,7 +192,8 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 				ResultSet rs = stmt.executeQuery(READ_ALL_SQL);
 
 				try {
-					TreeSet<FileTagging> set = new TreeSet<FileTagging>();
+					TreeSet<FileTagging> set;
+				    set = new TreeSet<FileTagging>(new FileTaggingComparator());
 					FileTagging next = null;
 
 					while (rs.next()) {
