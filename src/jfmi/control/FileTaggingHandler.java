@@ -33,6 +33,36 @@ public class FileTaggingHandler {
 		init(jfmiApp_);
 	}
 
+	/** Creates the specified tagging in the repository.
+	  @param tagging the FileTagging to add to the repository
+	  @param showErrors if true, errors will be displayed
+	  @return true if no errors occurred
+	  */
+	public boolean addTaggingToRepo(FileTagging tagging, boolean showErrors)
+	{
+		try {
+			boolean created = fileTaggingDAO.create(tagging);
+
+			if (!created && showErrors) {
+				GUIUtil.showErrorDialog(
+					"Could not create the tagging in the repository."
+					+ " This may be because it already exists."
+				);
+			}
+			
+			return created;
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"A repository error occurred while updating a tagging.",
+					e.toString()
+				);
+			}
+		}
+
+		return false;
+	}
+
 	/** Deletes a subset of FileTaggings from the underlying repository,
 	  identified by the specified FileTag collection.
 	  @param tags a collection of tags by which to target taggings for deletion
