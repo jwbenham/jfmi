@@ -143,6 +143,27 @@ public class TaggedFileHandler {
 		updateDataAndGUI(true);
 	}
 
+	/** Begins an interaction with the user which remoevs a tagging from an 
+	  EditedTaggedFile and redisplays the file's information to the user.
+	  @param updateMe the EditedTaggedFile from which to remove a tagging
+	  @param newTagging the FileTagging to remoev from the file
+	  */
+	public void beginRemoveTaggingInteraction(EditedTaggedFile updateMe,
+											  FileTagging deadTagging)
+	{
+		TreeSet<FileTagging> removedTaggings = updateMe.getRemovedTaggings();	
+
+		if (removedTaggings == null) {
+			removedTaggings = new TreeSet<FileTagging>();
+			removedTaggings.add(deadTagging);
+			updateMe.setRemovedTaggings(removedTaggings);
+		} else {
+			removedTaggings.add(deadTagging);
+		}
+
+		fileGUI.getFileViewer().updateDisplayedFile(updateMe);
+	}
+
 	/** Begins an interaction which allows the user to update the specified
   	  file's path.
 	  @param updateMe the EditedTaggedFile whose path will be updated
