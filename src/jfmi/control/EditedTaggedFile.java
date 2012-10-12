@@ -138,17 +138,22 @@ public class EditedTaggedFile {
 
 	/** Tries to make a FileTagging a member of the set of taggings to be
 	  added to the file. This fails if the specified FileTagging is already
-	  in the repository, or already in the added set.
+	  in the repository, or already in the added set. 
 	  @param addMe the FileTagging to be added
-	  @return true if the argument if was a valid tagging to be added
+	  @return true if the argument was a valid tagging to be added, and was not
+	  		already saved or added
 	  */
-	public boolean assignAdded() 
+	public boolean assignAdded(FileTagging addMe) 
 	{
 		// Check if already saved - exit if true
-		// Check if already added - exit if true
-		// Add it to added
-		// Remove it from removed if it exists
-		return false;
+		if (editedFile.getFileTaggings().contains(addMe)) {
+			return false;
+		}
+
+		// Add it to added, remove it from removed if it exists
+		removedTaggings.remove(addMe);
+
+		return addedTaggings.add(addMe);
 	}
 
 	/** Assigns a FileTagging to the set of taggings to be removed from the 
