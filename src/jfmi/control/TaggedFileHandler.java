@@ -328,13 +328,30 @@ public class TaggedFileHandler {
 											boolean showErrors)
 	{
 		FileTaggingHandler taggingHandler = jfmiApp.getTaggingHandler();	
+		TreeSet<FileTagging> added = updateMe.getAddedTaggings();
+		TreeSet<FileTagging> removed = updateMe.getRemovedTaggings();
+		TreeSet<FileTagging> updated = updateMe.getUpdatedTaggings();
+		boolean goodAdd = false;
+		boolean goodRemove = false;
+		boolean goodUpdate = false;
 
-		boolean updated = taggingHandler.updateFileTaggingsInRepo(
-								updateMe.getUpdatedTaggings(),
-								showErrors
-							);		
+		/*
+		if (added != null && !added.isEmpty()) {
+			goodAdd = taggingHandler.updateFileTaggingsInRepo(added, 
+															  showErrors);		
+		}
 
-		return updated;
+		if (removed != null && !removed.isEmpty()) {
+			goodRemove = taggingHandler.updateFileTaggingsInRepo(removed,
+																 showErrors);		
+		}*/
+
+		if (updated != null && !updated.isEmpty()) {
+			goodUpdate = taggingHandler.updateFileTaggingsInRepo(updated,
+																 showErrors);		
+		}
+
+		return goodAdd && goodRemove && goodUpdate;
 	}
 
 	/** Updates the specified EditedTaggedFile's file information (id, path) 

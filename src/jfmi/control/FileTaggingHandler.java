@@ -135,6 +135,10 @@ public class FileTaggingHandler {
 		boolean showErrors
 	)
 	{
+		if (taggings == null) {
+			return true;
+		}
+
 		boolean taggingsAreUpdated = true;
 
 		for (FileTagging ft : taggings) {
