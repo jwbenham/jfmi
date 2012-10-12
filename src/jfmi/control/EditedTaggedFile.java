@@ -50,6 +50,32 @@ public class EditedTaggedFile {
 		setRemovedTaggings(removed);
 	}
 
+	public TreeSet<FileTagging> getCurrentTaggings()
+	{
+		TreeSet<FileTagging> current = new TreeSet<FileTagging>();
+
+		/* Get the taggings that are currently saved, add them to the
+		   current set, and remove all of those that have been removed
+		   since editing began. */
+		TreeSet<FileTagging> saved = editedFile.getFileTaggings();
+		if (saved != null && !saved.isEmpty()) {
+			current.addAll(saved);
+
+			if (removedTaggings != null && !removedTaggings.isEmpty()) {
+				for (FileTagging rem : removedTaggings) {
+					current.remove(rem);
+				}
+			}
+		}
+
+		/* Add the taggings that have been added since editing. */
+		if (addedTaggings != null && !addedTaggings.isEmpty()) {
+			current.addAll(addedTaggings);
+		}
+
+		return current;
+	}
+
 	public TaggedFile getEditedFile()
 	{
 		return editedFile;
