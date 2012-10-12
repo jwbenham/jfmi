@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.TreeSet;
 
 import jfmi.control.TaggedFile;
+import jfmi.control.FileTagging;
 import jfmi.repo.SQLiteRepository;
 
 
@@ -97,7 +97,9 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 						result.setFilePath(rs.getString("path"));	
 
 						FileTaggingDAO taggingDAO = new FileTaggingDAO();
-						result.setFileTaggings(taggingDAO.readByFileId(id));
+						result.setFileTaggings(
+							(TreeSet<FileTagging>)taggingDAO.readByFileId(id)
+						);
 					}
 
 					return result;
@@ -116,10 +118,10 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	}
 
 	/** Reads all TaggedFile records from the database.
-	  @return a list of retrieved TaggedFile records
+	  @return a set of retrieved TaggedFile records
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public List<TaggedFile> readAll() throws SQLException
+	public TreeSet<TaggedFile> readAll() throws SQLException
 	{
 		Connection conn = SQLiteRepository.instance().getConnection();
 
@@ -130,7 +132,8 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 				ResultSet rs = stmt.executeQuery(READ_ALL_SQL);
 
 				try {
-					LinkedList<TaggedFile> list = new LinkedList<TaggedFile>();
+					FileTaggingDAO tDAO = new FileTaggingDAO();
+					TreeSet<TaggedFile> set = new TreeSet<TaggedFile>();
 					TaggedFile next = null;
 
 					while (rs.next()) {
@@ -138,15 +141,16 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 						next.setFileId(rs.getInt("fileId"));
 						next.setFilePath(rs.getString("path"));
 
-						FileTaggingDAO taggingDAO = new FileTaggingDAO();
-						next.setFileTaggings(
-							taggingDAO.readByFileId(next.getFileId())
-						);
+						TreeSet<FileTagging> tSet;
+					    tSet = (TreeSet<FileTagging>)tDAO.readByFileId(
+																next.getFileId()
+															);
+						next.setFileTaggings(tSet);
 
-						list.add(next);
+						set.add(next);
 					}
 
-					return list;
+					return set;
 
 				} finally {
 					SQLiteRepository.closeQuietly(rs);

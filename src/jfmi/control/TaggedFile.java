@@ -1,9 +1,7 @@
 package jfmi.control;
 
 import java.io.File;
-
-import java.util.List;
-import java.util.Arrays;
+import java.util.TreeSet;
 
 
 /** Represents a file in the file system, along with its associated taggings (if
@@ -14,7 +12,7 @@ public class TaggedFile {
 	// PRIVATE INSTANCE Fields
 	private int fileId;
 	private File file;
-	private List<FileTagging> fileTaggings;
+	private TreeSet<FileTagging> fileTaggings;
 
 
 	//************************************************************
@@ -22,31 +20,31 @@ public class TaggedFile {
 	//************************************************************
 
 	/** Construct a default TaggedFile with negative id, an empty path, "", and
-	  null list of taggings.
+	  null set of taggings.
 	  */
 	public TaggedFile()
 	{
 		this(-1, "", null);
 	}
 
-	/** Construct a TaggedFile with the specified id, path, and list of
+	/** Construct a TaggedFile with the specified id, path, and set of
 	  taggings.
 	  @param id the new object's id
 	  @param path path of the new object
-	  @param taggings list of the file's taggings
+	  @param taggings set of the file's taggings
 	  */
-	public TaggedFile(int id, String path, List<FileTagging> taggings)
+	public TaggedFile(int id, String path, TreeSet<FileTagging> taggings)
 	{
 		this(id, new File(path), taggings);	
 	}
 
-	/** Construct a TaggedFile with the specified id, path, and list of
+	/** Construct a TaggedFile with the specified id, path, and set of
 	  taggings.
 	  @param id the new object's id
 	  @param file File which has the path of the new object
-	  @param taggings list of the file's taggings
+	  @param taggings set of the file's taggings
 	  */
-	public TaggedFile(int id, File file, List<FileTagging> taggings)
+	public TaggedFile(int id, File file, TreeSet<FileTagging> taggings)
 	{
 		setFileId(id);
 		setFile(file);
@@ -102,14 +100,14 @@ public class TaggedFile {
 	}
 
 	/** Return a reference to this TaggedFile's taggings.
-	  @return a List<FileTagging> of this file's taggings
+	  @return a TreeSet<FileTagging> of this file's taggings
 	  */
-	public List<FileTagging> getFileTaggings()
+	public TreeSet<FileTagging> getFileTaggings()
 	{
 		return fileTaggings;
 	}
 
-	/** Returns the TaggedFile's list of FileTaggings as an array.
+	/** Returns the TaggedFile's set of FileTaggings as an array.
 	  @return an array of this file's taggings - null if none exist
 	  */
 	public FileTagging[] getFileTaggingsAsArray()
@@ -145,23 +143,27 @@ public class TaggedFile {
 		setFile(new File(path));
 	}
 
-	/** Sets the list of taggings for this file.
-	  @param taggingList list of taggings for this file - can be null
+	/** Sets the set of taggings for this file.
+	  @param taggingSet set of taggings for this file - can be null
 	  */
-	public void setFileTaggings(List<FileTagging> taggingList)
+	public void setFileTaggings(TreeSet<FileTagging> taggingSet)
 	{
-		fileTaggings = taggingList;
+		fileTaggings = taggingSet;
 	}
 
-	/** Sets the list of taggings for this file from an array.
-	  @param taggingArray an array of FileTagging objects - null is a no-op
+	/** Sets the set of taggings for this file from an array.
+	  @param taggingArray an array of FileTagging objects - null sets the
+	  		taggings to null
 	  */
 	public void setFileTaggings(FileTagging[] taggingArray)
 	{
 		if (taggingArray == null) {
-			return;
+			fileTaggings = null;
 		} else {
-			setFileTaggings(Arrays.asList(taggingArray));
+			fileTaggings.clear();
+			for (FileTagging tagging : taggingArray) {
+				fileTaggings.add(tagging);
+			}
 		}
 	}
 
