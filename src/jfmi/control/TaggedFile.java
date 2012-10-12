@@ -7,7 +7,7 @@ import java.util.TreeSet;
 /** Represents a file in the file system, along with its associated taggings (if
   any).
   */
-public class TaggedFile {
+public class TaggedFile implements Comparable<TaggedFile> {
 
 	// PRIVATE INSTANCE Fields
 	private int fileId;
@@ -191,5 +191,43 @@ public class TaggedFile {
 	{
 		return getFilePath();
 	}
+
+
+	//************************************************************
+	// IMPLEMENTATION of Comparable<TaggedFile>
+	//************************************************************
+
+	/** This function implements a natural ordering for instances of the
+	  TaggedFile class. Ordering is performed first on the file path, then on
+	  the file id. FileTaggings are not considered for ordering, unless they
+	  are equal.
+	  @param o a TaggedFile to compare this instance against for ordering
+	  @return -1, 0, 1 as this instance is less than, equal to, greater than
+	  		the argument
+	  */
+	public int compareTo(TaggedFile o)
+	{
+		if (this.equals(o)) {
+			return 0;
+		}
+
+		if (file.getPath().compareTo(o.file.getPath()) == 0) {
+
+			if (((Integer)fileId).compareTo(o.fileId) == 0) {
+				
+				/* If fileId and file are both equal, then we do not care
+				   about ordering based on the taggings. So this instance is
+				   always first. */
+				return -1;
+
+			} else {
+				return ((Integer)fileId).compareTo(o.fileId);
+			}
+
+		} else {
+			return file.getPath().compareTo(o.file.getPath());
+		}
+	}
+
 }
 
