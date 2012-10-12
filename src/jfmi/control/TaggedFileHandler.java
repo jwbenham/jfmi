@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import jfmi.dao.TaggedFileDAO;
@@ -105,6 +106,27 @@ public class TaggedFileHandler {
 		File[] selectedFiles = fileGUI.displayFileChooser();
 		addFilesToRepo(selectedFiles);
 		updateDataAndGUI(true);
+	}
+
+	/** Begins an interaction with the user which adds a tagging to a 
+	  TaggedFile and redisplays the file's information to the user.
+	  @param updateMe the TaggedFile to update with a new tagging
+	  @param newTagging the new FileTagging to add to the file
+	  */
+	public void beginAddTaggingInteraction(TaggedFile updateMe,
+											FileTagging newTagging)
+	{
+		TreeSet<FileTagging> fileTaggings = updateMe.getFileTaggings();	
+
+		if (fileTaggings == null) {
+			fileTaggings = new TreeSet<FileTagging>();
+			fileTaggings.add(newTagging);
+			updateMe.setFileTaggings(fileTaggings);
+		} else {
+			fileTaggings.add(newTagging);
+		}
+			
+		fileGUI.getFileViewer().updateDisplayedFile(updateMe);
 	}
 
 	/** Begins an interaction with the user that allows them to delete
