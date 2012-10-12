@@ -5,8 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.TreeSet;
 
 import jfmi.control.FileTagging;
 import jfmi.repo.SQLiteRepository;
@@ -134,10 +133,10 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 	/** Reads all FileTagging records from the database whose fileId column
 	  matches the specified file id.
 	  @param fileId file id to match records to
-	  @return a list of records that contained the specified file id
+	  @return a set of records that contained the specified file id
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public List<FileTagging> readByFileId(int fileId) throws SQLException
+	public TreeSet<FileTagging> readByFileId(int fileId) throws SQLException
 	{
 		Connection conn = SQLiteRepository.instance().getConnection();	
 
@@ -149,7 +148,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 				ResultSet rs = ps.executeQuery();
 
 				try {
-					LinkedList<FileTagging> list = new LinkedList<FileTagging>();
+					TreeSet<FileTagging> set = new TreeSet<FileTagging>();
 					FileTagging next;
 
 					while (rs.next()) {
@@ -159,10 +158,10 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 						next.setTag(rs.getString("tag"));
 						next.setComment(rs.getString("comment"));
 
-						list.add(next);
+						set.add(next);
 					}
 
-					return list;
+					return set;
 
 				} finally {
 					SQLiteRepository.closeQuietly(rs);
@@ -178,10 +177,10 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 	}
 
 	/** Reads all FileTagging records from the database.
-	  @return a list of retrieved FileTagging records
+	  @return a set of retrieved FileTagging records
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public List<FileTagging> readAll() throws SQLException
+	public TreeSet<FileTagging> readAll() throws SQLException
 	{
 		Connection conn = SQLiteRepository.instance().getConnection();
 
@@ -192,7 +191,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 				ResultSet rs = stmt.executeQuery(READ_ALL_SQL);
 
 				try {
-					LinkedList<FileTagging> list = new LinkedList<FileTagging>();
+					TreeSet<FileTagging> set = new TreeSet<FileTagging>();
 					FileTagging next = null;
 
 					while (rs.next()) {
@@ -202,10 +201,10 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 						next.setTag(rs.getString("tag"));
 						next.setComment(rs.getString("comment"));
 
-						list.add(next);
+						set.add(next);
 					}
 
-					return list;
+					return set;
 
 				} finally {
 					SQLiteRepository.closeQuietly(rs);

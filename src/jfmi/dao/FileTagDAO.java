@@ -5,8 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.TreeSet;
 
 import jfmi.control.FileTag;
 import jfmi.repo.SQLiteRepository;
@@ -111,10 +110,10 @@ public class FileTagDAO extends AbstractDAO<FileTag, String> {
 	}
 
 	/** Reads all FileTag records from the database.
-	  @return a list of retrieved FileTag records
+	  @return a set of retrieved FileTag records
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public List<FileTag> readAll() throws SQLException
+	public TreeSet<FileTag> readAll() throws SQLException
 	{
 		Connection conn = SQLiteRepository.instance().getConnection();
 
@@ -125,17 +124,17 @@ public class FileTagDAO extends AbstractDAO<FileTag, String> {
 				ResultSet rs = stmt.executeQuery(READ_ALL_SQL);
 
 				try {
-					LinkedList<FileTag> list = new LinkedList<FileTag>();
+					TreeSet<FileTag> set = new TreeSet<FileTag>();
 					FileTag next = null;
 
 					while (rs.next()) {
 						next = new FileTag();
 						next.setTag(rs.getString("tag"));
 
-						list.add(next);
+						set.add(next);
 					}
 
-					return list;
+					return set;
 
 				} finally {
 					SQLiteRepository.closeQuietly(rs);
