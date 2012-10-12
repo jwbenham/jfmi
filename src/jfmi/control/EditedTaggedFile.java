@@ -50,6 +50,33 @@ public class EditedTaggedFile {
 		setRemovedTaggings(removed);
 	}
 
+	
+
+	public TaggedFile getEditedFile()
+	{
+		return editedFile;
+	}
+
+	public TreeSet<FileTagging> getSavedTaggings()
+	{
+		return editedFile.getFileTaggings();
+	}
+
+	public TreeSet<FileTagging> getAddedTaggings()
+	{
+		return addedTaggings;
+	}
+
+	public TreeSet<FileTagging> getRemovedTaggings()
+	{
+		return removedTaggings;
+	}
+	
+	public TreeSet<FileTagging> getUpdatedTaggings()
+	{
+		return updatedTaggings;
+	}
+
 	/** Returns the *working* set of taggings associated with a file. The
 	  *working* set includes:
 	  - All taggings currently associated with the file in the repository,
@@ -82,26 +109,6 @@ public class EditedTaggedFile {
 		}
 
 		return current;
-	}
-
-	public TaggedFile getEditedFile()
-	{
-		return editedFile;
-	}
-
-	public TreeSet<FileTagging> getAddedTaggings()
-	{
-		return addedTaggings;
-	}
-
-	public TreeSet<FileTagging> getRemovedTaggings()
-	{
-		return removedTaggings;
-	}
-	
-	public TreeSet<FileTagging> getUpdatedTaggings()
-	{
-		return updatedTaggings;
 	}
 
 	public void setEditedFile(TaggedFile editedFile_)
