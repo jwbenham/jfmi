@@ -2,7 +2,7 @@ package jfmi.control;
 
 /** Represents a tag that the JFMI application can apply to a file.
   */
-public class FileTag {
+public class FileTag implements Comparable<FileTag> {
 
 	// PRIVATE INSTANCE Fields
 	String tag;
@@ -27,6 +27,14 @@ public class FileTag {
 		setTag(newTag);
 	}
 
+	/** Tests this instance for equality with another FileTag.
+	  @param o a FileTag to test for equality against
+	  @return true if this instance is equal to the parameter
+	  */
+	public boolean equals(FileTag o)
+	{
+		return tag.equals(o.tag);	
+	}
 
 	/** Retrieves the FileTag's value.
 	  @return the value of the tag field
@@ -36,12 +44,17 @@ public class FileTag {
 		return tag;
 	}
 
-	/** Sets the value of this instance's tag.
+	/** Sets the value of this instance's tag. If the argument is null, the
+	  tag value is set to the empty string.
 	  @param newTag the new value for the tag field
 	  */
 	public void setTag(String newTag)
 	{
-		tag = newTag;
+		if (newTag == null) {
+			tag = "";
+		} else {
+			tag = newTag;
+		}
 	}
 
 	/** Returns a String representation of the FileTag instance.
@@ -51,4 +64,22 @@ public class FileTag {
 	{
 		return getTag();
 	}
+
+
+	//************************************************************
+	// IMPLEMENTATION of Comparable<FileTag>
+	//************************************************************
+
+	/** This function implements a natural ordering for instances of the
+	  FileTag class.
+	  @param o a FileTag to compare this instance against for ordering
+	  @return -1, 0, 1 as this instance is less than, equal to, greater than
+	  		the argument
+	  */
+	public int compareTo(FileTag o)
+	{
+		return tag.compareTo(o.tag);
+	}
+
+
 }
