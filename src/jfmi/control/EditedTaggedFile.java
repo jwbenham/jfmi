@@ -140,6 +140,61 @@ public class EditedTaggedFile {
 		return current;
 	}
 
+	/** Tries to make a FileTagging a member of the set of taggings to be
+	  added to the file. This fails if the specified FileTagging is already
+	  in the repository, or already in the added set.
+	  @param addMe the FileTagging to be added
+	  @return true if the argument if was a valid tagging to be added
+	  */
+	public boolean assignAdded() 
+	{
+		// Check if already saved - exit if true
+		// Check if already added - exit if true
+		// Add it to added
+		// Remove it from removed if it exists
+		return false;
+	}
+
+	/** Assigns a FileTagging to the set of taggings to be removed from the 
+	  file. This method will remove the argument from the added and updated sets
+	  if it is present in either of them.
+	  @param removeMe the FileTagging to be removed 
+	  @return true if the argument was not already in the removed set
+	  */
+	public boolean assignRemoved()
+	{
+		// Check if already in removed - exit if true
+		// Check if in added
+			// if true, remove from added
+		// Else check if in saved
+			// if true, add to removed
+				// if in updated, remove it
+		return false;
+	}
+
+	/** Tries to assign a FileTagging to the set of taggings to be updated.
+	  If the tagging has already been added to the set for updates, it replaces
+	  the tagging currently there. If the tagging has been assigned to the
+	  set for removal, it is removed from that set and added to the set for
+	  updating. If the tagging is in the set for addition, it replaces the 
+	  current value in that set. If the tagging is in neither of the sets of saved 
+	  or added taggings, it cannot be updated.
+	  @param updateMe the FileTagging to be updated
+	  @return true if the the tagging has been assigned for updating
+	  */
+	public boolean assignUpdated()
+	{
+		// If tagging is in saved taggings
+			// If needed, remove it from removed
+	   		// If in updated, replace it, else add it
+			// return true	
+		// Else if tagging is in added taggings
+			// remove it and insert the argument tagging
+			// return true
+
+		return false;
+	}
+
 	/** Sets the wrapped TaggedFile.
 	  @param editedFile_ the file to wrap for editing meta-information
 	  */
