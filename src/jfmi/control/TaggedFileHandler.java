@@ -121,7 +121,10 @@ public class TaggedFileHandler {
 		updateDataAndGUI(true);
 	}
 
-	
+	/** Begins an interaction which allows the user to update the specified
+  	  file's path.
+	  @param updateMe the TaggedFile whose path will be updated
+	  */	  
 	public void beginUpdateFilePathInteraction(TaggedFile updateMe)
 	{
 		// Get an updated path from the user
@@ -135,6 +138,10 @@ public class TaggedFileHandler {
 		fileGUI.getFileViewer().updateDisplayedFile(updateMe);	
 	}
 
+	/** Begins an interaction with the user which allows them to save a
+	  file they have been editing.
+	  @param saveMe the TaggedFile to be updated in the repository
+	  */
 	public void beginSaveFileInteraction(TaggedFile saveMe)
 	{
 		// Confirm the update
