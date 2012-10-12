@@ -335,7 +335,6 @@ public class TaggedFileHandler {
 		boolean goodRemove = false;
 		boolean goodUpdate = false;
 
-		/*
 		if (added != null && !added.isEmpty()) {
 			goodAdd = taggingHandler.updateFileTaggingsInRepo(added, 
 															  showErrors);		
@@ -344,7 +343,7 @@ public class TaggedFileHandler {
 		if (removed != null && !removed.isEmpty()) {
 			goodRemove = taggingHandler.updateFileTaggingsInRepo(removed,
 																 showErrors);		
-		}*/
+		}
 
 		if (updated != null && !updated.isEmpty()) {
 			goodUpdate = taggingHandler.updateFileTaggingsInRepo(updated,
