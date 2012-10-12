@@ -155,6 +155,29 @@ public class FileTaggingHandler {
 		return false;
 	}
 
+	/** Removes a Collection of FileTaggings from the repository.
+	  @param taggings a Collection of FileTaggings to remove
+	  @param showErrors if true, errors are displayed
+	  @return true if no errors occurred
+	  */
+	public boolean deleteTaggingsFromRepo(Collection<FileTagging> taggings,
+										  boolean showErrors)
+	{
+		if (taggings == null) {
+			return true;
+		}
+
+		boolean allGone = true;
+
+		for (FileTagging ft : taggings) {
+			if (deleteTaggingFromRepo(ft, showErrors) == false) {
+				allGone = false;
+			}
+		}
+
+		return allGone;
+	}
+
 	/** Associates this handler with the specified JFMIApp.
 	  @param jfmiApp_ the JFMIApp to associate this handler with
 	  */
