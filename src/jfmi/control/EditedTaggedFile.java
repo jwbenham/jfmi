@@ -2,8 +2,7 @@ package jfmi.control;
 
 import java.util.TreeSet;
 
-import jfmi.control.TaggedFile;
-import jfmi.control.FileTagging;
+import jfmi.dao.FileTaggingComparator;
 
 /** An EditedTaggedFile represents a TaggedFile that is being edited by the
   user, but which has not been saved to the repository yet. It keeps track of
@@ -27,10 +26,7 @@ public class EditedTaggedFile {
 	  empty sets of added, removed, and updated taggings.
 	  */
 	public EditedTaggedFile() {
-		editedFile = new TaggedFile();
-		addedTaggings = new TreeSet<FileTagging>();
-		removedTaggings = new TreeSet<FileTagging>();
-		updatedTaggings = new TreeSet<FileTagging>();
+		this(new TaggedFile());
 	}
 
 	/** Constructs an EditedTaggedFile which wraps the specified TaggedFile
@@ -41,9 +37,9 @@ public class EditedTaggedFile {
 	{
 		this(
 			editedFile_, 
-			new TreeSet<FileTagging>(), 
-			new TreeSet<FileTagging>(),
-			new TreeSet<FileTagging>()
+			new TreeSet<FileTagging>(new FileTaggingComparator()), 
+			new TreeSet<FileTagging>(new FileTaggingComparator()),
+			new TreeSet<FileTagging>(new FileTaggingComparator())
 			);
 	}
 
@@ -203,7 +199,9 @@ public class EditedTaggedFile {
 		editedFile = editedFile_;
 	}
 
-	/** Sets the set of taggings to be added.
+	/** Sets the set of taggings to be added. This set should have been
+	  constructed with the appropriate comparator for maintaining
+	  consistency among the sets.
 	  @param added the set of FileTaggings to be added
 	  */
 	public void setAddedTaggings(TreeSet<FileTagging> added)
@@ -211,7 +209,9 @@ public class EditedTaggedFile {
 		addedTaggings = added;
 	}
 
-	/** Sets the set of taggings to be removed.
+	/** Sets the set of taggings to be removed. This set should have been
+	  constructed with the appropriate comparator for maintaining
+	  consistency among the sets.
 	  @param added the set of FileTaggings to be removed
 	  */
 	public void setRemovedTaggings(TreeSet<FileTagging> removed)
@@ -219,7 +219,9 @@ public class EditedTaggedFile {
 		removedTaggings = removed;
 	}
 	
-	/** Sets the set of taggings to be updated.
+	/** Sets the set of taggings to be updated. This set should have been
+	  constructed with the appropriate comparator for maintaining
+	  consistency among the sets.
 	  @param added the set of FileTaggings to be updated
 	  */
 	public void setUpdatedTaggings(TreeSet<FileTagging> updated)
