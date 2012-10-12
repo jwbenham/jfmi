@@ -7,6 +7,7 @@
 ./src/jfmi/control/FileTagHandler.java
 ./src/jfmi/control/FileTagging.java
 ./src/jfmi/control/FileTaggingHandler.java
+./src/jfmi/control/EditedTaggedFile.java
 ./src/jfmi/dao/AbstractDAO.java
 ./src/jfmi/dao/TaggedFileDAO.java
 ./src/jfmi/dao/FileTagDAO.java
