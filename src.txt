@@ -10,6 +10,7 @@
 ./src/jfmi/control/EditedTaggedFile.java
 ./src/jfmi/dao/AbstractDAO.java
 ./src/jfmi/dao/TaggedFileDAO.java
+./src/jfmi/dao/TaggedFileComparator.java
 ./src/jfmi/dao/FileTagDAO.java
 ./src/jfmi/dao/FileTaggingDAO.java
 ./src/jfmi/gui/JFMIFrame.java
