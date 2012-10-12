@@ -125,7 +125,7 @@ public class TaggedFileHandler {
 		} else {
 			addedTaggings.add(newTagging);
 		}
-			
+
 		fileGUI.getFileViewer().updateDisplayedFile(updateMe);
 	}
 
@@ -331,18 +331,17 @@ public class TaggedFileHandler {
 		TreeSet<FileTagging> added = updateMe.getAddedTaggings();
 		TreeSet<FileTagging> removed = updateMe.getRemovedTaggings();
 		TreeSet<FileTagging> updated = updateMe.getUpdatedTaggings();
-		boolean goodAdd = false;
-		boolean goodRemove = false;
-		boolean goodUpdate = false;
+		boolean goodAdd = true;
+		boolean goodRemove = true;
+		boolean goodUpdate = true;
 
 		if (added != null && !added.isEmpty()) {
-			goodAdd = taggingHandler.updateFileTaggingsInRepo(added, 
-															  showErrors);		
+			goodAdd = taggingHandler.addTaggingsToRepo(added, showErrors);		
 		}
 
 		if (removed != null && !removed.isEmpty()) {
-			goodRemove = taggingHandler.updateFileTaggingsInRepo(removed,
-																 showErrors);		
+			goodRemove = taggingHandler.deleteTaggingsFromRepo(removed,
+															   showErrors);		
 		}
 
 		if (updated != null && !updated.isEmpty()) {

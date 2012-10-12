@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import java.util.Vector;
 
 import jfmi.control.EditedTaggedFile;
 import jfmi.control.FileTag;
@@ -148,13 +149,11 @@ public class TaggedFileViewDialog extends JDialog
 	  */
 	public void updateTaggingJList()
 	{
-		TaggedFile editedFile = displayedFile.getEditedFile();
-		FileTagging[] taggings = editedFile.getFileTaggingsAsArray();
+		Vector<FileTagging> taggings;
+		taggings = new Vector<FileTagging>(displayedFile.getCurrentTaggings());	
 
-		if (taggings != null) {
-			taggingJList.setListData(taggings);
-			taggingJList.setSelectedIndex(0);
-		}
+		taggingJList.setListData(taggings);
+		taggingJList.setSelectedIndex(0);
 	}
 
 	/** Updates the displayed file's selected tag's comment with information 
