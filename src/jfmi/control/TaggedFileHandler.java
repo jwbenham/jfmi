@@ -116,16 +116,6 @@ public class TaggedFileHandler {
 	public void beginAddTaggingInteraction(EditedTaggedFile updateMe,
 											FileTagging newTagging)
 	{
-		TreeSet<FileTagging> addedTaggings = updateMe.getAddedTaggings();	
-
-		if (addedTaggings == null) {
-			addedTaggings = new TreeSet<FileTagging>();
-			addedTaggings.add(newTagging);
-			updateMe.setAddedTaggings(addedTaggings);
-		} else {
-			addedTaggings.add(newTagging);
-		}
-
 		fileGUI.getFileViewer().updateDisplayedFile(updateMe);
 	}
 
