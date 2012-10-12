@@ -134,7 +134,6 @@ public class FileTagging implements Comparable<FileTagging> {
 		string.append("[");
 		string.append(tag);
 		string.append("] ");
-		string.append(comment);
 		return string.toString();
 	}
 
