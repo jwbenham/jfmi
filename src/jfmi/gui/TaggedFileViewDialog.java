@@ -20,6 +20,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import jfmi.control.EditedTaggedFile;
 import jfmi.control.FileTag;
 import jfmi.control.FileTagging;
 import jfmi.control.TaggedFile;
@@ -50,7 +51,7 @@ public class TaggedFileViewDialog extends JDialog
 	private Box saveFileBox;
 
 	private TaggedFileHandler fileHandler;
-	private TaggedFile displayedFile;
+	private EditedTaggedFile displayedFile;
 
 	//************************************************************
 	// PUBLIC INSTANCE Methods
@@ -87,11 +88,11 @@ public class TaggedFileViewDialog extends JDialog
 		return tagJList;
 	}
 
-	/** Sets the TaggedFile whose information this instance is displaying.
-	  @param file the TaggedFile to display
+	/** Sets the EditedTaggedFile whose information this instance is displaying.
+	  @param file the EditedTaggedFile to display
 	  @throws IllegalArgumentException if file is null
 	  */
-	public void setDisplayedFile(TaggedFile file)
+	public void setDisplayedFile(EditedTaggedFile file)
 	{
 		if (file == null) {
 			throw new IllegalArgumentException("file cannot be null");
@@ -127,7 +128,7 @@ public class TaggedFileViewDialog extends JDialog
 	  @param file the file to display
 	  @throws IllegalArgumentException if file is null
 	  */
-	public void updateDisplayedFile(TaggedFile file)
+	public void updateDisplayedFile(EditedTaggedFile file)
 	{
 		setDisplayedFile(file);
 		updateDisplay();
@@ -138,8 +139,8 @@ public class TaggedFileViewDialog extends JDialog
 	  */
 	public void updateFileInfo()
 	{
-		fileNameLabel.setText(displayedFile.getFileName());
-		filePathLabel.setText(displayedFile.getFilePath());
+		fileNameLabel.setText(displayedFile.getEditedFile().getFileName());
+		filePathLabel.setText(displayedFile.getEditedFile().getFilePath());
 	}
 
 	/** Updates the displayed file's tags with information from the instance's 
@@ -147,7 +148,8 @@ public class TaggedFileViewDialog extends JDialog
 	  */
 	public void updateTaggingJList()
 	{
-		FileTagging[] taggings = displayedFile.getFileTaggingsAsArray();
+		TaggedFile editedFile = displayedFile.getEditedFile();
+		FileTagging[] taggings = editedFile.getFileTaggingsAsArray();
 
 		if (taggings != null) {
 			taggingJList.setListData(taggings);

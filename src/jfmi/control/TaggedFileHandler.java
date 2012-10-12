@@ -109,21 +109,21 @@ public class TaggedFileHandler {
 	}
 
 	/** Begins an interaction with the user which adds a tagging to a 
-	  TaggedFile and redisplays the file's information to the user.
-	  @param updateMe the TaggedFile to update with a new tagging
+	  EditedTaggedFile and redisplays the file's information to the user.
+	  @param updateMe the EditedTaggedFile to update with a new tagging
 	  @param newTagging the new FileTagging to add to the file
 	  */
-	public void beginAddTaggingInteraction(TaggedFile updateMe,
+	public void beginAddTaggingInteraction(EditedTaggedFile updateMe,
 											FileTagging newTagging)
 	{
-		TreeSet<FileTagging> fileTaggings = updateMe.getFileTaggings();	
+		TreeSet<FileTagging> addedTaggings = updateMe.getAddedTaggings();	
 
-		if (fileTaggings == null) {
-			fileTaggings = new TreeSet<FileTagging>();
-			fileTaggings.add(newTagging);
-			updateMe.setFileTaggings(fileTaggings);
+		if (addedTaggings == null) {
+			addedTaggings = new TreeSet<FileTagging>();
+			addedTaggings.add(newTagging);
+			updateMe.setAddedTaggings(addedTaggings);
 		} else {
-			fileTaggings.add(newTagging);
+			addedTaggings.add(newTagging);
 		}
 			
 		fileGUI.getFileViewer().updateDisplayedFile(updateMe);
@@ -145,26 +145,28 @@ public class TaggedFileHandler {
 
 	/** Begins an interaction which allows the user to update the specified
   	  file's path.
-	  @param updateMe the TaggedFile whose path will be updated
+	  @param updateMe the EditedTaggedFile whose path will be updated
 	  */	  
-	public void beginUpdateFilePathInteraction(TaggedFile updateMe)
+	public void beginUpdateFilePathInteraction(EditedTaggedFile updateMe)
 	{
+		TaggedFile file = updateMe.getEditedFile();
+
 		// Get an updated path from the user
-		File[] selected = fileGUI.displayFileChooser(updateMe.getFile());
+		File[] selected = fileGUI.displayFileChooser(file.getFile());
 		if (selected == null) {
 			return;
 		}
 
 		// Set the new path in the file and redisplay
-		updateMe.setFile(selected[0]);
+		file.setFile(selected[0]);
 		fileGUI.getFileViewer().updateDisplayedFile(updateMe);	
 	}
 
 	/** Begins an interaction with the user which allows them to save a
 	  file they have been editing.
-	  @param saveMe the TaggedFile to be updated in the repository
+	  @param saveMe the EditedTaggedFile to be updated in the repository
 	  */
-	public void beginSaveFileInteraction(TaggedFile saveMe)
+	public void beginSaveFileInteraction(EditedTaggedFile saveMe)
 	{
 		// Confirm the update
 		boolean confirmed = fileGUI.getConfirmation("Are you sure you want to "
@@ -194,6 +196,7 @@ public class TaggedFileHandler {
 		TaggedFileViewDialog fileViewer = fileGUI.getFileViewer();
 		FileTag[] tags;
 
+		// Get all tags, so the user can browse/add them to the file
 		jfmiApp.getTagHandler().readFileTagDataFromRepo(true);
 		tags = jfmiApp.getTagHandler().getFileTagDataAsArray();
 
@@ -201,7 +204,11 @@ public class TaggedFileHandler {
 			fileViewer.getTagJList().setListData(tags);
 		}
 
-		fileViewer.updateDisplayedFile(viewMe);
+		// Wrap the specified file in an EditedTaggedFile
+		EditedTaggedFile editFile = new EditedTaggedFile(viewMe);
+
+		// Tell the file viewer to display the specified file
+		fileViewer.updateDisplayedFile(editFile);
 		fileViewer.setVisible(true);
 	}
 
@@ -312,34 +319,39 @@ public class TaggedFileHandler {
 		return false;
 	}
 
-	/** Updates a TaggedFile's file taggings in the repository.
-	  @param updateMe the TaggedFile to update
+	/** Updates an EditedTaggedFile's file taggings in the repository.
+	  @param updateMe the EditedTaggedFile to update
 	  @param showErrors if true, errors are displayed to the user
 	  @return true if the update was performed successfully
 	  */ 
-	public boolean updateFileTaggingsInRepo(TaggedFile updateMe, 
+	public boolean updateFileTaggingsInRepo(EditedTaggedFile updateMe, 
 											boolean showErrors)
 	{
-		boolean updated;
-		updated = jfmiApp.getTaggingHandler().updateFileTaggingsInRepo(
-			updateMe.getFileTaggings(),
-			showErrors
-		);		
+		FileTaggingHandler taggingHandler = jfmiApp.getTaggingHandler();	
+
+		boolean updated = taggingHandler.updateFileTaggingsInRepo(
+								updateMe.getUpdatedTaggings(),
+								showErrors
+							);		
 
 		return updated;
 	}
 
-	/** Updates the specified TaggedFile's file information (id, path) as well
-	  as it's file taggings in the repository.
-	  @param updateMe the TaggedFile to update
+	/** Updates the specified EditedTaggedFile's file information (id, path) 
+	  as well as it's file taggings in the repository.
+	  @param updateMe the EditedTaggedFile to update
 	  @param showErrors if true, errors are displayed to the user
 	  @return true if the update was performed successfully
 	  */
-	public boolean updateTaggedFileInRepo(TaggedFile updateMe, 
+	public boolean updateTaggedFileInRepo(EditedTaggedFile updateMe, 
 											boolean showErrors)
 	{
-		boolean updatedInfo = updateFileInfoInRepo(updateMe, showErrors);
+		boolean updatedInfo = updateFileInfoInRepo(
+									updateMe.getEditedFile(), 
+									showErrors
+								);
 		boolean updatedTaggings = updateFileTaggingsInRepo(updateMe, showErrors);
+
 		return updatedInfo && updatedTaggings;
 	}
 
