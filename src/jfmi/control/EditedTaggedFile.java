@@ -50,7 +50,7 @@ public class EditedTaggedFile {
 		setRemovedTaggings(removed);
 	}
 
-	public TreeSet<FileTagging> getCurrentTaggings()
+	public TreeSet<FileTagging> getWorkingTaggings()
 	{
 		TreeSet<FileTagging> current = new TreeSet<FileTagging>();
 

@@ -150,7 +150,7 @@ public class TaggedFileViewDialog extends JDialog
 	public void updateTaggingJList()
 	{
 		Vector<FileTagging> taggings;
-		taggings = new Vector<FileTagging>(displayedFile.getCurrentTaggings());	
+		taggings = new Vector<FileTagging>(displayedFile.getWorkingTaggings());	
 
 		taggingJList.setListData(taggings);
 		taggingJList.setSelectedIndex(0);
