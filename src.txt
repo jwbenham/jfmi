@@ -14,6 +14,7 @@
 ./src/jfmi/dao/FileTagDAO.java
 ./src/jfmi/dao/FileTagComparator.java
 ./src/jfmi/dao/FileTaggingDAO.java
+./src/jfmi/dao/FileTaggingComparator.java
 ./src/jfmi/gui/JFMIFrame.java
 ./src/jfmi/gui/FileTagHandlerDialog.java
 ./src/jfmi/gui/GUIException.java
