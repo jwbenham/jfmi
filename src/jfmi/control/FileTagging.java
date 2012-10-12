@@ -47,8 +47,8 @@ public class FileTagging implements Comparable<FileTagging> {
 	{
 		return taggingId == other.taggingId 
 				&& fileId == other.fileId
-				&& tag.equals(tag)
-				&& comment.equals(comment);
+				&& tag.equals(other.tag)
+				&& comment.equals(other.comment);
 	}
 
 	/** Retrieves the tagging's id.
