@@ -3,7 +3,7 @@ package jfmi.control;
 
 /** Represents an association between a file and a tag.
   */
-public class FileTagging {
+public class FileTagging implements Comparable<FileTagging> {
 
 	// PRIVATE INSTANCE Fields
 	int taggingId;
@@ -36,6 +36,19 @@ public class FileTagging {
 		setFileId(fid);
 		setTag(tagVal);
 		setComment(commentVal);
+	}
+
+	/** Determines whether or not the instance is equal to another FileTagging
+	  instance.
+	  @param other the FileTagging instance to test for equality against
+	  @return true if the instance is equal to the parameter instance
+	  */
+	public boolean equals(FileTagging other)
+	{
+		return taggingId == other.taggingId 
+				&& fileId == other.fileId
+				&& tag.equals(tag)
+				&& comment.equals(comment);
 	}
 
 	/** Retrieves the tagging's id.
@@ -86,20 +99,30 @@ public class FileTagging {
 		fileId = id;
 	}
 
-	/** Sets the value of the tag associated with this tagging.
+	/** Sets the value of the tag associated with this tagging. If the parameter
+	  is null, the tag is set to the empty string, "".
 	  @param newTag the new value for the tag field
 	  */
 	public void setTag(String newTag)
 	{
-		tag = newTag;
+		if (newTag == null) {
+			tag = "";
+		} else {
+			tag = newTag;
+		}
 	}
 
-	/** Sets the value of the comment associated with this tagging.
+	/** Sets the value of the comment associated with this tagging. If the
+	  parameter is null, the comment is set to the empty string, "".
 	  @param newComment the new value for the comment field
 	  */
 	public void setComment(String newComment)
 	{
-		comment = newComment;
+		if (newComment == null) {
+			comment = "";
+		} else {
+			comment = newComment;
+		}
 	}
 
 	/**
@@ -114,4 +137,38 @@ public class FileTagging {
 		string.append(comment);
 		return string.toString();
 	}
+
+	//************************************************************
+	// IMPLEMENTATION of Comparable<FileTagging>
+	//************************************************************
+
+	/** Compares this object with the specified object for order. The natural
+	  ordering implemented by this class is consistent with equals().
+	  @param o the object to compare this instance against
+	  @return -1, 0, 1 as this object is less than, equal to, or greater than
+			the parameter
+	  */
+	public int compareTo(FileTagging o)
+	{
+		if (this.equals(o)) {
+			return 0;
+		} 
+
+		if (taggingId == o.taggingId) {
+			if (fileId == o.fileId) {
+				if (tag.equals(o.tag)) {
+					return comment.compareTo(o.comment);
+				} else {
+					return tag.compareTo(o.tag);
+				}
+
+			} else {
+				return ((Integer)fileId).compareTo(o.fileId);
+			}
+
+		} else {
+			return ((Integer)taggingId).compareTo(o.taggingId);
+		}
+	}
+
 }
