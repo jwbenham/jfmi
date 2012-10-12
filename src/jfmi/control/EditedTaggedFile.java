@@ -16,6 +16,7 @@ public class EditedTaggedFile {
 	private TaggedFile editedFile;
 	private TreeSet<FileTagging> addedTaggings;
 	private TreeSet<FileTagging> removedTaggings;
+	private TreeSet<FileTagging> updatedTaggings;
 
 
 	//************************************************************
@@ -26,6 +27,7 @@ public class EditedTaggedFile {
 		editedFile = new TaggedFile();
 		addedTaggings = new TreeSet<FileTagging>();
 		removedTaggings = new TreeSet<FileTagging>();
+		updateTaggings = new TreeSet<FileTagging>();
 	}
 
 	public EditedTaggedFile(TaggedFile editedFile_)
@@ -33,13 +35,15 @@ public class EditedTaggedFile {
 		this(
 			editedFile_, 
 			new TreeSet<FileTagging>(), 
+			new TreeSet<FileTagging>(),
 			new TreeSet<FileTagging>()
 			);
 	}
 
 	public EditedTaggedFile(TaggedFile editedFile_,
 							TreeSet<FileTagging> added,
-							TreeSet<FileTagging> removed)
+							TreeSet<FileTagging> removed,
+							TreeSet<FileTagging> updated)
 	{
 		setEditedFile(editedFile_);
 		setAddedTaggings(added);
@@ -60,6 +64,11 @@ public class EditedTaggedFile {
 	{
 		return removedTaggings;
 	}
+	
+	public TreeSet<FileTagging> getUpdatedTaggings()
+	{
+		return updatedTaggings;
+	}
 
 	public void setEditedFile(TaggedFile editedFile_)
 	{
@@ -74,6 +83,11 @@ public class EditedTaggedFile {
 	public void setRemovedTaggings(TreeSet<FileTagging> removed)
 	{
 		removedTaggings = removed;
+	}
+	
+	public void setUpdatedTaggings(TreeSet<FileTagging> updated)
+	{
+		updatedTaggings = updated;
 	}
 
 }
