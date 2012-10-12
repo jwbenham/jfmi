@@ -143,7 +143,10 @@ public class FileTagging implements Comparable<FileTagging> {
 	//************************************************************
 
 	/** Compares this object with the specified object for order. The natural
-	  ordering implemented by this class is consistent with equals().
+	  ordering implemented by this class is consistent with equals(). Two
+	  FileTagging objects are equal if all their fields are equal. If not
+	  equal, their relationship is determined first by tag value, then by
+	  comment, taggingId, fileId.
 	  @param o the object to compare this instance against
 	  @return -1, 0, 1 as this object is less than, equal to, or greater than
 			the parameter
@@ -154,20 +157,24 @@ public class FileTagging implements Comparable<FileTagging> {
 			return 0;
 		} 
 
-		if (taggingId == o.taggingId) {
-			if (fileId == o.fileId) {
-				if (tag.equals(o.tag)) {
-					return comment.compareTo(o.comment);
+		if (tag.compareTo(o.tag) == 0) {
+
+			if (comment.compareTo(o.comment) == 0) {
+
+				if (((Integer)taggingId).compareTo(o.taggingId) == 0) {
+
+					return ((Integer)fileId).compareTo(o.fileId);
+
 				} else {
-					return tag.compareTo(o.tag);
+					return ((Integer)taggingId).compareTo(o.taggingId);
 				}
 
 			} else {
-				return ((Integer)fileId).compareTo(o.fileId);
+				return comment.compareTo(o.comment);
 			}
 
 		} else {
-			return ((Integer)taggingId).compareTo(o.taggingId);
+			return tag.compareTo(o.tag);
 		}
 	}
 
