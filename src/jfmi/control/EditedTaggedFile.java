@@ -50,6 +50,13 @@ public class EditedTaggedFile {
 		setRemovedTaggings(removed);
 	}
 
+	/** Returns the *working* set of taggings associated with a file. The
+	  *working* set includes:
+	  - All taggings currently associated with the file in the repository,
+	  minus the ones that the user has marked for removal
+	  - All taggings the user has added to the file during the editing session
+	  @return the edited file's working set of taggings
+	  */
 	public TreeSet<FileTagging> getWorkingTaggings()
 	{
 		TreeSet<FileTagging> current = new TreeSet<FileTagging>();
@@ -58,6 +65,7 @@ public class EditedTaggedFile {
 		   current set, and remove all of those that have been removed
 		   since editing began. */
 		TreeSet<FileTagging> saved = editedFile.getFileTaggings();
+
 		if (saved != null && !saved.isEmpty()) {
 			current.addAll(saved);
 
