@@ -63,6 +63,11 @@ public class FileTaggingHandler {
 		return false;
 	}
 
+	/** Creates a Collection of FileTaggings in the repository.
+	  @param taggings the Collection of FileTaggings to create
+	  @param showErrors if true, errors will be displayed
+	  @return true if no errors occurred
+	  */
 	public boolean addTaggingsToRepo(Collection<FileTagging> taggings,
 									 boolean showErrors)
 	{
@@ -125,6 +130,30 @@ public class FileTaggingHandler {
 
 		return false;
 	}	
+
+	/** Deletes a FileTagging from the repository.
+	  @param tagging the FileTagging to remove
+	  @param showErrors if true, errors are displayed
+	  @return true if no errors occurred
+	  */
+	public boolean deleteTaggingFromRepo(FileTagging tagging, 
+										 boolean showErrors)
+	{
+		try {
+			fileTaggingDAO.delete(tagging);
+			return true;
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				GUIUtil.showErrorDialog(
+					"A repository error occurred while deleting a tagging.",
+					e.toString()
+				);
+			}
+		}
+
+		return false;
+	}
 
 	/** Associates this handler with the specified JFMIApp.
 	  @param jfmiApp_ the JFMIApp to associate this handler with
