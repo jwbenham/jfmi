@@ -339,6 +339,15 @@ public class TaggedFileViewDialog extends JDialog
 
 		} else if (source == removeTagButton) {
 
+			// Get the selected tagging
+			FileTagging tagging = taggingJList.getSelectedValue();
+			if (tagging == null) {
+				return;
+			}
+
+			// Pass control off to the file handler
+			fileHandler.beginRemoveTaggingInteraction(displayedFile, tagging);
+
 		} else if (source == saveFileButton) {
 
 			fileHandler.beginSaveFileInteraction(displayedFile);

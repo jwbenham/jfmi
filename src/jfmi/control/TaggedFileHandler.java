@@ -145,6 +145,7 @@ public class TaggedFileHandler {
 
 	/** Begins an interaction with the user which remoevs a tagging from an 
 	  EditedTaggedFile and redisplays the file's information to the user.
+	  FIXME What if the user is removing a non-saved tag?
 	  @param updateMe the EditedTaggedFile from which to remove a tagging
 	  @param newTagging the FileTagging to remoev from the file
 	  */
