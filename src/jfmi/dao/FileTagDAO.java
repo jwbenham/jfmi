@@ -124,7 +124,8 @@ public class FileTagDAO extends AbstractDAO<FileTag, String> {
 				ResultSet rs = stmt.executeQuery(READ_ALL_SQL);
 
 				try {
-					TreeSet<FileTag> set = new TreeSet<FileTag>();
+					TreeSet<FileTag> set;
+				    set = new TreeSet<FileTag>(new FileTagComparator());
 					FileTag next = null;
 
 					while (rs.next()) {
