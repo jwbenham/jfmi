@@ -27,7 +27,7 @@ public class EditedTaggedFile {
 		editedFile = new TaggedFile();
 		addedTaggings = new TreeSet<FileTagging>();
 		removedTaggings = new TreeSet<FileTagging>();
-		updateTaggings = new TreeSet<FileTagging>();
+		updatedTaggings = new TreeSet<FileTagging>();
 	}
 
 	public EditedTaggedFile(TaggedFile editedFile_)
