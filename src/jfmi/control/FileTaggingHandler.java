@@ -63,6 +63,24 @@ public class FileTaggingHandler {
 		return false;
 	}
 
+	public boolean addTaggingsToRepo(Collection<FileTagging> taggings,
+									 boolean showErrors)
+	{
+		if (taggings == null) {
+			return true;
+		}
+
+		boolean allAdded = true;
+
+		for (FileTagging ft : taggings) {
+			if (addTaggingToRepo(ft, showErrors) == false) {
+				allAdded = false;
+			}
+		}
+
+		return allAdded;
+	}
+
 	/** Deletes a subset of FileTaggings from the underlying repository,
 	  identified by the specified FileTag collection.
 	  @param tags a collection of tags by which to target taggings for deletion
