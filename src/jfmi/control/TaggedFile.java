@@ -51,6 +51,23 @@ public class TaggedFile {
 		setFileTaggings(taggings);
 	}
 
+	/** Compares this instance against another TaggedFile for equality.
+	  @param o a FileTag to compare against
+	  @return true if this instance is equal to the argument
+	  */
+	public boolean equals(TaggedFile o)
+	{
+		boolean taggingsEqual;
+
+		if (fileTaggings == null || o.fileTaggings == null) {
+			taggingsEqual = fileTaggings == null && o.fileTaggings == null;
+		} else {
+			taggingsEqual = fileTaggings.equals(o.fileTaggings);	
+		}
+
+		return fileId == o.fileId && file.equals(o.file) && taggingsEqual;
+	}
+
 	/** Access the file field.
 	  @return the instance's file field
 	  */
@@ -100,7 +117,7 @@ public class TaggedFile {
 	}
 
 	/** Return a reference to this TaggedFile's taggings.
-	  @return a TreeSet<FileTagging> of this file's taggings
+	  @return a TreeSet<FileTagging> of this file's taggings, may be null
 	  */
 	public TreeSet<FileTagging> getFileTaggings()
 	{
