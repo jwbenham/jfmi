@@ -318,13 +318,32 @@ public class TaggedFileViewDialog extends JDialog
 		Object source = e.getSource();
 
 		if (source == changePathButton) {
+
 			fileHandler.beginUpdateFilePathInteraction(displayedFile);
+
 		} else if (source == addTagButton) {
+
+			// Get the selected tag
+			FileTag selectedTag = tagJList.getSelectedValue();
+			if (selectedTag == null) {
+				return;
+			}
+
+			// Create a new FileTagging from the tag
+			FileTagging newTagging = new FileTagging();
+			newTagging.setFileId(displayedFile.getEditedFile().getFileId());
+			newTagging.setTag(selectedTag.getTag());
+
+			// Pass control off to the file handler
+			fileHandler.beginAddTaggingInteraction(displayedFile,
+												   newTagging);
 
 		} else if (source == removeTagButton) {
 
 		} else if (source == saveFileButton) {
+
 			fileHandler.beginSaveFileInteraction(displayedFile);
+
 		}
 
 	}
