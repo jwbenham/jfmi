@@ -98,6 +98,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 						result.setFilePath(rs.getString("path"));	
 
 						FileTaggingDAO taggingDAO = new FileTaggingDAO();
+
 						result.setFileTaggings(
 							(TreeSet<FileTagging>)taggingDAO.readByFileId(id)
 						);
@@ -134,7 +135,8 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 
 				try {
 					FileTaggingDAO tDAO = new FileTaggingDAO();
-					TreeSet<TaggedFile> set = new TreeSet<TaggedFile>();
+					TreeSet<TaggedFile> set;
+				    set = new TreeSet<TaggedFile>(new TaggedFileComparator());
 					TaggedFile next = null;
 
 					while (rs.next()) {
