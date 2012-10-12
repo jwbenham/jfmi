@@ -3,6 +3,7 @@ package jfmi.control;
 import java.io.File;
 import java.util.TreeSet;
 
+import jfmi.dao.FileTaggingComparator;
 
 /** Represents a file in the file system, along with its associated taggings (if
   any).
@@ -177,7 +178,14 @@ public class TaggedFile implements Comparable<TaggedFile> {
 		if (taggingArray == null) {
 			fileTaggings = null;
 		} else {
+			if (fileTaggings == null) {
+				fileTaggings = new TreeSet<FileTagging>(
+													new FileTaggingComparator()
+													);
+			}
+
 			fileTaggings.clear();
+
 			for (FileTagging tagging : taggingArray) {
 				fileTaggings.add(tagging);
 			}
