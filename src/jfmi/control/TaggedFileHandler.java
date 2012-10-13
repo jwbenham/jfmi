@@ -141,26 +141,23 @@ public class TaggedFileHandler {
 		updateDataAndGUI(true);
 	}
 
-	/** Begins an interaction with the user which remoevs a tagging from an 
+	/** Begins an interaction with the user which removes a tagging from an 
 	  EditedTaggedFile and redisplays the file's information to the user.
-	  FIXME What if the user is removing a non-saved tag?
 	  @param updateMe the EditedTaggedFile from which to remove a tagging
-	  @param newTagging the FileTagging to remoev from the file
+	  @param deadTagging the FileTagging to remove from the file
 	  */
 	public void beginRemoveTaggingInteraction(EditedTaggedFile updateMe,
 											  FileTagging deadTagging)
 	{
-		TreeSet<FileTagging> removedTaggings = updateMe.getRemovedTaggings();	
-
-		if (removedTaggings == null) {
-			removedTaggings = new TreeSet<FileTagging>();
-			removedTaggings.add(deadTagging);
-			updateMe.setRemovedTaggings(removedTaggings);
+		if (updateMe.assignRemoved(deadTagging)) {
+			fileGUI.getFileViewer().updateDisplayedFile(updateMe);
 		} else {
-			removedTaggings.add(deadTagging);
-		}
+			StringBuilder alert = new StringBuilder("");
+			alert.append("Could not remove the tag \"" + deadTagging.getTag());
+			alert.append("\" from the file. It has never been added.");
 
-		fileGUI.getFileViewer().updateDisplayedFile(updateMe);
+			GUIUtil.showAlert(alert.toString());
+		}
 	}
 
 	/** Begins an interaction which allows the user to update the specified
