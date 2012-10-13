@@ -266,6 +266,57 @@ public class TaggedFileHandler {
 		return false;
 	}
 
+	/** Gets an updated list of TaggedFiles from the repository, and updates
+	  the taggedFiles field.
+	  @param showError if true, and an error occurs, display a message
+	  @return true if the files were refreshed successfully
+	  */
+	private boolean readTaggedFilesFromRepo(boolean showError)
+	{
+		try {
+			setTaggedFiles(taggedFileDAO.readAll());
+
+		} catch (SQLException e) {
+			if (showError) {
+				GUIUtil.showErrorDialog(
+					"Failed to refresh the list of files from the database.",
+					e.toString()
+				);
+			}
+			return false;
+		}
+
+		return true;
+	}
+
+	/** Reads a TaggedFile with the specified id from the repository.
+	  @param id the file id of the TaggedFile to read from the database
+	  @param showError if true, and an error occurs, display a message
+	  @return the file from the database, null if not found 
+	  */
+	private TaggedFile readTaggedFileFromRepo(int id, boolean showError)
+	{
+		try {
+			TaggedFile file = taggedFileDAO.readById(id);
+
+			if (file == null && showError) {
+				GUIUtil.showErrorDialog("File not found in database.");
+			}
+
+			return file;
+
+		} catch (SQLException e) {
+			if (showError) {
+				GUIUtil.showErrorDialog(
+					"Failed to read file from the database.",
+					e.toString()
+				);
+			}
+		}
+
+		return null;
+	}
+
 	/** Sets this instance's associated JFMIApp.
 	  @param jfmiApp_ the JFMIApp to associate this handler with
 	  @throws IllegalArgumentException if jfmiApp_ is null
@@ -390,29 +441,6 @@ public class TaggedFileHandler {
 	//************************************************************	
 	// PRIVATE INSTANCE Methods
 	//************************************************************	
-
-	/** Gets an updated list of TaggedFiles from the repository, and updates
-	  the taggedFiles field.
-	  @param showError if true, and an error occurs, display a message
-	  @return true if the files were refreshed successfully
-	  */
-	private boolean readTaggedFilesFromRepo(boolean showError)
-	{
-		try {
-			setTaggedFiles(taggedFileDAO.readAll());
-
-		} catch (SQLException e) {
-			if (showError) {
-				GUIUtil.showErrorDialog(
-					"Failed to refresh the list of files from the database.",
-					e.toString()
-				);
-			}
-			return false;
-		}
-
-		return true;
-	}
 
 	/** Updates this instance's GUI with the latest values in the Vector
 	  of TaggedFile objects.
