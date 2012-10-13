@@ -196,10 +196,21 @@ public class TaggedFileHandler {
 		if (updateTaggedFileInRepo(saveMe, true)) {
 			GUIUtil.showAlert("File saved successfully.");
 
-			/* Redisplay the current file in the fileViewer and in
-			 the application's GUI */
-			fileGUI.getFileViewer().updateDisplayedFile(saveMe);
-			updateDataAndGUI(true);
+			TaggedFile tf = readTaggedFileFromRepo(
+											saveMe.getEditedFile().getFileId(), 
+											true
+										);	
+
+			if (tf == null) {
+				GUIUtil.showErrorDialog("Failed to read from database.");
+			} else {
+				EditedTaggedFile updated = new EditedTaggedFile(tf);
+
+				/* Redisplay the current file in the fileViewer and in
+				 the application's GUI */
+				fileGUI.getFileViewer().updateDisplayedFile(updated);
+				updateDataAndGUI(true);
+			}
 		}
 	}
 
