@@ -86,14 +86,14 @@ public class EditedTaggedFile {
 	  file. This method will remove the argument from the added and updated sets
 	  if it is present in either of them.
 	  @param removeMe the FileTagging to be removed 
-	  @return true if the argument was not already in the removed set, and is
-	  		a valid tagging to be removed
+	  @return true if (a) the argument was already in the removed set or
+	 		(b) it was valid for removal and added to the removed set 
 	  */
 	public boolean assignRemoved(FileTagging removeMe)
 	{
 		// Check if already in removed - exit if true
 		if (removedTaggings.contains(removeMe)) {
-			return false;
+			return true;
 		}
 
 		// Remove from added set if it is there
