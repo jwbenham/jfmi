@@ -60,6 +60,7 @@ public class EditedTaggedFile {
 		setEditedFile(editedFile_);
 		setAddedTaggings(added);
 		setRemovedTaggings(removed);
+		setUpdatedTaggings(updated);
 	}
 
 	/** Tries to make a FileTagging a member of the set of taggings to be
