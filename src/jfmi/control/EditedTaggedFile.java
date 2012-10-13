@@ -111,29 +111,41 @@ public class EditedTaggedFile {
 	  */
 	public TreeSet<FileTagging> getWorkingTaggings()
 	{
-		TreeSet<FileTagging> current = new TreeSet<FileTagging>();
+		TreeSet<FileTagging> working;
+	   	working = new TreeSet<FileTagging>(new FileTaggingComparator());
 
-		/* Get the taggings that are currently saved, add them to the
-		   current set, and remove all of those that have been removed
-		   since editing began. */
+		/* Get the taggings that are currently saved, and add them to the
+		   working set. */
 		TreeSet<FileTagging> saved = editedFile.getFileTaggings();
-
 		if (saved != null && !saved.isEmpty()) {
-			current.addAll(saved);
+			working.addAll(saved);
 
+			// Remove taggings marked for removal
 			if (removedTaggings != null && !removedTaggings.isEmpty()) {
 				for (FileTagging rem : removedTaggings) {
-					current.remove(rem);
+					working.remove(rem);
 				}
+			}
+
+			// Replace the taggings which have been updated with their updates.
+			if (updatedTaggings != null && !updatedTaggings.isEmpty()) {
+				for (FileTagging updated : updatedTaggings) {
+					/* Remove then add? Yes. Recall that these sets should
+					   be using a comparator that compares using *primary keys*
+					   and that other fields may in fact be different.
+					   */
+					working.remove(updated);
+					working.add(updated);
+				}	
 			}
 		}
 
 		/* Add the taggings that have been added since editing. */
 		if (addedTaggings != null && !addedTaggings.isEmpty()) {
-			current.addAll(addedTaggings);
+			working.addAll(addedTaggings);
 		}
 
-		return current;
+		return working;
 	}
 
 	/** Tries to make a FileTagging a member of the set of taggings to be
