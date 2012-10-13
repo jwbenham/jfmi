@@ -62,92 +62,6 @@ public class EditedTaggedFile {
 		setRemovedTaggings(removed);
 	}
 
-	/** Provides access to the wrapped TaggedFile.
-	  @return the file wrapped by this instance
-	  */
-	public TaggedFile getEditedFile()
-	{
-		return editedFile;
-	}
-
-	/** Provides access to the taggings currently saved for the wrapped file.
-	  @return the wrapped file's currently saved taggings
-	  */
-	public TreeSet<FileTagging> getSavedTaggings()
-	{
-		return editedFile.getFileTaggings();
-	}
-
-	/** Provides access to the set of taggings added to the file.
-	  @return a reference to the file's added taggings
-	  */
-	public TreeSet<FileTagging> getAddedTaggings()
-	{
-		return addedTaggings;
-	}
-
-	/** Provides access to the set of taggings to be removed from the file.
-	  @return a reference to the set of taggings to be removed
-	  */
-	public TreeSet<FileTagging> getRemovedTaggings()
-	{
-		return removedTaggings;
-	}
-	
-	/** Provides access to the taggings to be updated for this file.
-	  @return a reference to the taggings to be updated
-	  */
-	public TreeSet<FileTagging> getUpdatedTaggings()
-	{
-		return updatedTaggings;
-	}
-
-	/** Returns the *working* set of taggings associated with a file. The
-	  *working* set includes:
-	  - All taggings currently associated with the file in the repository,
-	  minus the ones that the user has marked for removal
-	  - All taggings the user has added to the file during the editing session
-	  @return the edited file's working set of taggings
-	  */
-	public TreeSet<FileTagging> getWorkingTaggings()
-	{
-		TreeSet<FileTagging> working;
-	   	working = new TreeSet<FileTagging>(new FileTaggingComparator());
-
-		/* Get the taggings that are currently saved, and add them to the
-		   working set. */
-		TreeSet<FileTagging> saved = editedFile.getFileTaggings();
-		if (saved != null && !saved.isEmpty()) {
-			working.addAll(saved);
-
-			// Remove taggings marked for removal
-			if (removedTaggings != null && !removedTaggings.isEmpty()) {
-				for (FileTagging rem : removedTaggings) {
-					working.remove(rem);
-				}
-			}
-
-			// Replace the taggings which have been updated with their updates.
-			if (updatedTaggings != null && !updatedTaggings.isEmpty()) {
-				for (FileTagging updated : updatedTaggings) {
-					/* Remove then add? Yes. Recall that these sets should
-					   be using a comparator that compares using *primary keys*
-					   and that other fields may in fact be different.
-					   */
-					working.remove(updated);
-					working.add(updated);
-				}	
-			}
-		}
-
-		/* Add the taggings that have been added since editing. */
-		if (addedTaggings != null && !addedTaggings.isEmpty()) {
-			working.addAll(addedTaggings);
-		}
-
-		return working;
-	}
-
 	/** Tries to make a FileTagging a member of the set of taggings to be
 	  added to the file. This fails if the specified FileTagging is already
 	  in the repository, or already in the added set. 
@@ -234,6 +148,92 @@ public class EditedTaggedFile {
 		}
 
 		return false;
+	}
+
+	/** Provides access to the wrapped TaggedFile.
+	  @return the file wrapped by this instance
+	  */
+	public TaggedFile getEditedFile()
+	{
+		return editedFile;
+	}
+
+	/** Provides access to the taggings currently saved for the wrapped file.
+	  @return the wrapped file's currently saved taggings
+	  */
+	public TreeSet<FileTagging> getSavedTaggings()
+	{
+		return editedFile.getFileTaggings();
+	}
+
+	/** Provides access to the set of taggings added to the file.
+	  @return a reference to the file's added taggings
+	  */
+	public TreeSet<FileTagging> getAddedTaggings()
+	{
+		return addedTaggings;
+	}
+
+	/** Provides access to the set of taggings to be removed from the file.
+	  @return a reference to the set of taggings to be removed
+	  */
+	public TreeSet<FileTagging> getRemovedTaggings()
+	{
+		return removedTaggings;
+	}
+	
+	/** Provides access to the taggings to be updated for this file.
+	  @return a reference to the taggings to be updated
+	  */
+	public TreeSet<FileTagging> getUpdatedTaggings()
+	{
+		return updatedTaggings;
+	}
+
+	/** Returns the *working* set of taggings associated with a file. The
+	  *working* set includes:
+	  - All taggings currently associated with the file in the repository,
+	  minus the ones that the user has marked for removal
+	  - All taggings the user has added to the file during the editing session
+	  @return the edited file's working set of taggings
+	  */
+	public TreeSet<FileTagging> getWorkingTaggings()
+	{
+		TreeSet<FileTagging> working;
+	   	working = new TreeSet<FileTagging>(new FileTaggingComparator());
+
+		/* Get the taggings that are currently saved, and add them to the
+		   working set. */
+		TreeSet<FileTagging> saved = editedFile.getFileTaggings();
+		if (saved != null && !saved.isEmpty()) {
+			working.addAll(saved);
+
+			// Remove taggings marked for removal
+			if (removedTaggings != null && !removedTaggings.isEmpty()) {
+				for (FileTagging rem : removedTaggings) {
+					working.remove(rem);
+				}
+			}
+
+			// Replace the taggings which have been updated with their updates.
+			if (updatedTaggings != null && !updatedTaggings.isEmpty()) {
+				for (FileTagging updated : updatedTaggings) {
+					/* Remove then add? Yes. Recall that these sets should
+					   be using a comparator that compares using *primary keys*
+					   and that other fields may in fact be different.
+					   */
+					working.remove(updated);
+					working.add(updated);
+				}	
+			}
+		}
+
+		/* Add the taggings that have been added since editing. */
+		if (addedTaggings != null && !addedTaggings.isEmpty()) {
+			working.addAll(addedTaggings);
+		}
+
+		return working;
 	}
 
 	/** Sets the wrapped TaggedFile.
