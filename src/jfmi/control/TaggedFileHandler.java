@@ -116,7 +116,15 @@ public class TaggedFileHandler {
 	public void beginAddTaggingInteraction(EditedTaggedFile updateMe,
 											FileTagging newTagging)
 	{
-		fileGUI.getFileViewer().updateDisplayedFile(updateMe);
+		if (updateMe.assignAdded(newTagging)) {
+			fileGUI.getFileViewer().updateDisplayedFile(updateMe);
+		} else {
+			StringBuilder alert = new StringBuilder("");
+			alert.append("Could not add the tag \"" + newTagging.getTag());
+			alert.append("\" to the file. It has already been added.");
+
+			GUIUtil.showAlert(alert.toString());
+		}
 	}
 
 	/** Begins an interaction with the user that allows them to delete
