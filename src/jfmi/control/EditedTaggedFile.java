@@ -193,17 +193,33 @@ public class EditedTaggedFile {
 	  current value in that set. If the tagging is in neither of the sets of saved 
 	  or added taggings, it cannot be updated.
 	  @param updateMe the FileTagging to be updated
-	  @return true if the the tagging has been assigned for updating
+	  @return true if the the tagging has been assigned for updating, false if
+	  		the argument was not a valid tagging to update
 	  */
-	public boolean assignUpdated()
+	public boolean assignUpdated(FileTagging updateMe)
 	{
 		// If tagging is in saved taggings
+		if (editedFile.getFileTaggings().contains(updateMe)) {
+
 			// If needed, remove it from removed
-	   		// If in updated, replace it, else add it
-			// return true	
-		// Else if tagging is in added taggings
-			// remove it and insert the argument tagging
-			// return true
+			removedTaggings.remove(updateMe);
+
+			// Replace it in the updated set
+			if (updatedTaggings.contains(updateMe)) {
+				updatedTaggings.remove(updateMe);
+			}
+
+			updatedTaggings.add(updateMe);
+			return true;
+
+		} else if (addedTaggings.contains(updateMe)) {
+
+			// Else if tagging is in added taggings, replace it
+			addedTaggings.remove(updateMe);
+			addedTaggings.add(updateMe);
+
+			return true;
+		}
 
 		return false;
 	}
