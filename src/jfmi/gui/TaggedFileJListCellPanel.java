@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import jfmi.control.TaggedFile;
+import jfmi.app.TaggedFile;
 
 public class TaggedFileJListCellPanel extends JPanel {
 

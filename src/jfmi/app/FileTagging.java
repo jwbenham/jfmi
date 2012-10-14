@@ -1,5 +1,7 @@
-package jfmi.control;
+package jfmi.app;
 
+import java.io.Serializable;
+import java.util.Comparator;
 
 /** Represents an association between a file and a tag.
   */

@@ -18,8 +18,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 
+import jfmi.app.FileTag;
 import jfmi.control.FileTagHandler;
-import jfmi.control.FileTag;
 
 /** Implements a graphical user interface for an instance of the FileTagHandler
   controller class.

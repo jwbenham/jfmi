@@ -1,8 +1,6 @@
-package jfmi.control;
+package jfmi.app;
 
 import java.util.TreeSet;
-
-import jfmi.dao.FileTaggingComparator;
 
 /** An EditedTaggedFile represents a TaggedFile that is being edited by the
   user, but which has not been saved to the repository yet. It keeps track of
@@ -66,6 +64,7 @@ public class EditedTaggedFile {
 	/** Tries to make a FileTagging a member of the set of taggings to be
 	  added to the file. This fails if the specified FileTagging is already
 	  in the repository, or already in the added set. 
+	  FIXME
 	  @param addMe the FileTagging to be added
 	  @return true if the argument was a valid tagging to be added, and was not
 	  		already saved or added

@@ -5,7 +5,7 @@ import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import jfmi.control.TaggedFile;
+import jfmi.app.TaggedFile;
 import jfmi.gui.TaggedFileJListCellPanel;
 
 public class TaggedFileJListRenderer implements ListCellRenderer<TaggedFile> {

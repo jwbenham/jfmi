@@ -5,11 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Comparator;
 import java.util.TreeSet;
 
-import jfmi.control.TaggedFile;
-import jfmi.control.FileTagging;
+import jfmi.app.TaggedFile;
+import jfmi.app.TaggedFileComparator;
+import jfmi.app.FileTagging;
 import jfmi.repo.SQLiteRepository;
 
 

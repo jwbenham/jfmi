@@ -1,9 +1,7 @@
-package jfmi.control;
+package jfmi.app;
 
 import java.io.File;
 import java.util.TreeSet;
-
-import jfmi.dao.FileTaggingComparator;
 
 /** Represents a file in the file system, along with its associated taggings (if
   any).
@@ -236,6 +234,7 @@ public class TaggedFile implements Comparable<TaggedFile> {
 			return file.getPath().compareTo(o.file.getPath());
 		}
 	}
+
 
 }
 

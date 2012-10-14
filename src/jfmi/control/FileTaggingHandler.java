@@ -3,8 +3,8 @@ package jfmi.control;
 import java.util.Collection;
 import java.sql.SQLException;
 
-import jfmi.control.FileTag;
-import jfmi.control.FileTagging;
+import jfmi.app.FileTag;
+import jfmi.app.FileTagging;
 import jfmi.dao.FileTaggingDAO;
 import jfmi.gui.GUIUtil;
 

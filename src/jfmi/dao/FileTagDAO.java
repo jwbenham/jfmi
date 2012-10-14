@@ -7,7 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.TreeSet;
 
-import jfmi.control.FileTag;
+import jfmi.app.FileTag;
+import jfmi.app.FileTagComparator;
 import jfmi.repo.SQLiteRepository;
 
 

@@ -21,10 +21,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import java.util.Vector;
 
-import jfmi.control.EditedTaggedFile;
-import jfmi.control.FileTag;
-import jfmi.control.FileTagging;
-import jfmi.control.TaggedFile;
+import jfmi.app.EditedTaggedFile;
+import jfmi.app.FileTag;
+import jfmi.app.FileTagging;
+import jfmi.app.TaggedFile;
 import jfmi.control.TaggedFileHandler;
 
 /** A TaggedFileViewPanel displays all information contained in a TaggedFile

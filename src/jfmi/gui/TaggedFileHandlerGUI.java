@@ -3,9 +3,9 @@ package jfmi.gui;
 import java.io.File;
 import javax.swing.JFileChooser;
 
+import jfmi.app.TaggedFile;
 import jfmi.control.JFMIApp;
 import jfmi.control.TaggedFileHandler;
-import jfmi.control.TaggedFile;
 
 /** Provides an interface between a TaggedFileHandler and the user.
   */

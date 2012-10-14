@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
-import jfmi.control.FileTag;
+import jfmi.app.FileTag;
 import jfmi.dao.FileTagDAO;
 import jfmi.gui.FileTagHandlerDialog;
 import jfmi.gui.GUIUtil;

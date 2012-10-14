@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import jfmi.app.EditedTaggedFile;
+import jfmi.app.FileTag;
+import jfmi.app.FileTagging;
+import jfmi.app.TaggedFile;
 import jfmi.dao.TaggedFileDAO;
 import jfmi.gui.GUIUtil;
 import jfmi.gui.JFMIFrame;

@@ -1,9 +1,8 @@
-package jfmi.dao;
+package jfmi.app;
 
-import java.io.Serializable;
 import java.util.Comparator;
+import java.io.Serializable;
 
-import jfmi.control.FileTag;
 
 /** A FileTagComparator compares FileTag objects according to
   their primary keys in the SQLiteRepository. Non-primary key columns
@@ -30,5 +29,3 @@ public class FileTagComparator implements
 	}
 	
 }
-
-

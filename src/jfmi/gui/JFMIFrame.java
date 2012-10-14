@@ -19,11 +19,11 @@ import javax.swing.ListSelectionModel;
 import java.util.List;
 import java.util.Vector;
 
+import jfmi.app.TaggedFile;
 import jfmi.control.JFMIApp;
 import jfmi.control.TaggedFileHandler;
 import jfmi.control.FileTagHandler;
 import jfmi.control.FileTaggingHandler;
-import jfmi.control.TaggedFile;
 
 
 /** A JFMIFrame acts as the parent Swing Component for the JFMI application's

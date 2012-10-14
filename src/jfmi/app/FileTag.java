@@ -1,4 +1,4 @@
-package jfmi.control;
+package jfmi.app;
 
 /** Represents a tag that the JFMI application can apply to a file.
   */
