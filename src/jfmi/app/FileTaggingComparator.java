@@ -25,7 +25,19 @@ public class FileTaggingComparator implements
 			argument is less than, equal to, or greater than the second
 	  */
 	public int compare(FileTagging o1, FileTagging o2) {
-		return o1.getTaggingId() - o2.getTaggingId(); 
+		int o1TID = o1.getTaggingId();
+		int o2TID = o2.getTaggingId();
+
+		if (
+			o1TID == FileTagging.DEFAULT_TAGGING_ID
+			|| o2TID == FileTagging.DEFAULT_TAGGING_ID
+		) {
+
+			return o1.getTag().compareTo(o2.getTag());
+
+		} else {
+			return o1TID - o2TID;
+		}
 	}
 	
 }

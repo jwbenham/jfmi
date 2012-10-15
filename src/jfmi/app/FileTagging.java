@@ -6,6 +6,8 @@ import java.util.Comparator;
 /** Represents an association between a file and a tag.
   */
 public class FileTagging implements Comparable<FileTagging> {
+	// PUBLIC CLASS Fields
+	public static final int DEFAULT_TAGGING_ID = -1;
 
 	// PRIVATE INSTANCE Fields
 	int taggingId;
@@ -22,7 +24,7 @@ public class FileTagging implements Comparable<FileTagging> {
 	  */
 	public FileTagging()
 	{
-		this(-1, -1, "", "");
+		this(DEFAULT_TAGGING_ID, -1, "", "");
 	}
 
 	/** Constructs a new FileTagging with the specified tagging id, file id,
