@@ -13,8 +13,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.DocumentEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -35,7 +33,6 @@ import jfmi.control.TaggedFileHandler;
   */
 public class TaggedFileViewDialog extends JDialog implements 
 	ActionListener, 
-	DocumentListener,
 	ListSelectionListener {
 
 	// PRIVATE INSTANCE Fields
@@ -376,37 +373,6 @@ public class TaggedFileViewDialog extends JDialog implements
 		if (source == taggingJList) {
 			updateCommentArea();
 		}	
-	}
-
-	//************************************************************
-	// IMPLEMENTATION DocumentListener
-	//************************************************************
-
-	/** Determines what action to take when an attribute(s) of the document
-	 changed. 
-	  @param e the DocumentEvent causing the method to be invoked
-	  */
-	public void changedUpdate(DocumentEvent e)
-	{
-
-	}
-
-	/** Determines what action to take when there is an insertion into the
-	  document.
-	  @param e the DocumentEvent causing the method to be invoked
-	  */
-	public void insertUpdate(DocumentEvent e)
-	{
-
-	}
-
-	/** Determines what action to take when there is a removal from the
-	  document.
-	  @param e the DocumentEvent causing the method to be invoked
-	  */
-	public void removeUpdate(DocumentEvent e)
-	{
-
 	}
 
 }
