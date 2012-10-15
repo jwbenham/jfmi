@@ -373,6 +373,7 @@ public class TaggedFileViewDialog extends JDialog implements
 
 		} else if (source == saveFileButton) {
 
+			handleCommentChange();
 			fileHandler.beginSaveFileInteraction(displayedFile);
 
 		}
