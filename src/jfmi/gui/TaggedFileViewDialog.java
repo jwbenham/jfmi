@@ -46,6 +46,7 @@ public class TaggedFileViewDialog extends JDialog implements
 
 	private JList<FileTag> tagJList;
 	private JList<FileTagging> taggingJList;
+	private FileTagging lastSelected;
 	private JTextArea commentArea;
 
 	private Box fileInfoBox;
@@ -191,6 +192,8 @@ public class TaggedFileViewDialog extends JDialog implements
 		setLayout(new BorderLayout(5, 5));
 		setFileHandler(fileHandler_);	
 		Styles.setAllSizes(this, new Dimension(600, 400));
+
+		lastSelected = null;
 	}
 
 	/** Initializes the file information box, which displays the file path
@@ -370,9 +373,31 @@ public class TaggedFileViewDialog extends JDialog implements
 	{
 		Object source = e.getSource();
 
+		/* If the source is the JList of taggings for the file being edited,
+		  we want to always update the commentArea with the comment of the newly
+		  selected tagging; however, we also want to check if the comment of
+		  the last selected tagging changed, and if so, assign it to the
+		  set of updated taggings in the displayed/edited file.
+		  */
 		if (source == taggingJList) {
+
+			if (lastSelected != null) {
+				String oldComment = lastSelected.getComment();
+				String newComment = commentArea.getText();
+
+				if (!oldComment.equals(newComment)) {
+					lastSelected.setComment(newComment);
+					fileHandler.beginUpdateTaggingInteraction(displayedFile,
+															  lastSelected);	
+				}
+			}
+
+			lastSelected = taggingJList.getSelectedValue();
+
 			updateCommentArea();
+
 		}	
+		
 	}
 
 }
