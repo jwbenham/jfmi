@@ -182,6 +182,25 @@ public class TaggedFileViewDialog extends JDialog implements
 	// PRIVATE INSTANCE Methods
 	//************************************************************
 
+	/** Checks if the last selected tagging's comment matches the current
+	  contents of the comment text area. If the two are different, the
+	  file handler is invoked to perform an update on the displayed file's
+	  set of taggings.
+	  */
+	private void handleCommentChange()
+	{
+		if (lastSelected != null) {
+			String oldComment = lastSelected.getComment();
+			String newComment = commentArea.getText();
+
+			if (!oldComment.equals(newComment)) {
+				lastSelected.setComment(newComment);
+				fileHandler.beginUpdateTaggingInteraction(displayedFile,
+														  lastSelected);	
+			}
+		}
+	}
+
 	/** Initializes a TaggedFileViewPanel instance.
 	  @param fileHandler_ file handler to associate with this instance
 	  @throws IllegalArgumentException if fileHandler_ is null
@@ -380,22 +399,9 @@ public class TaggedFileViewDialog extends JDialog implements
 		  set of updated taggings in the displayed/edited file.
 		  */
 		if (source == taggingJList) {
-
-			if (lastSelected != null) {
-				String oldComment = lastSelected.getComment();
-				String newComment = commentArea.getText();
-
-				if (!oldComment.equals(newComment)) {
-					lastSelected.setComment(newComment);
-					fileHandler.beginUpdateTaggingInteraction(displayedFile,
-															  lastSelected);	
-				}
-			}
-
+			handleCommentChange();
 			lastSelected = taggingJList.getSelectedValue();
-
 			updateCommentArea();
-
 		}	
 		
 	}
