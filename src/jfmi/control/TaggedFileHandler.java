@@ -183,6 +183,25 @@ public class TaggedFileHandler {
 		fileGUI.getFileViewer().updateDisplayedFile(updateMe);	
 	}
 
+	/**
+	  @param updateMe the EditedTaggedFile to assign the updated tagging to
+	  @param updated the updated FileTagging to assign to the EditedTaggedfile's
+	  				set of assigned updates
+	  */
+	public void beginUpdateTaggingInteraction(EditedTaggedFile updateMe,
+											  FileTagging updated)
+	{
+		if (updateMe.assignUpdated(updated)) {
+			fileGUI.getFileViewer().updateDisplayedFile(updateMe);
+		} else {
+			StringBuilder alert = new StringBuilder("");
+			alert.append("Could not update the tag \"" + updated.getTag());
+			alert.append("\" in the file. It has never been added.");
+
+			GUIUtil.showAlert(alert.toString());
+		}
+	}
+
 	/** Begins an interaction with the user which allows them to save a
 	  file they have been editing.
 	  @param saveMe the EditedTaggedFile to be updated in the repository
