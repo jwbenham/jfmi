@@ -6,14 +6,15 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.TextEvent;
-import java.awt.event.TextListener;
+import java.util.Vector;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -21,7 +22,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import java.util.Vector;
 
 import jfmi.app.EditedTaggedFile;
 import jfmi.app.FileTag;
@@ -35,8 +35,8 @@ import jfmi.control.TaggedFileHandler;
   */
 public class TaggedFileViewDialog extends JDialog implements 
 	ActionListener, 
-	ListSelectionListener,
-	TextListener {
+	DocumentListener,
+	ListSelectionListener {
 
 	// PRIVATE INSTANCE Fields
 	private JLabel fileNameLabel;
@@ -379,20 +379,34 @@ public class TaggedFileViewDialog extends JDialog implements
 	}
 
 	//************************************************************
-	// IMPLEMENTATION TextListener
+	// IMPLEMENTATION DocumentListener
 	//************************************************************
 
-	/** Determines what action to take when the value of a text component
-	  changes.
-	  @param e the TextEvent that is invoking the method
+	/** Determines what action to take when an attribute(s) of the document
+	 changed. 
+	  @param e the DocumentEvent causing the method to be invoked
 	  */
-	public void textValueChanged(TextEvent e)
+	public void changedUpdate(DocumentEvent e)
 	{
-		Object source = e.getSource();
 
-		if (source == commentArea) {
-			GUIUtil.showAlert("Text changed: \n" + commentArea.getText());
-		}
+	}
+
+	/** Determines what action to take when there is an insertion into the
+	  document.
+	  @param e the DocumentEvent causing the method to be invoked
+	  */
+	public void insertUpdate(DocumentEvent e)
+	{
+
+	}
+
+	/** Determines what action to take when there is a removal from the
+	  document.
+	  @param e the DocumentEvent causing the method to be invoked
+	  */
+	public void removeUpdate(DocumentEvent e)
+	{
+
 	}
 
 }
