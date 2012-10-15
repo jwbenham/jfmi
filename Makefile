@@ -31,7 +31,7 @@ tests:
 # Generate javadoc HTML documentation
 jdoc: cleandoc
 	javadoc -quiet -d ${JAVADOC_DEST} -sourcepath ${SRC_DIR} \
-		-subpackages ${SUB_PACK}
+		-classpath ${CLASSPATH}:${CP} -subpackages ${SUB_PACK}
 
 # Remove javadoc
 cleandoc:
