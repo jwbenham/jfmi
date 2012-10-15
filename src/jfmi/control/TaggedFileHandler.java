@@ -183,7 +183,10 @@ public class TaggedFileHandler {
 		fileGUI.getFileViewer().updateDisplayedFile(updateMe);	
 	}
 
-	/**
+	/** Given an EditedTaggedFile, this method updates the EditedTaggedFile's
+	  taggings with the specified FileTagging. Note that the updated tagging
+	  must have previously been saved in the database, or added to the file.
+	  Otherwise there will be nothing to update.
 	  @param updateMe the EditedTaggedFile to assign the updated tagging to
 	  @param updated the updated FileTagging to assign to the EditedTaggedfile's
 	  				set of assigned updates
@@ -191,9 +194,7 @@ public class TaggedFileHandler {
 	public void beginUpdateTaggingInteraction(EditedTaggedFile updateMe,
 											  FileTagging updated)
 	{
-		if (updateMe.assignUpdated(updated)) {
-			fileGUI.getFileViewer().updateDisplayedFile(updateMe);
-		} else {
+		if (updateMe.assignUpdated(updated) == false) {
 			StringBuilder alert = new StringBuilder("");
 			alert.append("Could not update the tag \"" + updated.getTag());
 			alert.append("\" in the file. It has never been added.");
