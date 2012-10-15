@@ -257,7 +257,7 @@ public class EditedTaggedFile {
 	/** Sets the set of taggings to be removed. This set should have been
 	  constructed with the appropriate comparator for maintaining
 	  consistency among the sets.
-	  @param added the set of FileTaggings to be removed
+	  @param removed the set of FileTaggings to be removed
 	  */
 	public void setRemovedTaggings(TreeSet<FileTagging> removed)
 	{
@@ -267,7 +267,7 @@ public class EditedTaggedFile {
 	/** Sets the set of taggings to be updated. This set should have been
 	  constructed with the appropriate comparator for maintaining
 	  consistency among the sets.
-	  @param added the set of FileTaggings to be updated
+	  @param updated the set of FileTaggings to be updated
 	  */
 	public void setUpdatedTaggings(TreeSet<FileTagging> updated)
 	{

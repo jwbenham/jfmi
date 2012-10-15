@@ -6,7 +6,7 @@
 SRC_DIR+=./src
 
 # Subpackages for javadoc generation
-SUB_PACK+=jfmi.control:jfmi.dao:jfmi.gui:jfmi.repo:jfmi.util
+SUB_PACK+=jfmi.app:jfmi.control:jfmi.dao:jfmi.gui:jfmi.repo:jfmi.util
 
 # Destination for javadoc generation
 JAVADOC_DEST+=./doc/javadoc
