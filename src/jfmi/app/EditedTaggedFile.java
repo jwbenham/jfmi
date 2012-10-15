@@ -200,7 +200,7 @@ public class EditedTaggedFile {
 	public TreeSet<FileTagging> getWorkingTaggings()
 	{
 		TreeSet<FileTagging> working;
-	   	working = new TreeSet<FileTagging>(new FileTaggingComparator());
+	   	working = new TreeSet<FileTagging>(new FileTaggingTagComparator());
 
 		/* Get the taggings that are currently saved, and add them to the
 		   working set. */

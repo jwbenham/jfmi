@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.TextEvent;
+import java.awt.event.TextListener;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.Box;
@@ -31,8 +33,10 @@ import jfmi.control.TaggedFileHandler;
   to the user, and allows the user to communicate changes to a
   TaggedFileHandler.
   */
-public class TaggedFileViewDialog extends JDialog 
-	implements ActionListener, ListSelectionListener {
+public class TaggedFileViewDialog extends JDialog implements 
+	ActionListener, 
+	ListSelectionListener,
+	TextListener {
 
 	// PRIVATE INSTANCE Fields
 	private JLabel fileNameLabel;
@@ -374,5 +378,21 @@ public class TaggedFileViewDialog extends JDialog
 		}	
 	}
 
+	//************************************************************
+	// IMPLEMENTATION TextListener
+	//************************************************************
+
+	/** Determines what action to take when the value of a text component
+	  changes.
+	  @param e the TextEvent that is invoking the method
+	  */
+	public void textValueChanged(TextEvent e)
+	{
+		Object source = e.getSource();
+
+		if (source == commentArea) {
+			GUIUtil.showAlert("Text changed: \n" + commentArea.getText());
+		}
+	}
 
 }
