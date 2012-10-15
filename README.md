@@ -1,7 +1,30 @@
 #jfmi
 
-Java File Meta-Information application - allows the user to associate files with
-tags and comments.
+Java File Meta-Information (JFMI) application - allows the user to associate 
+files with tags and comments. The application is written in Java and uses an
+SQLite database. So far, it is being developed and tested in Linux - all build
+and utility scripts are written with Linux in mind.
+
+The application allows a user to select files and directories on their file
+system to be saved for tagging. A user may also create tags - keywords or phrases
+to be associated with a path. A path saved in the JFMI database can be associated
+with one of the user's created tags, and a comment can be added to such a
+path "tagging."
+
+The goal of JFMI is to make it easier for users to find files and directories on
+their file system by allowing them to sort and search through the tagged files 
+in JFMI by tags and comment keywords.
+
+The following features are currently implemented:
+* Addition/removal of paths available for tagging
+* Addition/removal/editing of tags
+* Saved paths can have tags added, removed, or updated with new/revised comments 
+
+Future work:
+* Sorting/searching paths by tag
+* Sorting/searching paths by keywords in tagging comments
+* Unit tests need to be added for most classes
+* Develop an interface for scrolling through a path's taggings and comments
 
 
 ## Building
