@@ -135,7 +135,7 @@ public class TaggedFileHandler {
 	  selected files from the repository.
 	  @param selectedFiles files selected by the user for deletion
 	  */
-	public void beginDeleteFilesInteraction(List<TaggedFile> selectedFiles)
+	public void beginDeleteFiles(List<TaggedFile> selectedFiles)
 	{
 		if (fileGUI.getConfirmation("Confirm deletion of files.") == false) {
 			return;	
