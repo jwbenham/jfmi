@@ -208,9 +208,6 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 		} else if (src == editFileButton) {
 
-
-		} else if (src == viewFileButton) {
-
 			TaggedFile selectedFile = taggedFileJList.getSelectedValue();
 			
 			if (selectedFile != null) {
@@ -218,6 +215,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			} else {
 				GUIUtil.showAlert("No file selected.");
 			}
+
+		} else if (src == viewFileButton) {
 
 		} else if (src == deleteFilesButton) {
 
