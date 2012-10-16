@@ -141,7 +141,7 @@ public class FileTagHandler {
 	/** When called, displays an interface to allow the user to
 	  add/remove tags.
 	  */
-	public void beginManageTagsInteraction()
+	public void beginManageTags()
 	{
 		updateDataAndGUI(true);
 		tagHandlerDialog.setVisible(true);

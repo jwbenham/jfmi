@@ -200,7 +200,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 		if (src == manageTagsButton) {
 
-			jfmiApp.getTagHandler().beginManageTagsInteraction();
+			jfmiApp.getTagHandler().beginManageTags();
 
 		} else if (src == addFileButton) {
 
