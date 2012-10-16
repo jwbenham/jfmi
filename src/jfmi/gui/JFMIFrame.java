@@ -1,16 +1,20 @@
 package jfmi.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -125,32 +129,50 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private final void initButtonBox()
 	{
 		// Initialize buttons
+		JLabel tagsLabel = new JLabel("File Tags");
+		tagsLabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.BLACK));
+		tagsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		manageTagsButton = new JButton("Manage Tags..");
 		manageTagsButton.addActionListener(this);
+		manageTagsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Styles.setDefaultJButtonStyles(manageTagsButton);
+
+		JLabel filesLabel = new JLabel("Tagged Files");
+		filesLabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.BLACK));
+		filesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		addFileButton = new JButton("Add New File");
 		addFileButton.addActionListener(this);
+		addFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Styles.setDefaultJButtonStyles(addFileButton);
 
 		editFileButton = new JButton("Edit File");
 		editFileButton.addActionListener(this);
+		editFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Styles.setDefaultJButtonStyles(editFileButton);
 
 		viewFileButton = new JButton("View File");
 		viewFileButton.addActionListener(this);
+		viewFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Styles.setDefaultJButtonStyles(viewFileButton);
 
 		deleteFilesButton = new JButton("Delete Selected Files");
 		deleteFilesButton.addActionListener(this);
+		deleteFilesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Styles.setDefaultJButtonStyles(deleteFilesButton);
 		deleteFilesButton.setForeground(Styles.DANGER_COLOR);
 
 		// Initialize buttonBox
 		buttonBox = new Box(BoxLayout.Y_AXIS);
-		buttonBox.add(Box.createVerticalStrut(50));
+		buttonBox.add(Box.createVerticalStrut(10));
+		buttonBox.add(tagsLabel);
+		buttonBox.add(Box.createVerticalStrut(10));
 		buttonBox.add(manageTagsButton);
 		buttonBox.add(Box.createVerticalStrut(50));
+
+		buttonBox.add(filesLabel);
+		buttonBox.add(Box.createVerticalStrut(10));
 		buttonBox.add(addFileButton);
 		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(editFileButton);
