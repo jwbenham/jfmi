@@ -105,7 +105,7 @@ public class TaggedFileHandler {
 	/** Begins an interaction with the user that allows them to add new files
 	  to the repository for tagging.
 	  */
-	public void beginAddFileInteraction()
+	public void beginAddFile()
 	{
 		File[] selectedFiles = fileGUI.displayFileChooser();
 		addFilesToRepo(selectedFiles);

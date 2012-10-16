@@ -204,7 +204,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 		} else if (src == addFileButton) {
 
-			jfmiApp.getFileHandler().beginAddFileInteraction();
+			jfmiApp.getFileHandler().beginAddFile();
 
 		} else if (src == editFileButton) {
 
