@@ -243,7 +243,7 @@ public class TaggedFileHandler {
 	  by the 
 	  @param viewMe the file to view
 	  */
-	public void beginViewFileInteraction(TaggedFile viewMe)
+	public void beginEditFile(TaggedFile viewMe)
 	{
 		TaggedFileEditDialog fileViewer = fileGUI.getFileViewer();
 		FileTag[] tags;

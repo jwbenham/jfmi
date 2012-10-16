@@ -211,7 +211,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			TaggedFile selectedFile = taggedFileJList.getSelectedValue();
 			
 			if (selectedFile != null) {
-				jfmiApp.getFileHandler().beginViewFileInteraction(selectedFile);
+				jfmiApp.getFileHandler().beginEditFile(selectedFile);
 			} else {
 				GUIUtil.showAlert("No file selected.");
 			}
