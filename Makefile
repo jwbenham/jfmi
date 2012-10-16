@@ -5,15 +5,12 @@
 # Source directory
 SRC_DIR+=./src
 
-# Subpackages for javadoc generation
-#SUB_PACK+=jfmi.app:jfmi.control:jfmi.dao:jfmi.gui:jfmi.repo:jfmi.util
-SUB_PACK+=jfmi
-
-# Destination for javadoc generation
-JAVADOC_DEST+=./doc/javadoc
-
-# javac -classpath option
+# Classpath
 CP+=.:./src:./lib/*
+
+# javadoc options
+SUB_PACK+=jfmi
+JAVADOC_DEST+=./doc/javadoc
 
 # javac options
 OPT+=-Xlint:unchecked
