@@ -238,15 +238,15 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 		Object source = e.getSource();
 
 		if (source == addTagButton) {
-			tagHandler.beginAddTagInteraction();
+			tagHandler.beginAddTag();
 
 		} else if (source == deleteTagsButton) {
-			tagHandler.beginDeleteTagsInteraction(
+			tagHandler.beginDeleteTags(
 				tagJList.getSelectedValuesList()
 			);
 
 		} else if (source == editTagButton) {
-			tagHandler.beginEditTagInteraction(tagJList.getSelectedValue());
+			tagHandler.beginEditTag(tagJList.getSelectedValue());
 
 		}
 	}

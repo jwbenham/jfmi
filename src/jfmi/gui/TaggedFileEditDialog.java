@@ -195,7 +195,7 @@ public class TaggedFileEditDialog extends JDialog implements
 
 			if (!oldComment.equals(newComment)) {
 				lastSelected.setComment(newComment);
-				fileHandler.beginUpdateTaggingInteraction(displayedFile,
+				fileHandler.beginUpdateTagging(displayedFile,
 														  lastSelected);	
 			}
 		}
@@ -341,7 +341,7 @@ public class TaggedFileEditDialog extends JDialog implements
 
 		if (source == changePathButton) {
 
-			fileHandler.beginUpdateFilePathInteraction(displayedFile);
+			fileHandler.beginUpdateFilePath(displayedFile);
 
 		} else if (source == addTagButton) {
 
@@ -357,7 +357,7 @@ public class TaggedFileEditDialog extends JDialog implements
 			newTagging.setTag(selectedTag.getTag());
 
 			// Pass control off to the file handler
-			fileHandler.beginAddTaggingInteraction(displayedFile,
+			fileHandler.beginAddTagging(displayedFile,
 												   newTagging);
 
 		} else if (source == removeTagButton) {
@@ -369,12 +369,12 @@ public class TaggedFileEditDialog extends JDialog implements
 			}
 
 			// Pass control off to the file handler
-			fileHandler.beginRemoveTaggingInteraction(displayedFile, tagging);
+			fileHandler.beginRemoveTagging(displayedFile, tagging);
 
 		} else if (source == saveFileButton) {
 
 			handleCommentChange();
-			fileHandler.beginSaveFileInteraction(displayedFile);
+			fileHandler.beginSaveFile(displayedFile);
 
 		}
 

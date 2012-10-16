@@ -117,7 +117,7 @@ public class TaggedFileHandler {
 	  @param updateMe the EditedTaggedFile to update with a new tagging
 	  @param newTagging the new FileTagging to add to the file
 	  */
-	public void beginAddTaggingInteraction(EditedTaggedFile updateMe,
+	public void beginAddTagging(EditedTaggedFile updateMe,
 											FileTagging newTagging)
 	{
 		if (updateMe.assignAdded(newTagging)) {
@@ -150,7 +150,7 @@ public class TaggedFileHandler {
 	  @param updateMe the EditedTaggedFile from which to remove a tagging
 	  @param deadTagging the FileTagging to remove from the file
 	  */
-	public void beginRemoveTaggingInteraction(EditedTaggedFile updateMe,
+	public void beginRemoveTagging(EditedTaggedFile updateMe,
 											  FileTagging deadTagging)
 	{
 		if (updateMe.assignRemoved(deadTagging)) {
@@ -168,7 +168,7 @@ public class TaggedFileHandler {
   	  file's path.
 	  @param updateMe the EditedTaggedFile whose path will be updated
 	  */	  
-	public void beginUpdateFilePathInteraction(EditedTaggedFile updateMe)
+	public void beginUpdateFilePath(EditedTaggedFile updateMe)
 	{
 		TaggedFile file = updateMe.getEditedFile();
 
@@ -191,7 +191,7 @@ public class TaggedFileHandler {
 	  @param updated the updated FileTagging to assign to the EditedTaggedfile's
 	  				set of assigned updates
 	  */
-	public void beginUpdateTaggingInteraction(EditedTaggedFile updateMe,
+	public void beginUpdateTagging(EditedTaggedFile updateMe,
 											  FileTagging updated)
 	{
 		if (updateMe.assignUpdated(updated) == false) {
@@ -207,7 +207,7 @@ public class TaggedFileHandler {
 	  file they have been editing.
 	  @param saveMe the EditedTaggedFile to be updated in the repository
 	  */
-	public void beginSaveFileInteraction(EditedTaggedFile saveMe)
+	public void beginSaveFile(EditedTaggedFile saveMe)
 	{
 		// Confirm the update
 		boolean confirmed = fileGUI.getConfirmation("Are you sure you want to "

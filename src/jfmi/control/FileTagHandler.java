@@ -81,7 +81,7 @@ public class FileTagHandler {
 	/** Begins an interaction with the user that allows them to enter the
 	  value for a new FileTag and store it in the repository.
 	  */
-	public void beginAddTagInteraction()
+	public void beginAddTag()
 	{
 		String newTag = getNewTagFromUser();
 
@@ -98,7 +98,7 @@ public class FileTagHandler {
 	  tags from the repository. 
 	  @param tags a list of tags to be deleted from the repository
 	  */
-	public void beginDeleteTagsInteraction(List<FileTag> tags)
+	public void beginDeleteTags(List<FileTag> tags)
 	{
 		if (tags == null) {
 			return;
@@ -120,7 +120,7 @@ public class FileTagHandler {
 	  a new value for a tag they have selected.
 	  @param editMe the file tag the user has selected to edit
 	  */
-	public void beginEditTagInteraction(FileTag editMe)
+	public void beginEditTag(FileTag editMe)
 	{
 		// Ask GUI to get new value from user
 		String editVal = getEditedTagFromUser(editMe.getTag());
