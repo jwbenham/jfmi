@@ -31,7 +31,7 @@ import jfmi.control.TaggedFileHandler;
   to the user, and allows the user to communicate changes to a
   TaggedFileHandler.
   */
-public class TaggedFileViewDialog extends JDialog implements 
+public class TaggedFileEditDialog extends JDialog implements 
 	ActionListener, 
 	ListSelectionListener {
 
@@ -65,7 +65,7 @@ public class TaggedFileViewDialog extends JDialog implements
 	  @param fileHandler_ file handler to associate with this instance
 	  @throws IllegalArgumentException if fileHandler_ is null
 	  */
-	public TaggedFileViewDialog(JFrame parent, TaggedFileHandler fileHandler_)
+	public TaggedFileEditDialog(JFrame parent, TaggedFileHandler fileHandler_)
 	{
 		super(parent, "File Viewer", true);
 

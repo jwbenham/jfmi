@@ -15,7 +15,7 @@ public class TaggedFileHandlerGUI {
 	private TaggedFileHandler fileHandler;
 
 	private JFileChooser fileChooser;
-	private TaggedFileViewDialog fileViewer;
+	private TaggedFileEditDialog fileViewer;
 	private JFMIFrame jfmiGUI;
 
 	//************************************************************
@@ -68,7 +68,7 @@ public class TaggedFileHandlerGUI {
 	/** Provides access to the file viewer.
 	  @return a reference to the file viewer
 	  */
-	public TaggedFileViewDialog getFileViewer()
+	public TaggedFileEditDialog getFileViewer()
 	{
 		return fileViewer;
 	}
@@ -125,7 +125,7 @@ public class TaggedFileHandlerGUI {
 		setFileHandler(fileHandler_);
 		setJFMIGUI(jfmiGUI_);
 
-		fileViewer = new TaggedFileViewDialog(jfmiGUI, fileHandler);
+		fileViewer = new TaggedFileEditDialog(jfmiGUI, fileHandler);
 	}
 
 	/** Initialize the file chooser.

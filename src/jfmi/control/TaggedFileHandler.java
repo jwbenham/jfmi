@@ -15,7 +15,7 @@ import jfmi.dao.TaggedFileDAO;
 import jfmi.gui.GUIUtil;
 import jfmi.gui.JFMIFrame;
 import jfmi.gui.TaggedFileHandlerGUI;
-import jfmi.gui.TaggedFileViewDialog;
+import jfmi.gui.TaggedFileEditDialog;
 
 
 /** A controller class for handling the logic of updating/adding/deleting which
@@ -245,7 +245,7 @@ public class TaggedFileHandler {
 	  */
 	public void beginViewFileInteraction(TaggedFile viewMe)
 	{
-		TaggedFileViewDialog fileViewer = fileGUI.getFileViewer();
+		TaggedFileEditDialog fileViewer = fileGUI.getFileViewer();
 		FileTag[] tags;
 
 		// Get all tags, so the user can browse/add them to the file
