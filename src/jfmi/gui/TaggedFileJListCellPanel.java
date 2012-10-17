@@ -94,7 +94,7 @@ public class TaggedFileJListCellPanel extends JPanel {
 	{
 		tagLabel = new JLabel(taggedFile.getFileTagsAsString());
 		tagLabel.setFont(Styles.SS_PLAIN_12);
-		tagLabel.setForeground(Styles.DARKER_GREEN);
+		tagLabel.setForeground(Styles.VIOLET);
 	}
 
 	/** Mutator of taggedFile field.
