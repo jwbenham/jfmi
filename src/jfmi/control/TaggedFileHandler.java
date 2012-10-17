@@ -182,14 +182,22 @@ public class TaggedFileHandler {
 			return;
 		}	
 
-		if (!Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+		Desktop desktop = Desktop.getDesktop();
+
+		if (!desktop.isSupported(Desktop.Action.BROWSE)) {
 			alert.append(" The action is unsupported on this platform.");
 			GUIUtil.showAlert(alert.toString());
 			return;
 		}
 
 		try {
-			Desktop.getDesktop().browse(showMe.getFile().toURI());
+			File parent = showMe.getFile().getParentFile();
+
+			if (parent != null) {
+				desktop.browse(parent.toURI());
+			} else {
+				GUIUtil.showAlert("File has no parent directory.");
+			}
 
 		} catch (IOException ioEx) {
 			alert.append(" An error occurred while launching the default file")
