@@ -45,6 +45,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private JButton addFileButton;
 	private JButton editFileButton;
 	private JButton viewFileButton;
+	private JButton showFileButton;
 	private JButton deleteFilesButton;
 
 	// List related
@@ -157,6 +158,11 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		viewFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Styles.setDefaultJButtonStyles(viewFileButton);
 
+		showFileButton = new JButton("Show In Directory");
+		showFileButton.addActionListener(this);
+		showFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		Styles.setDefaultJButtonStyles(showFileButton);
+
 		deleteFilesButton = new JButton("Delete Selected Files");
 		deleteFilesButton.addActionListener(this);
 		deleteFilesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -178,6 +184,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		buttonBox.add(editFileButton);
 		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(viewFileButton);
+		buttonBox.add(Box.createVerticalStrut(5));
+		buttonBox.add(showFileButton);
 		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(deleteFilesButton);
 		buttonBox.add(Box.createVerticalStrut(50));
@@ -239,6 +247,16 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			}
 
 		} else if (src == viewFileButton) {
+
+		} else if (src == showFileButton) {
+
+			TaggedFile selectedFile = taggedFileJList.getSelectedValue();
+			
+			if (selectedFile != null) {
+				jfmiApp.getFileHandler().beginShowInDirectory(selectedFile);
+			} else {
+				GUIUtil.showAlert("No file selected.");
+			}
 
 		} else if (src == deleteFilesButton) {
 
