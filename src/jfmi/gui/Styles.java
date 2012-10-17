@@ -58,7 +58,7 @@ public final class Styles {
 		DEFAULT_BUTTON_FONT_COLOR = Color.DARK_GRAY;
 		DEFAULT_BUTTON_SIZE = new Dimension(180, 30);
 
-		DEFAULT_BG_COLOR = new Color(20, 200, 60);
+		DEFAULT_BG_COLOR = new Color(70, 100, 255);
 
 		H3_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 12);
 		H4_FONT = new Font(Font.SANS_SERIF, Font.ITALIC, 11);

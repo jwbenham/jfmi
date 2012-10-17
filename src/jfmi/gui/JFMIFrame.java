@@ -171,6 +171,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 		// Initialize buttonBox
 		buttonBox = new Box(BoxLayout.Y_AXIS);
+		buttonBox.setBackground(Styles.DEFAULT_BG_COLOR);
+		buttonBox.setOpaque(true);
 		buttonBox.add(Box.createVerticalStrut(10));
 		buttonBox.add(tagsLabel);
 		buttonBox.add(Box.createVerticalStrut(10));
