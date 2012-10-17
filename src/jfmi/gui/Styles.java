@@ -18,6 +18,9 @@ public final class Styles {
 	/** The default size for buttons. */
 	public static final Dimension DEFAULT_BUTTON_SIZE;
 
+	/** Default background color for Swing components. */
+	public static final Color DEFAULT_BG_COLOR;
+
 	/** Font for a level 3 header. */
 	public static final Font H3_FONT;
 	/** Font for a level 4 header. */
@@ -54,6 +57,8 @@ public final class Styles {
 		DEFAULT_BUTTON_FONT = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 		DEFAULT_BUTTON_FONT_COLOR = Color.DARK_GRAY;
 		DEFAULT_BUTTON_SIZE = new Dimension(180, 30);
+
+		DEFAULT_BG_COLOR = new Color(20, 200, 60);
 
 		H3_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 12);
 		H4_FONT = new Font(Font.SANS_SERIF, Font.ITALIC, 11);
