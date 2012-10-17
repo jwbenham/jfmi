@@ -32,7 +32,7 @@ public class TaggedFileHandler {
 
 	private TaggedFileDAO taggedFileDAO;
 
-	private Vector<TaggedFile> taggedFiles; 
+	private TreeSet<TaggedFile> taggedFiles; 
 
 
 	//************************************************************	
@@ -412,13 +412,13 @@ public class TaggedFileHandler {
 		jfmiApp = jfmiApp_;
 	}
 
-	/** Constructs a new Vector<TaggedFile> for this instance from the
-	  specified Collection.
+	/** Constructs a new set of TaggedFiles for this instance from the
+	  specified Collection. 
 	  @param collection The Collection to construct a new Vector from.
 	  */
 	public void setTaggedFiles(Collection<TaggedFile> collection)
 	{
-		taggedFiles = new Vector<TaggedFile>(collection);
+		taggedFiles = new TreeSet<TaggedFile>(collection);
 	}
 
 	/** Refreshes the handler's data from the repository, and updates its
@@ -529,7 +529,9 @@ public class TaggedFileHandler {
 	  */
 	private void updateGUITaggedFileJList()
 	{
-		jfmiApp.getJFMIGUI().setTaggedFileJListData(taggedFiles);
+		jfmiApp.getJFMIGUI().setTaggedFileJListData(
+				new Vector<TaggedFile>(taggedFiles)
+		);
 	}
 
 }
