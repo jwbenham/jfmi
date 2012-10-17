@@ -1,6 +1,9 @@
 package jfmi.control;
 
+import java.awt.Desktop;
+import java.awt.Desktop.Action;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
@@ -161,6 +164,42 @@ public class TaggedFileHandler {
 			alert.append("\" from the file. It has never been added.");
 
 			GUIUtil.showAlert(alert.toString());
+		}
+	}
+
+	/** Shows the specified TaggedFile in its parent directory using the
+	  local operating system's windowing system.
+	  @param showMe the TaggedFile to show in its folder
+	  */
+	public void beginShowInDirectory(TaggedFile showMe)
+	{
+		StringBuilder alert = new StringBuilder("");
+		alert.append("Unable to show the selected file in its directory.");
+
+		if (!Desktop.isDesktopSupported()) {
+			alert.append(" A window system is unavailable on this platform.");
+			GUIUtil.showAlert(alert.toString());
+			return;
+		}	
+
+		if (!Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+			alert.append(" The action is unsupported on this platform.");
+			GUIUtil.showAlert(alert.toString());
+			return;
+		}
+
+		try {
+			Desktop.getDesktop().browse(showMe.getFile().toURI());
+
+		} catch (IOException ioEx) {
+			alert.append(" An error occurred while launching the default file")
+				.append(" browser.");
+			GUIUtil.showErrorDialog(alert.toString(), ioEx.toString());
+
+		} catch (IllegalArgumentException iaEx) {
+			alert.append(" The necessary permissions are not available to show")
+				.append(" the file.");
+			GUIUtil.showErrorDialog(alert.toString(), iaEx.toString());
 		}
 	}
 
