@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import jfmi.control.TaggedFile;
+import jfmi.app.TaggedFile;
 import jfmi.dao.TaggedFileDAO;
 import jfmi.repo.SQLiteRepository;
 
