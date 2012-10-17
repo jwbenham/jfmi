@@ -35,7 +35,7 @@ public class TaggedFileJListCellPanel extends JPanel {
 	{
 		// Initialize instance
 		setLayout(new BorderLayout(10, 12));
-		setBorder(new MatteBorder(5, 5, 5, 5, Color.DARK_GRAY));
+		setBorder(new MatteBorder(5, 5, 5, 5, Color.WHITE));
 		setBackground(Color.WHITE);
 		setTaggedFile(taggedFile_);
 
@@ -55,6 +55,7 @@ public class TaggedFileJListCellPanel extends JPanel {
 
 		contentBox = new Box(BoxLayout.Y_AXIS);
 		contentBox.add(paddingBox);
+		contentBox.setBorder(new MatteBorder(1, 1, 1, 1, Color.DARK_GRAY));
 
 		add(contentBox, BorderLayout.CENTER);
 	}
