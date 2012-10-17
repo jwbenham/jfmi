@@ -60,7 +60,7 @@ public final class Styles {
 
 		DEFAULT_BG_COLOR = new Color(70, 100, 255);
 
-		H3_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 12);
+		H3_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 16);
 		H4_FONT = new Font(Font.SANS_SERIF, Font.ITALIC, 11);
 
 		SS_PLAIN_12 = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
@@ -74,7 +74,7 @@ public final class Styles {
 		LIGHT_YELLOW = new Color(225, 225, 190);
 		LIGHTEST_YELLOW = new Color(245, 245, 210);
 
-		H3_COLOR = Color.BLUE;
+		H3_COLOR = Color.BLACK;
 		H4_COLOR = LIGHT_BLUE;
 	}
 
