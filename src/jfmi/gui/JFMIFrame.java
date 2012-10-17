@@ -130,8 +130,9 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private final void initButtonBox()
 	{
 		// Initialize buttons
-		JLabel tagsLabel = new JLabel("File Tags");
-		tagsLabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.BLACK));
+		JLabel tagsLabel = new JLabel("Tag Options");
+		tagsLabel.setForeground(Color.DARK_GRAY);
+		tagsLabel.setFont(Styles.SS_PLAIN_16);
 		tagsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		manageTagsButton = new JButton("Manage Tags..");
@@ -139,8 +140,9 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		manageTagsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Styles.setDefaultJButtonStyles(manageTagsButton);
 
-		JLabel filesLabel = new JLabel("Tagged Files");
-		filesLabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.BLACK));
+		JLabel filesLabel = new JLabel("File Options");
+		filesLabel.setForeground(Color.DARK_GRAY);
+		filesLabel.setFont(Styles.SS_PLAIN_16);
 		filesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		addFileButton = new JButton("Add New File");
