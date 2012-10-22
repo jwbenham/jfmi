@@ -1,5 +1,6 @@
 package jfmi.app;
 
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 /** An EditedTaggedFile represents a TaggedFile that is being edited by the
@@ -11,9 +12,9 @@ public class EditedTaggedFile {
 
 	// PRIVATE INSTANCE Fields
 	private TaggedFile editedFile;
-	private TreeSet<FileTagging> addedTaggings;
-	private TreeSet<FileTagging> removedTaggings;
-	private TreeSet<FileTagging> updatedTaggings;
+	private SortedSet<FileTagging> addedTaggings;
+	private SortedSet<FileTagging> removedTaggings;
+	private SortedSet<FileTagging> updatedTaggings;
 
 
 	//************************************************************
@@ -51,9 +52,9 @@ public class EditedTaggedFile {
 	  @param updated current taggings of the file which are to be updated
 	  */
 	public EditedTaggedFile(TaggedFile editedFile_,
-							TreeSet<FileTagging> added,
-							TreeSet<FileTagging> removed,
-							TreeSet<FileTagging> updated)
+							SortedSet<FileTagging> added,
+							SortedSet<FileTagging> removed,
+							SortedSet<FileTagging> updated)
 	{
 		setEditedFile(editedFile_);
 		setAddedTaggings(added);
@@ -161,7 +162,7 @@ public class EditedTaggedFile {
 	/** Provides access to the taggings currently saved for the wrapped file.
 	  @return the wrapped file's currently saved taggings
 	  */
-	public TreeSet<FileTagging> getSavedTaggings()
+	public SortedSet<FileTagging> getSavedTaggings()
 	{
 		return editedFile.getFileTaggings();
 	}
@@ -169,7 +170,7 @@ public class EditedTaggedFile {
 	/** Provides access to the set of taggings added to the file.
 	  @return a reference to the file's added taggings
 	  */
-	public TreeSet<FileTagging> getAddedTaggings()
+	public SortedSet<FileTagging> getAddedTaggings()
 	{
 		return addedTaggings;
 	}
@@ -177,7 +178,7 @@ public class EditedTaggedFile {
 	/** Provides access to the set of taggings to be removed from the file.
 	  @return a reference to the set of taggings to be removed
 	  */
-	public TreeSet<FileTagging> getRemovedTaggings()
+	public SortedSet<FileTagging> getRemovedTaggings()
 	{
 		return removedTaggings;
 	}
@@ -185,7 +186,7 @@ public class EditedTaggedFile {
 	/** Provides access to the taggings to be updated for this file.
 	  @return a reference to the taggings to be updated
 	  */
-	public TreeSet<FileTagging> getUpdatedTaggings()
+	public SortedSet<FileTagging> getUpdatedTaggings()
 	{
 		return updatedTaggings;
 	}
@@ -197,14 +198,14 @@ public class EditedTaggedFile {
 	  - All taggings the user has added to the file during the editing session
 	  @return the edited file's working set of taggings
 	  */
-	public TreeSet<FileTagging> getWorkingTaggings()
+	public SortedSet<FileTagging> getWorkingTaggings()
 	{
-		TreeSet<FileTagging> working;
+		SortedSet<FileTagging> working;
 	   	working = new TreeSet<FileTagging>(new FileTaggingTagComparator());
 
 		/* Get the taggings that are currently saved, and add them to the
 		   working set. */
-		TreeSet<FileTagging> saved = editedFile.getFileTaggings();
+		SortedSet<FileTagging> saved = editedFile.getFileTaggings();
 		if (saved != null && !saved.isEmpty()) {
 			working.addAll(saved);
 
@@ -249,7 +250,7 @@ public class EditedTaggedFile {
 	  consistency among the sets.
 	  @param added the set of FileTaggings to be added
 	  */
-	public void setAddedTaggings(TreeSet<FileTagging> added)
+	public void setAddedTaggings(SortedSet<FileTagging> added)
 	{
 		addedTaggings = added;
 	}
@@ -259,7 +260,7 @@ public class EditedTaggedFile {
 	  consistency among the sets.
 	  @param removed the set of FileTaggings to be removed
 	  */
-	public void setRemovedTaggings(TreeSet<FileTagging> removed)
+	public void setRemovedTaggings(SortedSet<FileTagging> removed)
 	{
 		removedTaggings = removed;
 	}
@@ -269,7 +270,7 @@ public class EditedTaggedFile {
 	  consistency among the sets.
 	  @param updated the set of FileTaggings to be updated
 	  */
-	public void setUpdatedTaggings(TreeSet<FileTagging> updated)
+	public void setUpdatedTaggings(SortedSet<FileTagging> updated)
 	{
 		updatedTaggings = updated;
 	}

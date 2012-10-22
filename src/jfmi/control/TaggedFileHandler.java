@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -32,7 +33,7 @@ public class TaggedFileHandler {
 
 	private TaggedFileDAO taggedFileDAO;
 
-	private TreeSet<TaggedFile> taggedFiles; 
+	private SortedSet<TaggedFile> taggedFiles; 
 
 
 	//************************************************************	
@@ -478,9 +479,9 @@ public class TaggedFileHandler {
 											boolean showErrors)
 	{
 		FileTaggingHandler taggingHandler = jfmiApp.getTaggingHandler();	
-		TreeSet<FileTagging> added = updateMe.getAddedTaggings();
-		TreeSet<FileTagging> removed = updateMe.getRemovedTaggings();
-		TreeSet<FileTagging> updated = updateMe.getUpdatedTaggings();
+		SortedSet<FileTagging> added = updateMe.getAddedTaggings();
+		SortedSet<FileTagging> removed = updateMe.getRemovedTaggings();
+		SortedSet<FileTagging> updated = updateMe.getUpdatedTaggings();
 		boolean goodAdd = true;
 		boolean goodRemove = true;
 		boolean goodUpdate = true;

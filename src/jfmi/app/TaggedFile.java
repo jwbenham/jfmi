@@ -1,6 +1,7 @@
 package jfmi.app;
 
 import java.io.File;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 /** Represents a file in the file system, along with its associated taggings (if
@@ -11,7 +12,7 @@ public class TaggedFile implements Comparable<TaggedFile> {
 	// PRIVATE INSTANCE Fields
 	private int fileId;
 	private File file;
-	private TreeSet<FileTagging> fileTaggings;
+	private SortedSet<FileTagging> fileTaggings;
 
 
 	//************************************************************
@@ -32,7 +33,7 @@ public class TaggedFile implements Comparable<TaggedFile> {
 	  @param path path of the new object
 	  @param taggings set of the file's taggings
 	  */
-	public TaggedFile(int id, String path, TreeSet<FileTagging> taggings)
+	public TaggedFile(int id, String path, SortedSet<FileTagging> taggings)
 	{
 		this(id, new File(path), taggings);	
 	}
@@ -43,7 +44,7 @@ public class TaggedFile implements Comparable<TaggedFile> {
 	  @param file File which has the path of the new object
 	  @param taggings set of the file's taggings
 	  */
-	public TaggedFile(int id, File file, TreeSet<FileTagging> taggings)
+	public TaggedFile(int id, File file, SortedSet<FileTagging> taggings)
 	{
 		setFileId(id);
 		setFile(file);
@@ -116,9 +117,9 @@ public class TaggedFile implements Comparable<TaggedFile> {
 	}
 
 	/** Return a reference to this TaggedFile's taggings.
-	  @return a TreeSet<FileTagging> of this file's taggings, may be null
+	  @return a SortedSet<FileTagging> of this file's taggings, may be null
 	  */
-	public TreeSet<FileTagging> getFileTaggings()
+	public SortedSet<FileTagging> getFileTaggings()
 	{
 		return fileTaggings;
 	}
@@ -162,7 +163,7 @@ public class TaggedFile implements Comparable<TaggedFile> {
 	/** Sets the set of taggings for this file.
 	  @param taggingSet set of taggings for this file - can be null
 	  */
-	public void setFileTaggings(TreeSet<FileTagging> taggingSet)
+	public void setFileTaggings(SortedSet<FileTagging> taggingSet)
 	{
 		fileTaggings = taggingSet;
 	}
@@ -178,8 +179,8 @@ public class TaggedFile implements Comparable<TaggedFile> {
 		} else {
 			if (fileTaggings == null) {
 				fileTaggings = new TreeSet<FileTagging>(
-													new FileTaggingComparator()
-													);
+										new FileTaggingComparator()
+									);
 			}
 
 			fileTaggings.clear();
