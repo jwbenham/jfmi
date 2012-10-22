@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import jfmi.app.FileTagging;
@@ -137,7 +138,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 	  @return a set of records that contained the specified file id
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public TreeSet<FileTagging> readByFileId(int fileId) throws SQLException
+	public SortedSet<FileTagging> readByFileId(int fileId) throws SQLException
 	{
 		Connection conn = SQLiteRepository.instance().getConnection();	
 
@@ -149,7 +150,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 				ResultSet rs = ps.executeQuery();
 
 				try {
-					TreeSet<FileTagging> set;
+					SortedSet<FileTagging> set;
 				    set = new TreeSet<FileTagging>(new FileTaggingComparator());
 					FileTagging next;
 
@@ -182,7 +183,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 	  @return a set of retrieved FileTagging records
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public TreeSet<FileTagging> readAll() throws SQLException
+	public SortedSet<FileTagging> readAll() throws SQLException
 	{
 		Connection conn = SQLiteRepository.instance().getConnection();
 
@@ -193,7 +194,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 				ResultSet rs = stmt.executeQuery(READ_ALL_SQL);
 
 				try {
-					TreeSet<FileTagging> set;
+					SortedSet<FileTagging> set;
 				    set = new TreeSet<FileTagging>(new FileTaggingComparator());
 					FileTagging next = null;
 

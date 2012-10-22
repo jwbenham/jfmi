@@ -1,6 +1,6 @@
 package jfmi.dao;
 
-import java.util.TreeSet;
+import java.util.SortedSet;
 
 /** The AbstractDAO defines the base services which should be provided by
   all data access objects.
@@ -25,7 +25,7 @@ public abstract class AbstractDAO<T, U> {
 	  @return a list of all retrieved records
 	  @throws Exception if an error occurs
 	  */
-	public abstract TreeSet<T> readAll() throws Exception;
+	public abstract SortedSet<T> readAll() throws Exception;
 
 	/** Updates the storage record with specified id to match the information
 	  contained in the specified T instance.
