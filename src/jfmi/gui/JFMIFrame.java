@@ -44,7 +44,6 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private JButton manageTagsButton;
 	private JButton addFileButton;
 	private JButton editFileButton;
-	private JButton viewFileButton;
 	private JButton showFileButton;
 	private JButton deleteFilesButton;
 
@@ -155,11 +154,6 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		editFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Styles.setDefaultJButtonStyles(editFileButton);
 
-		viewFileButton = new JButton("View File");
-		viewFileButton.addActionListener(this);
-		viewFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		Styles.setDefaultJButtonStyles(viewFileButton);
-
 		showFileButton = new JButton("Show In Directory");
 		showFileButton.addActionListener(this);
 		showFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -187,7 +181,6 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(editFileButton);
 		buttonBox.add(Box.createVerticalStrut(5));
-		buttonBox.add(viewFileButton);
 		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(showFileButton);
 		buttonBox.add(Box.createVerticalStrut(5));
@@ -249,8 +242,6 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			} else {
 				GUIUtil.showAlert("No file selected.");
 			}
-
-		} else if (src == viewFileButton) {
 
 		} else if (src == showFileButton) {
 
