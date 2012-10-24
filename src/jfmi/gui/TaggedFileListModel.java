@@ -82,6 +82,28 @@ public class TaggedFileListModel extends AbstractListModel<TaggedFile> {
 		return listData.size();
 	}
 
+	/** Removed the element at the specified index.
+	  @param index the index of the element to remove
+	  @return the removed element
+	  */
+	public TaggedFile remove(int index)
+	{
+		TaggedFile file = listData.remove(index);
+		fireIntervalRemoved(this, index, index);
+		return file;
+	}
+
+	/** Removes an element from the end of the list of data.
+	  @return the removed element
+	  */
+	public TaggedFile removeFromEnd()
+	{
+		TaggedFile file = listData.remove(listData.size() - 1);
+		int index = listData.size();
+		fireIntervalRemoved(this, index, index); 
+		return file;
+	}
+
 	/** Sorts the list data according to the natural ordering of its elements.
 	  */
 	public void sort()
