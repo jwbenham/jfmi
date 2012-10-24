@@ -23,6 +23,7 @@
 ./src/jfmi/gui/TaggedFileHandlerGUI.java
 ./src/jfmi/gui/TaggedFileJListRenderer.java
 ./src/jfmi/gui/TaggedFileJListCellPanel.java
+./src/jfmi/gui/TaggedFileListModel.java
 ./src/jfmi/gui/TaggedFileEditDialog.java
 ./src/jfmi/gui/Styles.java
 ./src/jfmi/repo/AbstractRepository.java
