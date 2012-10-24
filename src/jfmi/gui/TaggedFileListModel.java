@@ -1,8 +1,10 @@
 package jfmi.gui;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import javax.swing.AbstractListModel;
 
 import jfmi.app.TaggedFile;
@@ -58,6 +60,21 @@ public class TaggedFileListModel extends AbstractListModel<TaggedFile> {
 	public int getSize()
 	{
 		return listData.size();
+	}
+
+	/** Sorts the list data according to the natural ordering of its elements.
+	  */
+	public void sort()
+	{
+		Collections.sort(listData);
+	}
+
+	/** Sorts the list data according to the specified comparator.
+	  @param comp the comparator used to sort the list data
+	  */
+	public void sort(Comparator<TaggedFile> comp)
+	{
+		Collections.sort(listData, comp);
 	}
 
 	//************************************************************
