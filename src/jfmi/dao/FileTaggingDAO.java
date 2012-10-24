@@ -9,7 +9,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import jfmi.app.FileTagging;
-import jfmi.app.FileTaggingComparator;
+import static jfmi.app.FileTaggingSorters.FileTaggingComparator;
 import jfmi.repo.SQLiteRepository;
 
 

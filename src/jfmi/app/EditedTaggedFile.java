@@ -3,6 +3,9 @@ package jfmi.app;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import static jfmi.app.FileTaggingSorters.FileTaggingComparator;
+import static jfmi.app.FileTaggingSorters.FileTaggingTagComparator;
+
 /** An EditedTaggedFile represents a TaggedFile that is being edited by the
   user, but which has not been saved to the repository yet. It keeps track of
   the TaggedFile being edited, as well as the taggings that have been added

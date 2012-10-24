@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import static jfmi.app.FileTaggingSorters.FileTaggingComparator;
+
 /** Represents a file in the file system, along with its associated taggings (if
   any).
   */
