@@ -5,12 +5,12 @@ import java.util.Comparator;
 
 public class TaggedFileSorters {
 
-	/** A TaggedFileComparator compares TaggedFile objects according to
-	  their primary keys in the SQLiteRepository. Non-primary key columns
+	/** A SQLPrimaryKeySorter compares TaggedFile objects according to
+	  their primary keys in the an SQL database. Non-primary key columns
 	  are not considered when comparing objects. Note that this comparator
 	  imposes orderings that are inconsistent with equals.
 	  */
-	public static class TaggedFileComparator implements
+	public static class SQLPrimaryKeySorter implements
 		Comparator<TaggedFile>, 
 		Serializable {
 
