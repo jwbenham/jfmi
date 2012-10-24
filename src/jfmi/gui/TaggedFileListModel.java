@@ -43,6 +43,26 @@ public class TaggedFileListModel extends AbstractListModel<TaggedFile> {
 
 		listData = list;
 	}
+
+	/** Adds a TaggedFile to the end of the list data.
+	  @param file the TaggedFile to add to the list
+	  */
+	public void add(TaggedFile file)
+	{
+		listData.add(file);
+		int end = listData.size() - 1;
+		fireIntervalAdded(this, end, end);
+	}
+
+	/** Adds a TaggedFile to the list data at the specified index.
+	  @param index the index at which to insert the TaggedFile
+	  @param file the TaggedFile to add
+	  */
+	public void add(int index, TaggedFile file)
+	{
+		listData.add(index, file);
+		fireIntervalAdded(this, index, index); 
+	}
 	
 	/** Returns a reference to the value at the specified index.
 	  @param index the index of the value to access
