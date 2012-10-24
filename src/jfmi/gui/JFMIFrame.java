@@ -108,7 +108,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			throw new IllegalArgumentException("vector cannot be null");
 		}
 
-		taggedFileJList.setListData(vector);	
+		TaggedFileListModel model = new TaggedFileListModel(vector);
+		taggedFileJList.setModel(model);	
 	}
 
 
@@ -193,7 +194,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private final void initTagScroller()
 	{
 		// Instantiate the taggedFileJList
-		taggedFileJList = new JList<TaggedFile>();
+		taggedFileJList = new JList<TaggedFile>(new TaggedFileListModel());
 		taggedFileJList.setLayoutOrientation(JList.VERTICAL);
 		taggedFileJList.setCellRenderer(new TaggedFileJListRenderer());
 
