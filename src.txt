@@ -6,7 +6,7 @@
 ./src/jfmi/app/FileTaggingComparator.java
 ./src/jfmi/app/FileTaggingTagComparator.java
 ./src/jfmi/app/TaggedFile.java
-./src/jfmi/app/TaggedFileComparator.java
+./src/jfmi/app/TaggedFileSorters.java
 ./src/jfmi/control/JFMIApp.java
 ./src/jfmi/control/JFMIMain.java
 ./src/jfmi/control/FileTagHandler.java
