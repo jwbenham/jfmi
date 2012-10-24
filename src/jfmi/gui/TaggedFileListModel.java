@@ -82,7 +82,14 @@ public class TaggedFileListModel extends AbstractListModel<TaggedFile> {
 		return listData.size();
 	}
 
-	/** Removed the element at the specified index.
+	/** Returns true if the list data is empty.
+	  */
+	public boolean isEmpty()
+	{
+		return listData.isEmpty();
+	}
+
+	/** Removes the element at the specified index.
 	  @param index the index of the element to remove
 	  @return the removed element
 	  */
