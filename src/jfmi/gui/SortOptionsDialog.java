@@ -2,6 +2,7 @@ package jfmi.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
@@ -13,6 +14,8 @@ import javax.swing.JFrame;
 public class SortOptionsDialog extends JDialog implements ActionListener {
 	
 	// PRIVATE Instance Fields
+	JButton confirmButton;
+
 	SortOptionsBox optionsBox;
 
 
@@ -36,6 +39,8 @@ public class SortOptionsDialog extends JDialog implements ActionListener {
 			throw new NullPointerException("opBox cannot be null");
 		}
 		optionsBox = opBox;
+
+		confirmButton = new JButton("Confirm");
 
 		add(opBox);
 		pack();
