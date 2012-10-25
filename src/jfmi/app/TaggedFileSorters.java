@@ -33,6 +33,43 @@ public class TaggedFileSorters {
 	}
 
 
+	/** Compares TaggedFile objects based on their file names. */
+	public static class FileNameSorter implements
+		Comparator<TaggedFile>,
+		Serializable {
+
+		public static final long serialVersionUID = 24102012;	//dd/mm/yyyy
+
+		/** Compares the specified TaggedFile instances for order, using their 
+		  file names.
+		  @param o1 a first object to be compared
+		  @param o2 a second object to be compared
+		  @return a negative integer, zero, or a positive integer, as the first
+				argument is less than, equal to, or greater than the second
+		  */
+		public int compare(TaggedFile o1, TaggedFile o2) 
+		{
+			File file1 = o1.getFile();
+			File file2 = o2.getFile();		
+
+			if (file1 == file2) {
+				return 0;
+			}
+
+			if (file1 == null) {
+				return -1;
+			}
+
+			if (file2 == null) {
+				return 1;
+			}
+
+			return file1.getName().compareTo(file2.getName());
+		}
+
+	}
+
+
 	/** Compares TaggedFile objects based on their file paths. */
 	public static class FilePathSorter implements
 		Comparator<TaggedFile>,
