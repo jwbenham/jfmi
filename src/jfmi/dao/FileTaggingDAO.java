@@ -9,7 +9,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import jfmi.app.FileTagging;
-import static jfmi.app.FileTaggingSorters.FileTaggingComparator;
+import static jfmi.app.FileTaggingSorters.SQLPrimaryKeySorter;
 import jfmi.repo.SQLiteRepository;
 
 
@@ -151,7 +151,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 
 				try {
 					SortedSet<FileTagging> set;
-				    set = new TreeSet<FileTagging>(new FileTaggingComparator());
+				    set = new TreeSet<FileTagging>(new SQLPrimaryKeySorter());
 					FileTagging next;
 
 					while (rs.next()) {
@@ -195,7 +195,7 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 
 				try {
 					SortedSet<FileTagging> set;
-				    set = new TreeSet<FileTagging>(new FileTaggingComparator());
+				    set = new TreeSet<FileTagging>(new SQLPrimaryKeySorter());
 					FileTagging next = null;
 
 					while (rs.next()) {

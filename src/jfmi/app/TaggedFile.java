@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import static jfmi.app.FileTaggingSorters.FileTaggingComparator;
+import static jfmi.app.FileTaggingSorters.SQLPrimaryKeySorter;
 
 /** Represents a file in the file system, along with its associated taggings (if
   any).
@@ -181,7 +181,7 @@ public class TaggedFile implements Comparable<TaggedFile> {
 		} else {
 			if (fileTaggings == null) {
 				fileTaggings = new TreeSet<FileTagging>(
-										new FileTaggingComparator()
+										new SQLPrimaryKeySorter()
 									);
 			}
 

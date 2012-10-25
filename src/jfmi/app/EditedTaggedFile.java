@@ -3,8 +3,8 @@ package jfmi.app;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import static jfmi.app.FileTaggingSorters.FileTaggingComparator;
-import static jfmi.app.FileTaggingSorters.FileTaggingTagComparator;
+import static jfmi.app.FileTaggingSorters.SQLPrimaryKeySorter;
+import static jfmi.app.FileTaggingSorters.TagSorter;
 
 /** An EditedTaggedFile represents a TaggedFile that is being edited by the
   user, but which has not been saved to the repository yet. It keeps track of
@@ -39,9 +39,9 @@ public class EditedTaggedFile {
 	{
 		this(
 			editedFile_, 
-			new TreeSet<FileTagging>(new FileTaggingComparator()), 
-			new TreeSet<FileTagging>(new FileTaggingComparator()),
-			new TreeSet<FileTagging>(new FileTaggingComparator())
+			new TreeSet<FileTagging>(new SQLPrimaryKeySorter()), 
+			new TreeSet<FileTagging>(new SQLPrimaryKeySorter()),
+			new TreeSet<FileTagging>(new SQLPrimaryKeySorter())
 			);
 	}
 
@@ -204,7 +204,7 @@ public class EditedTaggedFile {
 	public SortedSet<FileTagging> getWorkingTaggings()
 	{
 		SortedSet<FileTagging> working;
-	   	working = new TreeSet<FileTagging>(new FileTaggingTagComparator());
+	   	working = new TreeSet<FileTagging>(new TagSorter());
 
 		/* Get the taggings that are currently saved, and add them to the
 		   working set. */

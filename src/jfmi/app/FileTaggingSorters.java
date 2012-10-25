@@ -6,12 +6,12 @@ import java.io.Serializable;
 
 public class FileTaggingSorters {
 
-	/** A FileTaggingComparator compares FileTagging objects according to
+	/** A SQLPrimaryKeySorter compares FileTagging objects according to
 	  their primary keys in the SQLiteRepository. Non-primary key columns
 	  are not considered when comparing objects. Note that this comparator
 	  imposes orderings that are inconsistent with equals.
 	  */
-	public static class FileTaggingComparator implements
+	public static class SQLPrimaryKeySorter implements
 		Comparator<FileTagging>, 
 		Serializable {
 
@@ -44,10 +44,10 @@ public class FileTaggingSorters {
 		
 	}
 
-	/** A FileTaggingTagComparator compares FileTagging objects according to the
+	/** A TagSorter compares FileTagging objects according to the
 	  value of their tag field.
 	  */
-	public static class FileTaggingTagComparator implements
+	public static class TagSorter implements
 		Comparator<FileTagging>, 
 		Serializable {
 
