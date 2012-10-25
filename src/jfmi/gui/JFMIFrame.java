@@ -38,28 +38,28 @@ import jfmi.control.FileTaggingHandler;
   GUI. All other graphical components treat a JFMIFrame as their parent.
   */
 public class JFMIFrame extends JFrame implements ActionListener {
+
+	// PRIVATE Class Fields
 	private static final String FRAME_TITLE = "JFMI";
 	private static final Dimension FRAME_DIMENSION = new Dimension(800, 600);
 
+	// PRIVATE Instance Fields
 	private JPanel contentPanel;
 	private SortOptionsBox fileSortBox;
 	private SortedSet<String> sortFields;
 	private SortedSet<String> sortOrders;
 
-	// Button related
-	private Box buttonBox;	// Holds buttons
+	private Box buttonBox;
 	private JButton manageTagsButton;
 	private JButton addFileButton;
 	private JButton editFileButton;
 	private JButton showFileButton;
 	private JButton deleteFilesButton;
 
-	// List related
-	private JScrollPane taggedFileScroller;	// Holds the taggedFileJList
+	private JScrollPane taggedFileScroller;	
 	private JList<TaggedFile> taggedFileJList;
 	private TaggedFileListModel listModel;
 
-	// Controller related
 	private JFMIApp jfmiApp;
 
 
