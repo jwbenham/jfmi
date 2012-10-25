@@ -1,5 +1,7 @@
 package jfmi.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
@@ -151,10 +153,41 @@ public class SortOptionsBox extends Box {
 		return orderGroup.getSelection().getActionCommand();
 	}
 
+	/** Sets the ActionListener used for the instance's components.
+	  @param listener the ActionListener to be registered with the components
+	  */
+	public void setActionListener(ActionListener listener)
+	{
+		for (String field : fields) {
+			fieldButtonMap.get(field).addActionListener(listener);
+		}
+
+		for (String order : orders) {
+			orderButtonMap.get(order).addActionListener(listener);
+		}
+	}
+
+	/** Sets the field sorting options to a sorted copy of the specified
+	  Collection.
+	  @param fields_ the new field options
+	  */
+	public void setFields(Collection<String> fields_)
+	{
+		fields = new TreeSet<String>(fields_);
+	}
+
+	/** Sets the order sorting options to a sorted copy of the specified
+	  Collection.
+	  @param orders_ the new order options
+	  */
+	public void setOrders(Collection<String> orders_)
+	{
+		orders = new TreeSet<String>(orders_);
+	}
+
 
 	//************************************************************
 	// PRIVATE Instance Methods
 	//************************************************************
-
 
 }
