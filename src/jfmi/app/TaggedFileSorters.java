@@ -64,7 +64,7 @@ public class TaggedFileSorters {
 				return 1;
 			}
 
-			return file1.getName().compareTo(file2.getName());
+			return file1.getName().compareToIgnoreCase(file2.getName());
 		}
 
 	}
@@ -101,7 +101,7 @@ public class TaggedFileSorters {
 				return 1;
 			}
 
-			return file1.getPath().compareTo(file2.getPath());
+			return file1.getPath().compareToIgnoreCase(file2.getPath());
 		}
 
 	}
