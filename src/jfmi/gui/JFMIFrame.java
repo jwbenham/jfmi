@@ -51,6 +51,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	// List related
 	private JScrollPane taggedFileScroller;	// Holds the taggedFileJList
 	private JList<TaggedFile> taggedFileJList;
+	private TaggedFileListModel listModel;
 
 	// Controller related
 	private JFMIApp jfmiApp;
@@ -109,10 +110,10 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			throw new IllegalArgumentException("vector cannot be null");
 		}
 
-		TaggedFileListModel model = new TaggedFileListModel(vector);
-		model.sort(new TaggedFileSorters.FileNameSorter());
+		listModel = new TaggedFileListModel(vector);
+		listModel.sort(new TaggedFileSorters.FileNameSorter());
 
-		taggedFileJList.setModel(model);	
+		taggedFileJList.setModel(listModel);	
 	}
 
 
@@ -197,7 +198,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private final void initTagScroller()
 	{
 		// Instantiate the taggedFileJList
-		taggedFileJList = new JList<TaggedFile>(new TaggedFileListModel());
+		listModel = new TaggedFileListModel();
+		taggedFileJList = new JList<TaggedFile>(listModel);
 		taggedFileJList.setLayoutOrientation(JList.VERTICAL);
 		taggedFileJList.setCellRenderer(new TaggedFileJListRenderer());
 
