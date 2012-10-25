@@ -58,6 +58,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private JButton showFileButton;
 	private JButton deleteFilesButton;
 
+	private JButton sortButton;
+
 	private JScrollPane taggedFileScroller;	
 	private JList<TaggedFile> taggedFileJList;
 	private TaggedFileListModel listModel;
@@ -196,6 +198,10 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		sortLabel.setFont(Styles.SS_PLAIN_16);
 		sortLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+		sortButton = new JButton("Sorting Options");
+		sortButton.addActionListener(this);
+		sortButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		Styles.setDefaultJButtonStyles(sortButton);
 
 		// Initialize buttonBox
 		buttonBox = new Box(BoxLayout.Y_AXIS);
@@ -221,6 +227,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 		buttonBox.add(sortLabel);
 		buttonBox.add(Box.createVerticalStrut(5));
+		buttonBox.add(sortButton);
 	}
 
 	/** Initializes the sorting dialog and its contained sorting box.
