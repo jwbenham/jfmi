@@ -208,14 +208,15 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		// Initialize buttonBox
 		buttonBox = new Box(BoxLayout.Y_AXIS);
 		buttonBox.setOpaque(true);
+
 		buttonBox.add(Box.createVerticalStrut(10));
 		buttonBox.add(tagsLabel);
-		buttonBox.add(Box.createVerticalStrut(10));
+		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(manageTagsButton);
 		buttonBox.add(Box.createVerticalStrut(50));
 
 		buttonBox.add(filesLabel);
-		buttonBox.add(Box.createVerticalStrut(10));
+		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(addFileButton);
 		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(editFileButton);
@@ -225,8 +226,9 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(deleteFilesButton);
 		buttonBox.add(Box.createVerticalStrut(50));
+
 		buttonBox.add(sortLabel);
-		buttonBox.add(Box.createVerticalStrut(10));
+		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(fileSortBox);		
 	}
 
