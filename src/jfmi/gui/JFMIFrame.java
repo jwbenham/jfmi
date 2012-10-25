@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Vector;
 
 import jfmi.app.TaggedFile;
+import jfmi.app.TaggedFileSorters;
 import jfmi.control.JFMIApp;
 import jfmi.control.TaggedFileHandler;
 import jfmi.control.FileTagHandler;
@@ -109,6 +110,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		}
 
 		TaggedFileListModel model = new TaggedFileListModel(vector);
+		model.sort(new TaggedFileSorters.FileNameSorter());
+
 		taggedFileJList.setModel(model);	
 	}
 
