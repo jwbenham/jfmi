@@ -2,6 +2,8 @@ package jfmi.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -23,13 +25,19 @@ public class SortOptionsDialog extends JDialog implements ActionListener {
 	// PUBLIC Instance Methods
 	//************************************************************
 
-	/** Constructs a new SortOptionsDialog with the specified parent frame
-	  and sort options box.
+	/** Constructs a new SortOptionsDialog with the specified parent frame,
+	  the specified ActionListener for a confirmation click, and the specified
+	  sort options box.
 	  @param parent this dialog's parent JFrame
+	  @param confirmListener ActionListener to alert when user confirms
 	  @param opBox the SortOptionsBox this instance wraps
 	  @throws NullPointerException if opBox is null
 	  */
-	public SortOptionsDialog(JFrame parent, SortOptionsBox opBox)
+	public SortOptionsDialog(
+			JFrame parent, 
+			ActionListener confirmListener,
+			SortOptionsBox opBox
+	)
 	{
 		super(parent, "Sorting Options", true);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
@@ -41,9 +49,23 @@ public class SortOptionsDialog extends JDialog implements ActionListener {
 		optionsBox = opBox;
 
 		confirmButton = new JButton("Confirm");
+		confirmButton.addActionListener(confirmListener);
 
-		add(opBox);
+		Box contentBox = Box.createVerticalBox();
+		contentBox.add(optionsBox);
+		contentBox.add(Box.createVerticalStrut(5));
+		contentBox.add(confirmButton);
+
+		add(contentBox);
 		pack();
+	}
+
+	/** Accesses the button used to confirm a selection.
+	  @return a reference to the button which generates a confirming ActionEvent
+	  */
+	public JButton getConfirmButton()
+	{
+		return confirmButton;
 	}
 
 	/** Gets the value of the currently selected field sorting option.

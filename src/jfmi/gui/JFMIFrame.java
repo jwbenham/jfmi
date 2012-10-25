@@ -247,7 +247,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		fileSortBox = new SortOptionsBox(sortFields, sortOrders);
 
 		// Initialize sorting dialog
-		sortDialog = new SortOptionsDialog(this, fileSortBox);
+		sortDialog = new SortOptionsDialog(this, this, fileSortBox);
 		sortDialog.setVisible(false);
 	}
 
@@ -291,15 +291,12 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		Object src = e.getSource();
 
 		if (src == manageTagsButton) {
-
 			jfmiApp.getTagHandler().beginManageTags();
 
 		} else if (src == addFileButton) {
-
 			jfmiApp.getFileHandler().beginAddFile();
 
 		} else if (src == editFileButton) {
-
 			TaggedFile selectedFile = taggedFileJList.getSelectedValue();
 			
 			if (selectedFile != null) {
@@ -309,7 +306,6 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			}
 
 		} else if (src == showFileButton) {
-
 			TaggedFile selectedFile = taggedFileJList.getSelectedValue();
 			
 			if (selectedFile != null) {
@@ -319,12 +315,15 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			}
 
 		} else if (src == deleteFilesButton) {
-
 			List<TaggedFile> files = taggedFileJList.getSelectedValuesList();
 			jfmiApp.getFileHandler().beginDeleteFiles(files);
 
 		} else if (src == sortButton) {
 			sortDialog.setVisible(true);
+
+		} else if (src == sortDialog.getConfirmButton()) {
+			sortDialog.setVisible(false);
+
 		}
 	}
 
