@@ -1,10 +1,10 @@
 
 ./src/jfmi/app/EditedTaggedFile.java
 ./src/jfmi/app/FileTag.java
-./src/jfmi/app/FileTagComparator.java
 ./src/jfmi/app/FileTagging.java
 ./src/jfmi/app/TaggedFile.java
 ./src/jfmi/app/FileTaggingSorters.java
+./src/jfmi/app/FileTagSorters.java
 ./src/jfmi/app/TaggedFileSorters.java
 ./src/jfmi/control/JFMIApp.java
 ./src/jfmi/control/JFMIMain.java
