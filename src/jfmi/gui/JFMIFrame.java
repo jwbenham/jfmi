@@ -45,6 +45,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 	// PRIVATE Instance Fields
 	private JPanel contentPanel;
+
+	private SortOptionsDialog sortDialog;
 	private SortOptionsBox fileSortBox;
 	private SortedSet<String> sortFields;
 	private SortedSet<String> sortOrders;
