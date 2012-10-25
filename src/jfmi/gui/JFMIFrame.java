@@ -258,6 +258,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		jfmiApp = jfmiApp_;
 	}
 
+
 	//************************************************************
 	// IMPLEMENTATION ActionListener
 	//************************************************************

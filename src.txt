@@ -20,6 +20,7 @@
 ./src/jfmi/gui/GUIUtil.java
 ./src/jfmi/gui/JFMIFrame.java
 ./src/jfmi/gui/SortOptionsBox.java
+./src/jfmi/gui/SortOptionsDialog.java
 ./src/jfmi/gui/Styles.java
 ./src/jfmi/gui/TaggedFileHandlerGUI.java
 ./src/jfmi/gui/TaggedFileJListRenderer.java
