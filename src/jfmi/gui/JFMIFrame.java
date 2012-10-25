@@ -7,6 +7,9 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Vector;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.Box;
@@ -20,8 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import java.util.List;
-import java.util.Vector;
 
 import jfmi.app.TaggedFile;
 import jfmi.app.TaggedFileSorters;
@@ -110,10 +111,20 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			throw new IllegalArgumentException("vector cannot be null");
 		}
 
+		// Set up the model and apply it to the list
 		listModel = new TaggedFileListModel(vector);
-		listModel.sort(new TaggedFileSorters.FileNameSorter());
-
 		taggedFileJList.setModel(listModel);	
+
+		// Sort the list
+		sortTaggedFileJList(new TaggedFileSorters.FileNameSorter());
+	}
+
+	/** Sorts the displayed list of TaggedFiles using the specified Comparator.
+	  @param c the Comparator to sort the files with
+	 */ 
+	public void sortTaggedFileJList(Comparator<TaggedFile> c)
+	{
+		listModel.sort(c);
 	}
 
 
