@@ -28,7 +28,7 @@ public class SortOptionsDialog extends JDialog implements ActionListener {
 	  */
 	public SortOptionsDialog(JFrame parent, SortOptionsBox opBox)
 	{
-		this(parent, "Sorting Options", true);
+		super(parent, "Sorting Options", true);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setVisible(false);
 
@@ -64,4 +64,5 @@ public class SortOptionsDialog extends JDialog implements ActionListener {
 	{
 
 	}
+}
 
