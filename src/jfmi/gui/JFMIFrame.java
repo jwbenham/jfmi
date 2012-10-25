@@ -323,6 +323,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 			List<TaggedFile> files = taggedFileJList.getSelectedValuesList();
 			jfmiApp.getFileHandler().beginDeleteFiles(files);
 
+		} else if (src == sortButton) {
+			sortDialog.setVisible(true);
 		}
 	}
 

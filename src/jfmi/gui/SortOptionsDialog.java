@@ -35,8 +35,10 @@ public class SortOptionsDialog extends JDialog implements ActionListener {
 		if (opBox == null) {
 			throw new NullPointerException("opBox cannot be null");
 		}
-
 		optionsBox = opBox;
+
+		add(opBox);
+		pack();
 	}
 
 	/** Gets the value of the currently selected field sorting option.
