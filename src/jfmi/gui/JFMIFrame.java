@@ -80,14 +80,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		setSize(FRAME_DIMENSION);
 		setJFMIApp(jfmiApp_);
 
-		// Initialize sorting option sets
-		sortFields = new TreeSet<String>();
-		sortFields.add("Name");
-		sortFields.add("Path");
-		
-		sortOrders = new TreeSet<String>();
-		sortOrders.add("Ascending (A-Z)");
-		sortOrders.add("Descending (Z-A)");
+		// Initialize sorting components
+		initSortDialog();
 	
 		// Initialize child components
 		initContentPanel();
@@ -197,15 +191,11 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		Styles.setDefaultJButtonStyles(deleteFilesButton);
 		deleteFilesButton.setForeground(Styles.DANGER_COLOR);
 
-		// Initialize sorting box
 		JLabel sortLabel = new JLabel("Sort Options");
 		sortLabel.setForeground(Color.DARK_GRAY);
 		sortLabel.setFont(Styles.SS_PLAIN_16);
 		sortLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		fileSortBox = new SortOptionsBox(sortFields, sortOrders);
-		fileSortBox.setOpaque(false);
-		fileSortBox.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Initialize buttonBox
 		buttonBox = new Box(BoxLayout.Y_AXIS);
@@ -231,7 +221,27 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 		buttonBox.add(sortLabel);
 		buttonBox.add(Box.createVerticalStrut(5));
-		buttonBox.add(fileSortBox);		
+	}
+
+	/** Initializes the sorting dialog and its contained sorting box.
+	  */
+	private final void initSortDialog()
+	{
+		// Initialize the option sets
+		sortFields = new TreeSet<String>();
+		sortFields.add("Name");
+		sortFields.add("Path");
+		
+		sortOrders = new TreeSet<String>();
+		sortOrders.add("Ascending (A-Z)");
+		sortOrders.add("Descending (Z-A)");
+
+		// Initialize sorting box
+		fileSortBox = new SortOptionsBox(sortFields, sortOrders);
+
+		// Initialize sorting dialog
+		sortDialog = new SortOptionsDialog(this, fileSortBox);
+		sortDialog.setVisible(false);
 	}
 
 	/** Initialize the scrollPane field.
