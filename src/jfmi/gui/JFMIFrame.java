@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.Comparator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.Vector;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.MatteBorder;
@@ -40,6 +42,9 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private static final Dimension FRAME_DIMENSION = new Dimension(800, 600);
 
 	private JPanel contentPanel;
+	private SortOptionsBox fileSortBox;
+	private SortedSet<String> sortFields;
+	private SortedSet<String> sortOrders;
 
 	// Button related
 	private Box buttonBox;	// Holds buttons
@@ -72,6 +77,15 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(FRAME_DIMENSION);
 		setJFMIApp(jfmiApp_);
+
+		// Initialize sorting option sets
+		sortFields = new TreeSet<String>();
+		sortFields.add("Name");
+		sortFields.add("Path");
+		
+		sortOrders = new TreeSet<String>();
+		sortOrders.add("Ascending (A-Z)");
+		sortOrders.add("Descending (Z-A)");
 	
 		// Initialize child components
 		initContentPanel();
@@ -181,6 +195,16 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		Styles.setDefaultJButtonStyles(deleteFilesButton);
 		deleteFilesButton.setForeground(Styles.DANGER_COLOR);
 
+		// Initialize sorting box
+		JLabel sortLabel = new JLabel("Sort Options");
+		sortLabel.setForeground(Color.DARK_GRAY);
+		sortLabel.setFont(Styles.SS_PLAIN_16);
+		sortLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		fileSortBox = new SortOptionsBox(sortFields, sortOrders);
+		fileSortBox.setOpaque(false);
+		fileSortBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		// Initialize buttonBox
 		buttonBox = new Box(BoxLayout.Y_AXIS);
 		buttonBox.setBackground(Styles.DEFAULT_BG_COLOR);
@@ -202,6 +226,9 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(deleteFilesButton);
 		buttonBox.add(Box.createVerticalStrut(50));
+		buttonBox.add(sortLabel);
+		buttonBox.add(Box.createVerticalStrut(10));
+		buttonBox.add(fileSortBox);		
 	}
 
 	/** Initialize the scrollPane field.
