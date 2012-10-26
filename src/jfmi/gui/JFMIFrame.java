@@ -152,39 +152,25 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	{
 		Comparator<TaggedFile> c = null;
 
-		String lastField = sortDialog.getLastSelectedField();
 		String field = sortDialog.getSelectedField();
+		String order = sortDialog.getSelectedOrder();
 
-		if (field != null && !field.equals(lastField)) {
+		if (sortDialog.fieldChanged()) {
 			if (field.equals("Name")) {
 				c = new TaggedFileSorters.FileNameSorter();
-			} else if (field.equals("Path")) {
+			} else {
 				c = new TaggedFileSorters.FilePathSorter();
-			}	
-
-			if (c != null) {
-				sortTaggedFileJList(c);
 			}
+
+			if (order.equals("Descending (Z-A)")) {
+				c = Collections.reverseOrder(c);
+			}
+
+			sortTaggedFileJList(c);
 		}
 
-		c = null;
-		String lastOrder = sortDialog.getLastSelectedOrder();
-		String order = sortDialog.getSelectedField();
-
-		if (field != null && order != null && !order.equals(lastOrder)) {
-			if (field.equals("Name")) {
-				c = Collections.reverseOrder(
-						new TaggedFileSorters.FileNameSorter()
-					);
-			} else if (field.equals("Path")) {
-				c = Collections.reverseOrder(
-						new TaggedFileSorters.FilePathSorter()
-					);
-			}
-
-			if (c != null) {
-				sortTaggedFileJList(c);
-			}
+		if (c == null && sortDialog.orderChanged()) {	
+			listModel.reverse();	
 		}
 	}
 

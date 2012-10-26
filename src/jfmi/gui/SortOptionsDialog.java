@@ -58,6 +58,15 @@ public class SortOptionsDialog extends JDialog {
 		pack();
 	}
 
+	/** Checks whether the last selected field and currently selected field
+	  differ.
+	  @return true if the old and new field values are different
+	  */
+	public boolean fieldChanged()
+	{
+		return optionsBox.fieldChanged();
+	}
+
 	/** Accesses the button used to confirm a selection.
 	  @return a reference to the button which generates a confirming ActionEvent
 	  */
@@ -93,6 +102,14 @@ public class SortOptionsDialog extends JDialog {
 	{
 		return optionsBox.getSelectedOrder();
 	}
-
+	
+	/** Checks whether the last selected order and currently selected order
+	  differ.
+	  @return true if the old and new order values are different
+	  */
+	public boolean orderChanged()
+	{
+		return optionsBox.orderChanged();
+	}
 }
 

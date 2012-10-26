@@ -142,6 +142,29 @@ public class SortOptionsBox extends Box implements ActionListener {
 		add(Box.createVerticalStrut(5));
 	}
 
+	/** Adds an ActionListener used for the instance's components.
+	  @param listener the ActionListener to be registered with the components
+	  */
+	public void addActionListener(ActionListener listener)
+	{
+		for (String field : fields) {
+			fieldButtonMap.get(field).addActionListener(listener);
+		}
+
+		for (String order : orders) {
+			orderButtonMap.get(order).addActionListener(listener);
+		}
+	}
+
+	/** Checks whether the last selected field and currently selected field
+	  differ.
+	  @return true if the old and new field values are different
+	  */
+	public boolean fieldChanged()
+	{
+		return !getLastSelectedField().equals(selectedField);
+	}
+
 	/** Returns a reference to the last selected field. If the reference is null,
 	 the empty string is returned. */
 	public String getLastSelectedField()
@@ -188,18 +211,13 @@ public class SortOptionsBox extends Box implements ActionListener {
 		return selectedOrder;
 	}
 
-	/** Adds an ActionListener used for the instance's components.
-	  @param listener the ActionListener to be registered with the components
+	/** Checks whether the last selected order and currently selected order
+	  differ.
+	  @return true if the old and new order values are different
 	  */
-	public void addActionListener(ActionListener listener)
+	public boolean orderChanged()
 	{
-		for (String field : fields) {
-			fieldButtonMap.get(field).addActionListener(listener);
-		}
-
-		for (String order : orders) {
-			orderButtonMap.get(order).addActionListener(listener);
-		}
+		return !getLastSelectedOrder().equals(selectedOrder);
 	}
 
 	/** Sets the field sorting options to a sorted copy of the specified

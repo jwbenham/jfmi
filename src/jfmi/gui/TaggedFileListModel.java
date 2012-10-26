@@ -111,6 +111,12 @@ public class TaggedFileListModel extends AbstractListModel<TaggedFile> {
 		return file;
 	}
 
+	/** Reverses the order of the elements in the list. */
+	public void reverse()
+	{
+		Collections.reverse(listData);
+	}
+
 	/** Sorts the list data according to the natural ordering of its elements.
 	  */
 	public void sort()
@@ -125,10 +131,5 @@ public class TaggedFileListModel extends AbstractListModel<TaggedFile> {
 	{
 		Collections.sort(listData, comp);
 	}
-
-	//************************************************************
-	// PRIVATE Instance Methods
-	//************************************************************
-
 
 }
