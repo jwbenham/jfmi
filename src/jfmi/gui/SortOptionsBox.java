@@ -22,11 +22,16 @@ import javax.swing.JRadioButton;
   would be considered field sorting options. Order sorting options refer to 
   how a sorted set of objects is displayed, e.g. ascending or descending.
   */
-public class SortOptionsBox extends Box {
+public class SortOptionsBox extends Box implements ActionListener {
 
 	// PRIVATE Instance Fields
 	private SortedSet<String> fields;
 	private SortedSet<String> orders;
+
+	private String lastSelectedField;
+	private String lastSelectedOrder;
+	private String selectedField;
+	private String selectedOrder;
 
 	private Map<String, JRadioButton> fieldButtonMap;
 	private Map<String, JRadioButton> orderButtonMap;
@@ -65,6 +70,10 @@ public class SortOptionsBox extends Box {
 		fields = new TreeSet<String>(fields_);
 		orders = new TreeSet<String>(orders_);
 
+		// Initialize the selection fields
+		lastSelectedField = selectedField = null;
+		lastSelectedOrder = selectedOrder = null;
+
 		// Initialize the button groups
 		fieldGroup = new ButtonGroup();
 		orderGroup = new ButtonGroup();
@@ -77,9 +86,11 @@ public class SortOptionsBox extends Box {
 		for (String field : fields) {
 			newButton = new JRadioButton(field);
 			newButton.setActionCommand(field);	
+			newButton.addActionListener(this);
 
 			if (field.equals(fields.first())) {
 				newButton.setSelected(true);
+				selectedField = field;
 			}
 
 			fieldGroup.add(newButton);
@@ -90,9 +101,11 @@ public class SortOptionsBox extends Box {
 		for (String order : orders) {
 			newButton = new JRadioButton(order);
 			newButton.setActionCommand(order);
+			newButton.addActionListener(this);
 
 			if (order.equals(orders.first())) {
 				newButton.setSelected(true);
+				selectedOrder = order;
 			}
 
 			orderGroup.add(newButton);
@@ -129,6 +142,18 @@ public class SortOptionsBox extends Box {
 		add(Box.createVerticalStrut(5));
 	}
 
+	/** Returns a possible null reference to the last selected field. */
+	public String getLastSelectedField()
+	{
+		return lastSelectedField;
+	}
+
+	/** Returns a possible null reference to the last selected order. */
+	public String getLastSelectedOrder()
+	{
+		return lastSelectedOrder;
+	}
+
 	/** Gets the value of the currently selected field sorting option.
 	  @return the selected field; null if empty set or none selected
 	  */
@@ -138,7 +163,7 @@ public class SortOptionsBox extends Box {
 			return null;
 		}
 
-	 	return fieldGroup.getSelection().getActionCommand();
+		return selectedField;
 	}
 
 	/** Gets the value of the currently selected order sorting option.
@@ -150,13 +175,13 @@ public class SortOptionsBox extends Box {
 			return null;
 		}
 
-		return orderGroup.getSelection().getActionCommand();
+		return selectedOrder;
 	}
 
-	/** Sets the ActionListener used for the instance's components.
+	/** Adds an ActionListener used for the instance's components.
 	  @param listener the ActionListener to be registered with the components
 	  */
-	public void setActionListener(ActionListener listener)
+	public void addActionListener(ActionListener listener)
 	{
 		for (String field : fields) {
 			fieldButtonMap.get(field).addActionListener(listener);
@@ -187,7 +212,21 @@ public class SortOptionsBox extends Box {
 
 
 	//************************************************************
-	// PRIVATE Instance Methods
+	// IMPLEMENTATION of ActionListener 
 	//************************************************************
+
+	public void actionPerformed(ActionEvent e)
+	{
+		Object src = e.getSource();
+
+		if (fieldButtonMap.containsValue(src)) {
+			lastSelectedField = selectedField;
+			selectedField = fieldGroup.getSelection().getActionCommand();
+
+		} else if (orderButtonMap.containsValue(src)) {
+			lastSelectedOrder = selectedOrder;
+			selectedOrder = orderGroup.getSelection().getActionCommand();
+		}
+	}
 
 }

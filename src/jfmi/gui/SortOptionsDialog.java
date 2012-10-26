@@ -1,6 +1,5 @@
 package jfmi.gui;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -9,11 +8,10 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 /** A SortOptionsDialog provides a JDialog wrapper frame for a SortOptionsBox.
-  It acts as an ActionListener for a SortOptionsBox, and provides methods for
-  clients to display the options to the user, and determine what action the
-  user took (e.g. changed an option selection).
+  It provides methods for clients to display the options to the user, and 
+  determine what action the user took (e.g. changed an option selection).
   */
-public class SortOptionsDialog extends JDialog implements ActionListener {
+public class SortOptionsDialog extends JDialog {
 	
 	// PRIVATE Instance Fields
 	JButton confirmButton;
@@ -68,6 +66,18 @@ public class SortOptionsDialog extends JDialog implements ActionListener {
 		return confirmButton;
 	}
 
+	/** Returns a possible null reference to the last selected field. */
+	public String getLastSelectedField()
+	{
+		return optionsBox.getLastSelectedField();
+	}
+
+	/** Returns a possible null reference to the last selected order. */
+	public String getLastSelectedOrder()
+	{
+		return optionsBox.getLastSelectedOrder();
+	}
+
 	/** Gets the value of the currently selected field sorting option.
 	  @return the selected field; null if empty set or none selected
 	  */
@@ -83,15 +93,6 @@ public class SortOptionsDialog extends JDialog implements ActionListener {
 	{
 		return optionsBox.getSelectedOrder();
 	}
-	
 
-	//************************************************************
-	// IMPLEMENTATION of ActionListener 
-	//************************************************************
-
-	public void actionPerformed(ActionEvent e)
-	{
-
-	}
 }
 

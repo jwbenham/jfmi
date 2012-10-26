@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.SortedSet;
@@ -136,13 +137,56 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	 */ 
 	public void sortTaggedFileJList(Comparator<TaggedFile> c)
 	{
+		GUIUtil.showAlert("sorting...");
 		listModel.sort(c);
+		taggedFileJList.repaint();
 	}
 
 
 	//************************************************************
 	// PRIVATE INSTANCE Methods
 	//************************************************************
+
+	/** Handles sorting logic when the user confirms the sort option dialog. */
+	private void handleSortConfirm()
+	{
+		Comparator<TaggedFile> c = null;
+
+		String lastField = sortDialog.getLastSelectedField();
+		String field = sortDialog.getSelectedField();
+
+		if (field != null && !field.equals(lastField)) {
+			if (field.equals("Name")) {
+				c = new TaggedFileSorters.FileNameSorter();
+			} else if (field.equals("Path")) {
+				c = new TaggedFileSorters.FilePathSorter();
+			}	
+
+			if (c != null) {
+				sortTaggedFileJList(c);
+			}
+		}
+
+		c = null;
+		String lastOrder = sortDialog.getLastSelectedOrder();
+		String order = sortDialog.getSelectedField();
+
+		if (field != null && order != null && !order.equals(lastOrder)) {
+			if (field.equals("Name")) {
+				c = Collections.reverseOrder(
+						new TaggedFileSorters.FileNameSorter()
+					);
+			} else if (field.equals("Path")) {
+				c = Collections.reverseOrder(
+						new TaggedFileSorters.FilePathSorter()
+					);
+			}
+
+			if (c != null) {
+				sortTaggedFileJList(c);
+			}
+		}
+	}
 
 	/** Initializes the contentPanel field.
 	  */
@@ -323,7 +367,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 		} else if (src == sortDialog.getConfirmButton()) {
 			sortDialog.setVisible(false);
-
+			handleSortConfirm();
 		}
 	}
 
