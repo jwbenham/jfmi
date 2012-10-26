@@ -142,37 +142,47 @@ public class SortOptionsBox extends Box implements ActionListener {
 		add(Box.createVerticalStrut(5));
 	}
 
-	/** Returns a possible null reference to the last selected field. */
+	/** Returns a reference to the last selected field. If the reference is null,
+	 the empty string is returned. */
 	public String getLastSelectedField()
 	{
+		if (lastSelectedField == null) {
+			return "";
+		}
+
 		return lastSelectedField;
 	}
 
-	/** Returns a possible null reference to the last selected order. */
+	/** Returns a reference to the last selected order. If the reference is null,
+	 the empty string is returned. */
 	public String getLastSelectedOrder()
 	{
+		if (lastSelectedOrder == null) {
+			return "";
+		}
+
 		return lastSelectedOrder;
 	}
 
 	/** Gets the value of the currently selected field sorting option.
-	  @return the selected field; null if empty set or none selected
+	  @return the selected field; "" if empty set or none selected
 	  */
 	public String getSelectedField()
 	{
 		if (fields.isEmpty()) {
-			return null;
+			return "";
 		}
 
 		return selectedField;
 	}
 
 	/** Gets the value of the currently selected order sorting option.
-	  @return the selected order; null if empty set or none selected
+	  @return the selected order; "" if empty set or none selected
 	  */
 	public String getSelectedOrder()
 	{
 		if (orders.isEmpty()) {
-			return null;
+			return "";
 		}
 
 		return selectedOrder;
