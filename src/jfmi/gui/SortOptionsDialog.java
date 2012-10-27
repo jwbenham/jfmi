@@ -1,6 +1,8 @@
 package jfmi.gui;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -37,18 +39,30 @@ public class SortOptionsDialog extends JDialog {
 			SortOptionsBox opBox
 	)
 	{
+		// Initialize the Dialog itself
 		super(parent, "Sorting Options", true);
-		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setVisible(false);
+		addWindowListener(
+			new WindowAdapter() {
+				public void windowClosing(WindowEvent e)
+				{
+					setVisible(false);
+				}
+			}
+		);
 
+		// Initialize options box
 		if (opBox == null) {
 			throw new NullPointerException("opBox cannot be null");
 		}
 		optionsBox = opBox;
 
+		// Initialize buttons
 		confirmButton = new JButton("Confirm");
 		confirmButton.addActionListener(confirmListener);
 
+		// Set up components/layout
 		Box contentBox = Box.createVerticalBox();
 		contentBox.add(optionsBox);
 		contentBox.add(Box.createVerticalStrut(5));
