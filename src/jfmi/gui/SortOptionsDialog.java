@@ -1,5 +1,6 @@
 package jfmi.gui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
@@ -44,6 +45,8 @@ public class SortOptionsDialog extends JDialog {
 		// Initialize the Dialog itself
 		super(parent, "Sorting Options", true);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		setMinimumSize(new Dimension(200, 150));
+		setResizable(false);
 		setVisible(false);
 		addWindowListener(
 			new WindowAdapter() {
