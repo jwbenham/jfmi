@@ -113,23 +113,25 @@ public class SortOptionsBox extends Box implements ActionListener {
 		}
 
 		// Create the field box and add its components
-		fieldBox = Box.createVerticalBox();
-		fieldBox.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		JLabel fieldBoxLabel = new JLabel("Sort By Field");
 		fieldBoxLabel.setBorder(new EmptyBorder(2, 2, 2, 2));
+
+		fieldBox = Box.createVerticalBox();
+		fieldBox.setBorder(new EmptyBorder(5, 5, 5, 5));
+		fieldBox.add(fieldBoxLabel);
 
 		for (String field : fields) {
 			fieldBox.add(fieldButtonMap.get(field));
 		}
 
 		// Create the order box and add its components
-		orderBox = Box.createVerticalBox();
-		orderBox.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 		JLabel orderBoxLabel = new JLabel("Sorting Order");
 		orderBoxLabel.setBorder(new EmptyBorder(2, 2, 2, 2));
 
+		orderBox = Box.createVerticalBox();
+		orderBox.setBorder(new EmptyBorder(5, 5, 5, 5));
+		orderBox.add(orderBoxLabel);
+		
 		for (String order : orders) {
 			orderBox.add(orderButtonMap.get(order));
 		}
