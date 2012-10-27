@@ -25,6 +25,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	// PRIVATE CLASS Fields
 	private static final String CREATE_PSQL;
 	private static final String READ_BY_ID_PSQL;
+	private static final String READ_BY_TAG_PSQL;
 	private static final String READ_ALL_SQL;
 	private static final String UPDATE_PSQL;
 	private static final String DELETE_PSQL;
@@ -33,6 +34,10 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + "(path) VALUES(?)";
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
+		READ_BY_TAG_PSQL = "SELECT  FROM " + TABLE_NAME + " file, "
+						+ FileTaggingDAO.TABLE_NAME + " t "
+						+ " WHERE file.fileId = t.fileId "
+						+ " AND t.tag = ? ";
 		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME 
 					+ " SET fileId = ?, path = ? WHERE fileId = ? ";
@@ -63,52 +68,6 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 
 				return ps.executeUpdate() == 1;	// 1 row should be created
 				
-			} finally {
-				SQLiteRepository.closeQuietly(ps);				
-			}
-
-		} finally {
-			SQLiteRepository.closeQuietly(conn);
-		}
-	}
-
-
-	/** Retrieves the information necessary to create a TaggedFile object
-	  from the relevant database tables.
-	  @param id the file id of the record to search for
-	  @return a new TaggedFile if the read was successful, null otherwise
-	  @throws SQLException if a problem occurs working with the database
-	  */
-	public TaggedFile readById(Integer id) throws SQLException
-	{
-		Connection conn = SQLiteRepository.instance().getConnection();
-
-		try {
-			PreparedStatement ps = conn.prepareStatement(READ_BY_ID_PSQL);
-
-			try {
-				ps.setInt(1, id);
-				ResultSet rs = ps.executeQuery();
-
-				try {
-					TaggedFile result = null;
-
-					if (rs.next()) {
-						result = new TaggedFile();
-						result.setFileId(id);
-						result.setFilePath(rs.getString("path"));	
-
-						FileTaggingDAO taggingDAO = new FileTaggingDAO();
-
-						result.setFileTaggings(taggingDAO.readByFileId(id));
-					}
-
-					return result;
-
-				} finally {
-					SQLiteRepository.closeQuietly(rs);
-				}
-
 			} finally {
 				SQLiteRepository.closeQuietly(ps);				
 			}
@@ -163,6 +122,129 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 		} finally {
 			SQLiteRepository.closeQuietly(conn);
 		}
+	}
+
+	/** Retrieves the information necessary to create a TaggedFile object
+	  from the relevant database tables.
+	  @param id the file id of the record to search for
+	  @return a new TaggedFile if the read was successful, null otherwise
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public TaggedFile readById(Integer id) throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();
+
+		try {
+			PreparedStatement ps = conn.prepareStatement(READ_BY_ID_PSQL);
+
+			try {
+				ps.setInt(1, id);
+				ResultSet rs = ps.executeQuery();
+
+				try {
+					TaggedFile result = null;
+
+					if (rs.next()) {
+						result = new TaggedFile();
+						result.setFileId(id);
+						result.setFilePath(rs.getString("path"));	
+
+						FileTaggingDAO taggingDAO = new FileTaggingDAO();
+
+						result.setFileTaggings(taggingDAO.readByFileId(id));
+					}
+
+					return result;
+
+				} finally {
+					SQLiteRepository.closeQuietly(rs);
+				}
+
+			} finally {
+				SQLiteRepository.closeQuietly(ps);				
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		}
+	}
+
+	/** Returns a sorted set of TaggedFile objects which have been tagged with
+	  the specified tag.
+	  @param tag the tag value by which to select TaggedFile records
+	  @return a sorted set of results
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public SortedSet<TaggedFile> readByTag(String tag) throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();
+
+		try {
+			PreparedStatement ps = conn.prepareStatement(READ_BY_TAG_PSQL);
+
+			try {
+				ps.setString(1, tag.toString());
+				ResultSet rs = ps.executeQuery();
+
+				try {
+					
+					return readFromResultSet(rs);
+
+				} finally {
+					SQLiteRepository.closeQuietly(rs);
+				}
+
+			} finally {
+				SQLiteRepository.closeQuietly(ps);
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		}
+	}
+
+	/** Reads table fields from a ResultSet, creating a new TaggedFile for
+	  each row, and returning a sorted set of all created TaggedFiles. This
+	  method assumes that the ResultSet cursor is set one position before
+	  the row to start reading from. The method attempts to read all fields
+	  from the ResultSet. If a field is not present, the corresponding object's
+	  field is left at the default value. If no fields are present in a row,
+	  no object is created for the row.
+	  @param rs the ResultSet to read records from
+	  @return a sorted set of TaggedFiles
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public SortedSet<TaggedFile> readFromResultSet(ResultSet rs)
+		throws SQLException
+	{
+		SortedSet<TaggedFile> files = new TreeSet<TaggedFile>();
+		TaggedFile file = null;
+		boolean fieldSet = false;
+
+		while (rs.next()) {
+			if (file == null) {
+				file = new TaggedFile();
+			}
+
+			try {
+				file.setFileId(rs.getInt("fileId"));
+				fieldSet = true;
+			} catch (SQLException e) {
+			}
+
+			try {
+				file.setFilePath(rs.getString("path"));
+				fieldSet = true;
+			} catch (SQLException e) {
+			}
+
+			if (fieldSet) {
+				files.add(file);
+				file = null;
+			}
+		}
+
+		return files;
 	}
 
 	/** Updates the specified TaggedFile's corresponding record in the database,
