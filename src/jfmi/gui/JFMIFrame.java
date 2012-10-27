@@ -138,7 +138,6 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	public void sortTaggedFileJList(Comparator<TaggedFile> c)
 	{
 		listModel.sort(c);
-		taggedFileJList.repaint();
 	}
 
 

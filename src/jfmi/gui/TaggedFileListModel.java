@@ -115,6 +115,7 @@ public class TaggedFileListModel extends AbstractListModel<TaggedFile> {
 	public void reverse()
 	{
 		Collections.reverse(listData);
+		fireContentsChanged(this, 0, listData.size());
 	}
 
 	/** Sorts the list data according to the natural ordering of its elements.
@@ -122,6 +123,7 @@ public class TaggedFileListModel extends AbstractListModel<TaggedFile> {
 	public void sort()
 	{
 		Collections.sort(listData);
+		fireContentsChanged(this, 0, listData.size());
 	}
 
 	/** Sorts the list data according to the specified comparator.
@@ -130,6 +132,7 @@ public class TaggedFileListModel extends AbstractListModel<TaggedFile> {
 	public void sort(Comparator<TaggedFile> comp)
 	{
 		Collections.sort(listData, comp);
+		fireContentsChanged(this, 0, listData.size());
 	}
 
 }
