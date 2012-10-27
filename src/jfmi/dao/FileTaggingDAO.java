@@ -88,6 +88,49 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 		}
 	}
 
+	/** Reads all FileTagging records from the database.
+	  @return a set of retrieved FileTagging records
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public SortedSet<FileTagging> readAll() throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();
+
+		try {
+			Statement stmt = conn.createStatement();
+
+			try {
+				ResultSet rs = stmt.executeQuery(READ_ALL_SQL);
+
+				try {
+					SortedSet<FileTagging> set;
+				    set = new TreeSet<FileTagging>(new SQLPrimaryKeySorter());
+					FileTagging next = null;
+
+					while (rs.next()) {
+						next = new FileTagging();
+						next.setTaggingId(rs.getInt("taggingId"));
+						next.setFileId(rs.getInt("fileId"));
+						next.setTag(rs.getString("tag"));
+						next.setComment(rs.getString("comment"));
+
+						set.add(next);
+					}
+
+					return set;
+
+				} finally {
+					SQLiteRepository.closeQuietly(rs);
+				}
+
+			} finally {
+				SQLiteRepository.closeQuietly(stmt);				
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		}
+	}
 
 	/** Retrieves the information necessary to create a FileTagging object
 	  from the relevant database tables.
@@ -179,48 +222,60 @@ public class FileTaggingDAO extends AbstractDAO<FileTagging, Integer> {
 		} 
 	}
 
-	/** Reads all FileTagging records from the database.
-	  @return a set of retrieved FileTagging records
+	/** Reads table fields from a ResultSet, creating a new FileTagging for
+	  each row, and returning a sorted set of all created FileTaggings. This
+	  method assumes that the ResultSet cursor is set one position before
+	  the row to start reading from. The method attempts to read all fields
+	  from the ResultSet. If a field is not present, the corresponding object's
+	  field is left at the default value. If no fields are present in a row,
+	  no object is created for the row.
+	  @param rs the ResultSet to read records from
+	  @return a sorted set of FileTaggings
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public SortedSet<FileTagging> readAll() throws SQLException
+	public SortedSet<FileTagging> readFromResultSet(ResultSet rs)
+		throws SQLException
 	{
-		Connection conn = SQLiteRepository.instance().getConnection();
+		SortedSet<FileTagging> taggings = new TreeSet<FileTagging>();
+		FileTagging tagging = null;
+		boolean aFieldIsSet = false;
 
-		try {
-			Statement stmt = conn.createStatement();
-
-			try {
-				ResultSet rs = stmt.executeQuery(READ_ALL_SQL);
-
-				try {
-					SortedSet<FileTagging> set;
-				    set = new TreeSet<FileTagging>(new SQLPrimaryKeySorter());
-					FileTagging next = null;
-
-					while (rs.next()) {
-						next = new FileTagging();
-						next.setTaggingId(rs.getInt("taggingId"));
-						next.setFileId(rs.getInt("fileId"));
-						next.setTag(rs.getString("tag"));
-						next.setComment(rs.getString("comment"));
-
-						set.add(next);
-					}
-
-					return set;
-
-				} finally {
-					SQLiteRepository.closeQuietly(rs);
-				}
-
-			} finally {
-				SQLiteRepository.closeQuietly(stmt);				
+		while (rs.next()) {
+			if (tagging == null) {
+				tagging = new FileTagging();
 			}
 
-		} finally {
-			SQLiteRepository.closeQuietly(conn);
+			try {
+				tagging.setTaggingId(rs.getInt("taggingId"));
+				aFieldIsSet = true;
+			} catch (SQLException e) {
+			}
+
+			try {
+				tagging.setFileId(rs.getInt("fileId"));
+				aFieldIsSet = true;
+			} catch (SQLException e) {
+			}
+
+			try {
+				tagging.setTag(rs.getString("tag"));
+				aFieldIsSet = true;
+			} catch (SQLException e) {
+			}
+
+			try {
+				tagging.setComment(rs.getString("comment"));
+				aFieldIsSet = true;
+			} catch (SQLException e) {
+			}
+
+			if (aFieldIsSet) {
+				taggings.add(tagging);
+				tagging = null;
+			}
 		}
+
+		return taggings;
 	}
 
 	/** Updates the specified FileTagging's corresponding record in the database,
