@@ -34,7 +34,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + "(path) VALUES(?)";
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
-		READ_BY_TAG_PSQL = "SELECT  FROM " + TABLE_NAME + " file, "
+		READ_BY_TAG_PSQL = "SELECT * FROM " + TABLE_NAME + " file, "
 						+ FileTaggingDAO.TABLE_NAME + " t "
 						+ " WHERE file.fileId = t.fileId "
 						+ " AND t.tag = ? ";
@@ -217,9 +217,11 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	public SortedSet<TaggedFile> readFromResultSet(ResultSet rs)
 		throws SQLException
 	{
+		FileTaggingDAO taggingDAO = new FileTaggingDAO();
+		SortedSet<FileTagging> taggings = null;
 		SortedSet<TaggedFile> files = new TreeSet<TaggedFile>();
 		TaggedFile file = null;
-		boolean fieldSet = false;
+		boolean aFieldIsSet = false;
 
 		while (rs.next()) {
 			if (file == null) {
@@ -228,21 +230,24 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 
 			try {
 				file.setFileId(rs.getInt("fileId"));
-				fieldSet = true;
+				aFieldIsSet = true;
+
+				taggings = taggingDAO.readByFileId(rs.getInt("fileId"));	
+				file.setFileTaggings(taggings);
 			} catch (SQLException e) {
 			}
 
 			try {
 				file.setFilePath(rs.getString("path"));
-				fieldSet = true;
+				aFieldIsSet = true;
 			} catch (SQLException e) {
 			}
 
-			if (fieldSet) {
+			if (aFieldIsSet) {
 				files.add(file);
 				file = null;
 			}
-		}
+		} 
 
 		return files;
 	}
