@@ -238,6 +238,38 @@ public class SortOptionsBox extends Box implements ActionListener {
 		orders = new TreeSet<String>(orders_);
 	}
 
+	/** Sets the currently selected field, and updates the appropriate button.
+	  @param field field to set as selected
+	  @return true if the argument is valid and the field has been set
+	  */
+	public boolean setSelectedField(String field)
+	{
+		if (fieldButtonMap.containsKey(field)) {
+			fieldButtonMap.get(field).setSelected(true);
+			selectedField = field;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/** Sets the currently selected order, and updates the appropriate button.
+	  @param order order to set as selected
+	  @return true if the argument is valid and the order has been set
+	  */
+	public boolean setSelectedOrder(String order)
+	{
+		if (orderButtonMap.containsKey(order)) {
+			orderButtonMap.get(order).setSelected(true);
+			selectedOrder = order;
+
+			return true;
+		}
+
+		return false;
+	}
+
 
 	//************************************************************
 	// IMPLEMENTATION of ActionListener 

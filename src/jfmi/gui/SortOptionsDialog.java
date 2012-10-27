@@ -19,6 +19,8 @@ public class SortOptionsDialog extends JDialog {
 	JButton confirmButton;
 
 	SortOptionsBox optionsBox;
+	String fieldWhenDisplayed;
+	String orderWhenDisplayed;
 
 
 	//************************************************************
@@ -47,6 +49,7 @@ public class SortOptionsDialog extends JDialog {
 			new WindowAdapter() {
 				public void windowClosing(WindowEvent e)
 				{
+					cancelSelections();
 					setVisible(false);
 				}
 			}
@@ -125,5 +128,35 @@ public class SortOptionsDialog extends JDialog {
 	{
 		return optionsBox.orderChanged();
 	}
+
+	@Override
+	/**
+	  */
+	public void setVisible(boolean b)
+	{
+		if (isVisible() && b == false) {
+			super.setVisible(false);
+
+		} else if (!isVisible() && b == true) {
+			fieldWhenDisplayed = optionsBox.getSelectedField();
+			orderWhenDisplayed = optionsBox.getSelectedOrder();
+
+			super.setVisible(true);
+		}
+	}
+
+	//************************************************************
+	// PRIVATE Instance Methods
+	//************************************************************
+
+	/** Sets the selected field and order of this instance's child options
+	  box to the values recorded when this instance dialog was displayed.
+	  */
+	private void cancelSelections()
+	{
+		optionsBox.setSelectedField(fieldWhenDisplayed);
+		optionsBox.setSelectedOrder(orderWhenDisplayed);
+	}
+
 }
 
