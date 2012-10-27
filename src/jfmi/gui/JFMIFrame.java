@@ -137,7 +137,6 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	 */ 
 	public void sortTaggedFileJList(Comparator<TaggedFile> c)
 	{
-		GUIUtil.showAlert("sorting...");
 		listModel.sort(c);
 		taggedFileJList.repaint();
 	}
