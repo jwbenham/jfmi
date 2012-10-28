@@ -19,6 +19,7 @@
 ./src/jfmi/gui/GUIException.java
 ./src/jfmi/gui/GUIUtil.java
 ./src/jfmi/gui/JFMIFrame.java
+./src/jfmi/gui/MutableListModel.java
 ./src/jfmi/gui/SortOptionsBox.java
 ./src/jfmi/gui/SortOptionsDialog.java
 ./src/jfmi/gui/Styles.java
