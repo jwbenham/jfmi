@@ -63,7 +63,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 
 	private JScrollPane taggedFileScroller;	
 	private JList<TaggedFile> taggedFileJList;
-	private TaggedFileListModel listModel;
+	private MutableListModel<TaggedFile> listModel;
 
 	private JFMIApp jfmiApp;
 
@@ -125,7 +125,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		}
 
 		// Set up the model and apply it to the list
-		listModel = new TaggedFileListModel(vector);
+		listModel = new MutableListModel<TaggedFile>(vector);
 		taggedFileJList.setModel(listModel);	
 
 		// Sort the list
@@ -284,7 +284,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private final void initTagScroller()
 	{
 		// Instantiate the taggedFileJList
-		listModel = new TaggedFileListModel();
+		listModel = new MutableListModel<TaggedFile>();
 		taggedFileJList = new JList<TaggedFile>(listModel);
 		taggedFileJList.setLayoutOrientation(JList.VERTICAL);
 		taggedFileJList.setCellRenderer(new TaggedFileJListRenderer());
