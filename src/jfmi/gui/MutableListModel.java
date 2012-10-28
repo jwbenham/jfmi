@@ -111,6 +111,22 @@ public class MutableListModel<E extends Comparable<E>>
 		return element;
 	}
 
+	/** Removes the specified element from the list, if it is present.
+	  @param element the element to be removed
+	  @return true if the element was removed
+	  */
+	public boolean remove(E element)
+	{
+		int indexOf = data.indexOf(element);		
+		
+		if (indexOf == -1) {
+			return false;
+		} else {
+			remove(indexOf);
+			return true;
+		}
+	}
+
 	/** Removes an element from the end of the list of data.
 	  @return the removed element
 	  */
