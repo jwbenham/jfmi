@@ -52,18 +52,19 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private SortedSet<String> sortFields;
 	private SortedSet<String> sortOrders;
 
+	private FileSearchDialog searchDialog;
+
 	private Box buttonBox;
 	private JButton manageTagsButton;
 	private JButton addFileButton;
 	private JButton editFileButton;
 	private JButton showFileButton;
 	private JButton deleteFilesButton;
-
 	private JButton sortButton;
 
-	private JScrollPane taggedFileScroller;	
-	private JList<TaggedFile> taggedFileJList;
 	private MutableListModel<TaggedFile> listModel;
+	private JList<TaggedFile> taggedFileJList;
+	private JScrollPane taggedFileScroller;	
 
 	private JFMIApp jfmiApp;
 
@@ -83,8 +84,9 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		setSize(FRAME_DIMENSION);
 		setJFMIApp(jfmiApp_);
 
-		// Initialize sorting components
+		// Initialize sorting/searching components
 		initSortDialog();
+		initSearchDialog();
 	
 		// Initialize child components
 		initContentPanel();
@@ -256,6 +258,31 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		buttonBox.add(sortLabel);
 		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(sortButton);
+	}
+
+	/** Initializes the file searching diaog and its contents.
+	  */
+	private final void initSearchDialog()
+	{
+		// Set up the search form
+		TreeSet<String> fieldSet = new TreeSet<String>();
+		fieldSet.add("File Name");
+		fieldSet.add("File Path");
+		fieldSet.add("Comment Keywords");
+
+		FormBox form = new FormBox(fieldSet);
+
+		// Set up the search list (default initially)
+		ListSelectionBox list = new ListSelectionBox();
+
+		// Set up the dialog
+		searchDialog = new FileSearchDialog(
+								this, 
+								"File Search", 
+								this, 
+								form, 
+								list
+							);
 	}
 
 	/** Initializes the sorting dialog and its contained sorting box.
