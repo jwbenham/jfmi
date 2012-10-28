@@ -22,12 +22,12 @@ public class ListSelectionBox extends Box implements ActionListener {
 	private JButton addButton;
 	private JButton removeButton;
 
-	private MutableListModel<String> fullModel;
-	private JList<String> fullList;
+	private MutableListModel<String> unselectedModel;
+	private JList<String> unselectedList;
 	private MutableListModel<String> selectedModel;
 	private JList<String> selectedList;
 
-	private JScrollPane fullScroller;
+	private JScrollPane unselectedScroller;
 	private JScrollPane selectedScroller;
 
 
@@ -44,26 +44,29 @@ public class ListSelectionBox extends Box implements ActionListener {
 
 	/** Constructs a ListSelectionBox with the specified set of items available
 	  for selection.
-	  @param full the set of items to be listed for selection
+	  @param unselected the set of items to be listed for selection
 	  */
-	public ListSelectionBox(SortedSet<String> full)
+	public ListSelectionBox(SortedSet<String> unselected)
 	{
-		this(full, null);
+		this(unselected, null);
 	}
 
 	/** Constructs a ListSelectionBox with the specified set of selectable items,
 	  and the specified set of selected items.
-	  @param full the full set of selectable items
+	  @param unselected the unselected set of selectable items
 	  @param selected the set of already selected items
 	  */
-	public ListSelectionBox(SortedSet<String> full, SortedSet<String> selected)
+	public ListSelectionBox(
+		SortedSet<String> unselected, 
+		SortedSet<String> selected
+	)
 	{
 		// Initialize instance
 		super(BoxLayout.X_AXIS);
 
 		// Initialize item sets
-		if (full == null) {
-			full = new TreeSet<String>();
+		if (unselected == null) {
+			unselected = new TreeSet<String>();
 		}
 
 		if (selected == null) {
@@ -78,26 +81,26 @@ public class ListSelectionBox extends Box implements ActionListener {
 		removeButton.addActionListener(this);
 
 		// Initialize lists
-		fullModel = new MutableListModel<String>(full);
-		fullList = new JList<String>(fullModel);
+		unselectedModel = new MutableListModel<String>(unselected);
+		unselectedList = new JList<String>(unselectedModel);
 
 		selectedModel = new MutableListModel<String>(selected);
-		selectedList = new JList<String>(fullModel);
+		selectedList = new JList<String>(unselectedModel);
 
 		// Initialize scrollpanes
-		fullScroller = new JScrollPane(fullList);
+		unselectedScroller = new JScrollPane(unselectedList);
 		selectedScroller = new JScrollPane(selectedList);
 
 		// Add components
-		Box fullBox = Box.createVerticalBox();
-		fullBox.add(fullScroller);
-		fullBox.add(addButton);
+		Box unselectedBox = Box.createVerticalBox();
+		unselectedBox.add(unselectedScroller);
+		unselectedBox.add(addButton);
 
 		Box selectedBox = Box.createVerticalBox();
 		selectedBox.add(selectedScroller);
 		selectedBox.add(removeButton);
 
-		add(fullBox);
+		add(unselectedBox);
 		add(Box.createHorizontalStrut(10));
 		add(selectedBox);
 	}
@@ -130,13 +133,13 @@ public class ListSelectionBox extends Box implements ActionListener {
 	  */
 	private void addButtonAction()
 	{
-		String value = fullList.getSelectedValue();
+		String value = unselectedList.getSelectedValue();
 
 		if (value == null) {
 			return;
 		}
 
-		fullModel.remove(value);
+		unselectedModel.remove(value);
 		selectedModel.add(value);
 	}
 
@@ -151,7 +154,7 @@ public class ListSelectionBox extends Box implements ActionListener {
 		}
 
 		selectedModel.remove(value);
-		fullModel.add(value);
+		unselectedModel.add(value);
 	}
 
 }
