@@ -75,6 +75,15 @@ public class MutableListModel<E extends Comparable<E>>
 		data.add(index, e);
 		fireIntervalAdded(this, index, index); 
 	}
+
+	/** Returns true if the list model contains the specified element.
+	  @param element the element to search for
+	  @return true if element is in the list model
+	  */
+	public boolean contains(E element)
+	{
+		return data.contains(element);
+	}
 	
 	/** Accesses the element at the specified index.
 	  @param index the index of the element to access
