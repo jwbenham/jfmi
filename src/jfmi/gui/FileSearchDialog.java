@@ -95,6 +95,14 @@ public class FileSearchDialog extends JDialog {
 		return listBox;
 	}
 
+	/** Accesses the search button.
+	  @return a reference to the search button
+	  */
+	public JButton getSearchButton()
+	{
+		return searchButton;
+	}
+
 	/** Sets the search form used by this instance.
 	  @param form the search form to be used
 	  */
