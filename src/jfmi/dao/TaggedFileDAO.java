@@ -5,13 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import jfmi.app.FileTag;
 import jfmi.app.TaggedFile;
 import static jfmi.app.TaggedFileSorters.SQLPrimaryKeySorter;
 import jfmi.app.FileTagging;
 import jfmi.repo.SQLiteRepository;
+import jfmi.util.StringUtil;
 
 
 /** A TaggedFileDAO provides data access for storing TaggedFile objects
@@ -25,7 +29,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	// PRIVATE CLASS Fields
 	private static final String CREATE_PSQL;
 	private static final String READ_BY_ID_PSQL;
-	private static final String READ_BY_TAG_PSQL;
+	private static final String READ_BY_TAGS_SQL;
 	private static final String READ_ALL_SQL;
 	private static final String UPDATE_PSQL;
 	private static final String DELETE_PSQL;
@@ -34,10 +38,9 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + "(path) VALUES(?)";
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
-		READ_BY_TAG_PSQL = "SELECT * FROM " + TABLE_NAME + " file, "
+		READ_BY_TAGS_SQL = "SELECT * FROM " + TABLE_NAME + " file, "
 						+ FileTaggingDAO.TABLE_NAME + " t "
-						+ " WHERE file.fileId = t.fileId "
-						+ " AND t.tag = ? ";
+						+ " WHERE file.fileId = t.fileId ";
 		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME 
 					+ " SET fileId = ?, path = ? WHERE fileId = ? ";
@@ -170,21 +173,22 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	}
 
 	/** Returns a sorted set of TaggedFile objects which have been tagged with
-	  the specified tag.
-	  @param tag the tag value by which to select TaggedFile records
+	  any of the specified tags.
+	  @param tags the tag values by which to select TaggedFile records
 	  @return a sorted set of results
 	  @throws SQLException if a problem occurs working with the database
 	  */
-	public SortedSet<TaggedFile> readByTag(String tag) throws SQLException
+	public SortedSet<TaggedFile> readByTags(Set<FileTag> tags) 
+		throws SQLException
 	{
+		String query = getReadByTagsQuery(tags);
 		Connection conn = SQLiteRepository.instance().getConnection();
 
 		try {
-			PreparedStatement ps = conn.prepareStatement(READ_BY_TAG_PSQL);
+			Statement stmt = conn.createStatement();
 
 			try {
-				ps.setString(1, tag.toString());
-				ResultSet rs = ps.executeQuery();
+				ResultSet rs = stmt.executeQuery(query);
 
 				try {
 					
@@ -195,7 +199,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 				}
 
 			} finally {
-				SQLiteRepository.closeQuietly(ps);
+				SQLiteRepository.closeQuietly(stmt);
 			}
 
 		} finally {
@@ -330,6 +334,37 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 		} finally {
 			SQLiteRepository.closeQuietly(conn);
 		}
+	}
+
+
+	//************************************************************
+	// PRIVATE INSTANCE Methods
+	//************************************************************
+
+	/** Creates an SQL query used by the readByTags() method.
+	  @param tags a set of FileTags to be used in the query
+	  @return the created SQL query string, or null if tags is null
+	  */
+	private String getReadByTagsQuery(Set<FileTag> tags)
+	{
+		Iterator<FileTag> it = tags.iterator();
+		String tag;
+		StringBuilder sql = new StringBuilder(READ_BY_TAGS_SQL);
+
+		if (it.hasNext()) {
+			tag = StringUtil.doubleQuote(it.next().getTag());
+			sql.append(" AND ( t.tag = " + tag);
+		} else {
+			return null;
+		}
+
+		while (it.hasNext()) {
+			tag = StringUtil.doubleQuote(it.next().getTag());
+			sql.append(", OR t.tag = " + tag);
+		}
+
+		sql.append(" )");
+		return sql.toString();
 	}
 
 }
