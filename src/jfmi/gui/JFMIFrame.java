@@ -61,6 +61,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private JButton showFileButton;
 	private JButton deleteFilesButton;
 	private JButton sortButton;
+	private JButton searchButton;
 
 	private MutableListModel<TaggedFile> listModel;
 	private JList<TaggedFile> taggedFileJList;
@@ -188,50 +189,35 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	{
 		// Initialize buttons
 		JLabel tagsLabel = new JLabel("Tag Options");
-		tagsLabel.setForeground(Color.DARK_GRAY);
-		tagsLabel.setFont(Styles.SS_PLAIN_16);
-		tagsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		initMenuLabel(tagsLabel);
 
 		manageTagsButton = new JButton("Manage Tags..");
-		manageTagsButton.addActionListener(this);
-		manageTagsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		Styles.setDefaultJButtonStyles(manageTagsButton);
+		initMenuButton(manageTagsButton);
 
 		JLabel filesLabel = new JLabel("File Options");
-		filesLabel.setForeground(Color.DARK_GRAY);
-		filesLabel.setFont(Styles.SS_PLAIN_16);
-		filesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		initMenuLabel(filesLabel);
 
 		addFileButton = new JButton("Add New File");
-		addFileButton.addActionListener(this);
-		addFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		Styles.setDefaultJButtonStyles(addFileButton);
+		initMenuButton(addFileButton);
 
 		editFileButton = new JButton("Edit File");
-		editFileButton.addActionListener(this);
-		editFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		Styles.setDefaultJButtonStyles(editFileButton);
+		initMenuButton(editFileButton);
 
 		showFileButton = new JButton("Show In Directory");
-		showFileButton.addActionListener(this);
-		showFileButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		Styles.setDefaultJButtonStyles(showFileButton);
+		initMenuButton(showFileButton);
 
 		deleteFilesButton = new JButton("Delete Selected Files");
-		deleteFilesButton.addActionListener(this);
-		deleteFilesButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		Styles.setDefaultJButtonStyles(deleteFilesButton);
+		initMenuButton(deleteFilesButton);
 		deleteFilesButton.setForeground(Styles.DANGER_COLOR);
 
-		JLabel sortLabel = new JLabel("Sort Options");
-		sortLabel.setForeground(Color.DARK_GRAY);
-		sortLabel.setFont(Styles.SS_PLAIN_16);
-		sortLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JLabel sortLabel = new JLabel("Sort/Search Options");
+		initMenuLabel(sortLabel);
 
-		sortButton = new JButton("Sorting Options");
-		sortButton.addActionListener(this);
-		sortButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		Styles.setDefaultJButtonStyles(sortButton);
+		sortButton = new JButton("Sort Files");
+		initMenuButton(sortButton);
+
+		searchButton = new JButton("Search Files");
+		initMenuButton(searchButton);
 
 		// Initialize buttonBox
 		buttonBox = new Box(BoxLayout.Y_AXIS);
@@ -258,6 +244,28 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		buttonBox.add(sortLabel);
 		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(sortButton);
+		buttonBox.add(Box.createVerticalStrut(5));
+		buttonBox.add(searchButton);
+	}
+
+	/** Initializes a menu button. 
+	  @param b the button to initialize
+	  */
+	private final void initMenuButton(JButton b)
+	{
+		b.addActionListener(this);
+		b.setAlignmentX(Component.CENTER_ALIGNMENT);
+		Styles.setDefaultJButtonStyles(b);
+	}
+
+	/** Initializes a menu label.
+	  @param l the label to initialize
+	  */
+	private final void initMenuLabel(JLabel l)
+	{
+		l.setForeground(Color.DARK_GRAY);
+		l.setFont(Styles.SS_PLAIN_16);
+		l.setAlignmentX(Component.CENTER_ALIGNMENT);
 	}
 
 	/** Initializes the file searching diaog and its contents.
