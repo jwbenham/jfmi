@@ -387,7 +387,11 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		} else if (src == sortDialog.getConfirmButton()) {
 			sortDialog.setVisible(false);
 			handleSortConfirm();
+
+		} else if (src == searchButton) {
+			searchDialog.setVisible(true);
 		}
+
 	}
 
 }
