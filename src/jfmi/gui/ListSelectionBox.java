@@ -3,6 +3,7 @@ package jfmi.gui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -24,6 +25,7 @@ public class ListSelectionBox extends Box implements ActionListener {
 
 	private MutableListModel<String> unselectedModel;
 	private JList<String> unselectedList;
+
 	private MutableListModel<String> selectedModel;
 	private JList<String> selectedList;
 
@@ -105,6 +107,49 @@ public class ListSelectionBox extends Box implements ActionListener {
 		add(selectedBox);
 	}
 
+	/** Returns the list of selected items.
+	  */
+	public List<String> getSelectedItems()
+	{
+		return selectedList.getSelectedValuesList();
+	}
+
+	/** Returns the list of unselected items.
+	  */
+	public List<String> getUnselectedItems()
+	{
+		return unselectedList.getSelectedValuesList();
+	}
+
+	/** Sets the contents of the list of selected items to the specified
+	  set. A null argument clears the list.
+	  @param a set of items to be listed as selected
+	  */
+	public void setSelectedItems(SortedSet<String> items)
+	{
+		if (items != null) {
+			selectedModel = new MutableListModel<String>(items);
+		} else {
+			selectedModel = new MutableListModel<String>();
+		}
+
+		selectedList.setModel(selectedModel);
+	}
+
+	/** Sets the contents of the list of unselected items to the specified
+	  set. A null argument clears the list.
+	  @param a set of items to be listed as unselected
+	  */
+	public void setUnselectedItems(SortedSet<String> items)
+	{
+		if (items != null) {
+			unselectedModel = new MutableListModel<String>(items);
+		} else {
+			unselectedModel = new MutableListModel<String>();
+		}	
+
+		unselectedList.setModel(unselectedModel);
+	}
 
 	//************************************************************
 	// IMPLEMENTATION of ActionListener
