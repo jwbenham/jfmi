@@ -19,9 +19,6 @@ import javax.swing.JScrollPane;
   */
 public class ListSelectionBox extends Box implements ActionListener {
 	// Private Instance Fields
-	private SortedSet<String> fullSet;
-	private SortedSet<String> selectedSet;
-
 	private JButton addButton;
 	private JButton removeButton;
 
@@ -66,15 +63,11 @@ public class ListSelectionBox extends Box implements ActionListener {
 
 		// Initialize item sets
 		if (full == null) {
-			fullSet = new TreeSet<String>();
-		} else {
-			fullSet = full;
+			full = new TreeSet<String>();
 		}
 
 		if (selected == null) {
-			selectedSet = new TreeSet<String>();
-		} else {
-			selectedSet = selected;
+			selected = new TreeSet<String>();
 		}
 
 		// Initialize buttons
@@ -85,10 +78,10 @@ public class ListSelectionBox extends Box implements ActionListener {
 		removeButton.addActionListener(this);
 
 		// Initialize lists
-		fullModel = new MutableListModel<String>(fullSet);
+		fullModel = new MutableListModel<String>(full);
 		fullList = new JList<String>(fullModel);
 
-		selectedModel = new MutableListModel<String>(selectedSet);
+		selectedModel = new MutableListModel<String>(selected);
 		selectedList = new JList<String>(fullModel);
 
 		// Initialize scrollpanes
@@ -144,10 +137,7 @@ public class ListSelectionBox extends Box implements ActionListener {
 		}
 
 		fullModel.remove(value);
-		fullSet.remove(value);	
-
 		selectedModel.add(value);
-		selectedSet.add(value);
 	}
 
 	/** Specifies what happens when the user clicks the removeButton.
@@ -161,10 +151,7 @@ public class ListSelectionBox extends Box implements ActionListener {
 		}
 
 		selectedModel.remove(value);
-		selectedSet.remove(value);
-
 		fullModel.add(value);
-		fullSet.add(value);
 	}
 
 }
