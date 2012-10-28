@@ -23,22 +23,37 @@ public class MutableListModel<E extends Comparable<E>>
 	// PUBLIC Instance Methods
 	//************************************************************
 
-	/** Constructs an instance backed by a Vector<E>.
+	/** Constructs a default instance backed by a Vector<E>.
 	  */
 	public MutableListModel()
 	{
 		this(new Vector<E>());
 	}
 
-	/** Constructs an instance backed by the specified List;
+	/** Constructs an instance backed by the elements in the specified
+	  Collection.
+	  @param collection the non-null Collection that will be used to back the 
+	  		list model by creating a new List from its elements
 	  */
-	public MutableListModel(List<E> c)
+	public MutableListModel(Collection<E> collection)
 	{
-		if (c == null) {
-			throw new NullPointerException("c cannot be null");
+		if (collection == null) {
+			throw new NullPointerException("collection cannot be null");
 		}
 
-		data = c;
+		data = new Vector<E>(collection);
+	}
+
+	/** Constructs an instance backed by the specified non-null List.
+	  @param list the list to use as this model's backing container
+	  */
+	public MutableListModel(List<E> list)
+	{
+		if (list == null) {
+			throw new NullPointerException("list cannot be null");
+		}
+
+		data = list;
 	}
 
 	/** Adds an element to the end of the list.
