@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 /** A FileSearchDialog provides a JDialog which allows a user to search for
   files.
   */
-public class FileSearchDialog extends JDialog {
+public class FileSearchDialog<T extends Comparable<T>> extends JDialog {
 
 	// Private Class Fields
 	private static final boolean IS_MODAL = true;
@@ -21,7 +21,7 @@ public class FileSearchDialog extends JDialog {
 
 	// Private Instance Fields
 	FormBox formBox;
-	ListSelectionBox listBox;
+	ListSelectionBox<T> listBox;
 
 	JButton searchButton;
 
@@ -47,7 +47,7 @@ public class FileSearchDialog extends JDialog {
 	  @param searchListener an ActionListener to handle the event generated
 	  			when the user clicks the search confirmation button
 	  @param form a FormBox containing a search form for the user to fill out
-	  @param list a ListSelectionBox which will display a list of pre-made
+	  @param list a ListSelectionBox<T> which will display a list of pre-made
 	  		search criteria to the user
 	  */
 	public FileSearchDialog(
@@ -55,7 +55,7 @@ public class FileSearchDialog extends JDialog {
 			String title, 
 			ActionListener searchListener,
 			FormBox form, 
-			ListSelectionBox list
+			ListSelectionBox<T> list
 	)
 	{
 		// Initialize instance
@@ -90,7 +90,7 @@ public class FileSearchDialog extends JDialog {
 	/** Accesses the list of search items used by this instance.
 	  @return the search list component
 	  */
-	public ListSelectionBox getList()
+	public ListSelectionBox<T> getList()
 	{
 		return listBox;
 	}
@@ -112,9 +112,9 @@ public class FileSearchDialog extends JDialog {
 	}
 
 	/** Sets the list of search criteria to be used by this instance.
-	  @param list a ListSelectionBox of items the user can search for
+	  @param list a ListSelectionBox<T> of items the user can search for
 	  */
-	public void setList(ListSelectionBox list)
+	public void setList(ListSelectionBox<T> list)
 	{
 		listBox = list;
 	}

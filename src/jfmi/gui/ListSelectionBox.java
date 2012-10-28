@@ -18,16 +18,19 @@ import javax.swing.JScrollPane;
   user has already selected. The class provides methods for clients to 
   check which items are selected, set the list of items to be used, etc.
   */
-public class ListSelectionBox extends Box implements ActionListener {
+public class ListSelectionBox<T extends Comparable<T>> 
+	extends Box 
+	implements ActionListener {
+
 	// Private Instance Fields
 	private JButton addButton;
 	private JButton removeButton;
 
-	private MutableListModel<String> unselectedModel;
-	private JList<String> unselectedList;
+	private MutableListModel<T> unselectedModel;
+	private JList<T> unselectedList;
 
-	private MutableListModel<String> selectedModel;
-	private JList<String> selectedList;
+	private MutableListModel<T> selectedModel;
+	private JList<T> selectedList;
 
 	private JScrollPane unselectedScroller;
 	private JScrollPane selectedScroller;
@@ -48,7 +51,7 @@ public class ListSelectionBox extends Box implements ActionListener {
 	  for selection.
 	  @param unselected the set of items to be listed for selection
 	  */
-	public ListSelectionBox(SortedSet<String> unselected)
+	public ListSelectionBox(SortedSet<T> unselected)
 	{
 		this(unselected, null);
 	}
@@ -59,8 +62,8 @@ public class ListSelectionBox extends Box implements ActionListener {
 	  @param selected the set of already selected items
 	  */
 	public ListSelectionBox(
-		SortedSet<String> unselected, 
-		SortedSet<String> selected
+		SortedSet<T> unselected, 
+		SortedSet<T> selected
 	)
 	{
 		// Initialize instance
@@ -68,11 +71,11 @@ public class ListSelectionBox extends Box implements ActionListener {
 
 		// Initialize item sets
 		if (unselected == null) {
-			unselected = new TreeSet<String>();
+			unselected = new TreeSet<T>();
 		}
 
 		if (selected == null) {
-			selected = new TreeSet<String>();
+			selected = new TreeSet<T>();
 		}
 
 		// Initialize buttons
@@ -83,11 +86,11 @@ public class ListSelectionBox extends Box implements ActionListener {
 		removeButton.addActionListener(this);
 
 		// Initialize lists
-		unselectedModel = new MutableListModel<String>(unselected);
-		unselectedList = new JList<String>(unselectedModel);
+		unselectedModel = new MutableListModel<T>(unselected);
+		unselectedList = new JList<T>(unselectedModel);
 
-		selectedModel = new MutableListModel<String>(selected);
-		selectedList = new JList<String>(unselectedModel);
+		selectedModel = new MutableListModel<T>(selected);
+		selectedList = new JList<T>(unselectedModel);
 
 		// Initialize scrollpanes
 		unselectedScroller = new JScrollPane(unselectedList);
@@ -109,14 +112,14 @@ public class ListSelectionBox extends Box implements ActionListener {
 
 	/** Returns the list of selected items.
 	  */
-	public List<String> getSelectedItems()
+	public List<T> getSelectedItems()
 	{
 		return selectedList.getSelectedValuesList();
 	}
 
 	/** Returns the list of unselected items.
 	  */
-	public List<String> getUnselectedItems()
+	public List<T> getUnselectedItems()
 	{
 		return unselectedList.getSelectedValuesList();
 	}
@@ -125,12 +128,12 @@ public class ListSelectionBox extends Box implements ActionListener {
 	  set. A null argument clears the list.
 	  @param a set of items to be listed as selected
 	  */
-	public void setSelectedItems(SortedSet<String> items)
+	public void setSelectedItems(SortedSet<T> items)
 	{
 		if (items != null) {
-			selectedModel = new MutableListModel<String>(items);
+			selectedModel = new MutableListModel<T>(items);
 		} else {
-			selectedModel = new MutableListModel<String>();
+			selectedModel = new MutableListModel<T>();
 		}
 
 		selectedList.setModel(selectedModel);
@@ -140,12 +143,12 @@ public class ListSelectionBox extends Box implements ActionListener {
 	  set. A null argument clears the list.
 	  @param a set of items to be listed as unselected
 	  */
-	public void setUnselectedItems(SortedSet<String> items)
+	public void setUnselectedItems(SortedSet<T> items)
 	{
 		if (items != null) {
-			unselectedModel = new MutableListModel<String>(items);
+			unselectedModel = new MutableListModel<T>(items);
 		} else {
-			unselectedModel = new MutableListModel<String>();
+			unselectedModel = new MutableListModel<T>();
 		}	
 
 		unselectedList.setModel(unselectedModel);
@@ -178,7 +181,7 @@ public class ListSelectionBox extends Box implements ActionListener {
 	  */
 	private void addButtonAction()
 	{
-		String value = unselectedList.getSelectedValue();
+		T value = unselectedList.getSelectedValue();
 
 		if (value == null) {
 			return;
@@ -192,7 +195,7 @@ public class ListSelectionBox extends Box implements ActionListener {
 	  */
 	private void removeButtonAction()
 	{
-		String value = selectedList.getSelectedValue();
+		T value = selectedList.getSelectedValue();
 
 		if (value == null) {
 			return;
