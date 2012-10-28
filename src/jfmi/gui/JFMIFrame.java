@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import jfmi.app.FileTag;
 import jfmi.app.TaggedFile;
 import jfmi.app.TaggedFileSorters;
 import jfmi.control.JFMIApp;
@@ -52,7 +53,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private SortedSet<String> sortFields;
 	private SortedSet<String> sortOrders;
 
-	private FileSearchDialog searchDialog;
+	private FileSearchDialog<FileTag> searchDialog;
 
 	private Box buttonBox;
 	private JButton manageTagsButton;
@@ -281,10 +282,10 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		FormBox form = new FormBox(fieldSet);
 
 		// Set up the search list (default initially)
-		ListSelectionBox list = new ListSelectionBox();
+		ListSelectionBox<FileTag> list = new ListSelectionBox<FileTag>();
 
 		// Set up the dialog
-		searchDialog = new FileSearchDialog(
+		searchDialog = new FileSearchDialog<FileTag>(
 								this, 
 								"File Search", 
 								this, 
@@ -410,6 +411,11 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	  */
 	private void actionSearchButton()
 	{
+		jfmiApp.getTagHandler().readFileTagDataFromRepo(true);
+		List<FileTag> tags = jfmiApp.getTagHandler().getFileTagData();
+
+		searchDialog.getList().setUnselectedItems(new TreeSet<FileTag>(tags));
+		searchDialog.getList().setSelectedItems(null);
 		searchDialog.setVisible(true);
 	}
 
