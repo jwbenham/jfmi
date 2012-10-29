@@ -377,7 +377,7 @@ public class TaggedFileHandler {
 	  @param showError if true, and an error occurs, display a message
 	  @return true if the files were refreshed successfully
 	  */
-	private boolean readTaggedFilesFromRepo(boolean showError)
+	public boolean readTaggedFilesFromRepo(boolean showError)
 	{
 		try {
 			setTaggedFiles(taggedFileDAO.readAll());
@@ -400,7 +400,7 @@ public class TaggedFileHandler {
 	  @param showError if true, and an error occurs, display a message
 	  @return the file from the database, null if not found 
 	  */
-	private TaggedFile readTaggedFileFromRepo(int id, boolean showError)
+	public TaggedFile readTaggedFileFromRepo(int id, boolean showError)
 	{
 		try {
 			TaggedFile file = taggedFileDAO.readById(id);
