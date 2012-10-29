@@ -81,7 +81,7 @@ public final class Styles {
 		LIGHTEST_YELLOW = new Color(245, 245, 210);
 
 		H3_COLOR = Color.BLACK;
-		H4_COLOR = LIGHT_BLUE;
+		H4_COLOR = Color.DARK_GRAY;
 	}
 
 	/** Sets the visual properties of a Component.

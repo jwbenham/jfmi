@@ -222,8 +222,10 @@ public class TaggedFileEditDialog extends JDialog implements
 	{
 		// Set up left part of fileInfoBox
 		fileNameLabel = new JLabel("No file loaded");
+		Styles.setHeaderStyles(fileNameLabel, 3);
 
 		filePathLabel = new JLabel("");
+		Styles.setHeaderStyles(filePathLabel, 4);
 
 		Box leftBox = Box.createVerticalBox();
 		leftBox.setBorder(new EmptyBorder(2, 2, 2, 2));
@@ -241,7 +243,7 @@ public class TaggedFileEditDialog extends JDialog implements
 
 		// Set up fileInfoBox
 		fileInfoBox = Box.createHorizontalBox();
-		fileInfoBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY));
+		fileInfoBox.setBorder(new EmptyBorder(5, 5, 5, 5));
 		fileInfoBox.add(leftBox);
 		fileInfoBox.add(rightBox);
 	}
@@ -258,12 +260,17 @@ public class TaggedFileEditDialog extends JDialog implements
 		JScrollPane allTagScroller = new JScrollPane(tagJList);
 		allTagScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+		JLabel tagBoxLabel = new JLabel("All Tags");
+		tagBoxLabel.setFont(Styles.SS_PLAIN_14);
+
 		Box tagBox = Box.createVerticalBox();
-		tagBox.add(new JLabel("All Tags"));
+		tagBox.setBorder(new EmptyBorder(5, 5, 5, 5));
+		tagBox.add(tagBoxLabel);
 		tagBox.add(allTagScroller);
 
 		// Set up the tagging box
 		JLabel fileTagLabel = new JLabel("File Tags");
+		fileTagLabel.setFont(Styles.SS_PLAIN_14);
 		fileTagLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		taggingJList = new JList<FileTagging>();		
@@ -287,30 +294,32 @@ public class TaggedFileEditDialog extends JDialog implements
 		buttonBox.add(removeTagButton);
 
 		Box taggingBox = Box.createVerticalBox();
+		taggingBox.setBorder(new EmptyBorder(5, 5, 5, 5));
 		taggingBox.add(fileTagLabel);
 		taggingBox.add(fileTagScroller);
 		taggingBox.add(buttonBox);
 		
 		Box leftBox = Box.createHorizontalBox();
-		leftBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY));
+		leftBox.setBorder(new EmptyBorder(5, 5, 5, 5));
 		leftBox.setMaximumSize(new Dimension(600, 800));
 		leftBox.add(tagBox);
-		leftBox.add(Box.createHorizontalStrut(20));
 		leftBox.add(taggingBox);
 
 		// Set up right part of box
 		commentArea = new JTextArea();
 		JScrollPane tagCommentScroller = new JScrollPane(commentArea);
 
+		JLabel commentLabel = new JLabel("Tag Comments");
+		commentLabel.setFont(Styles.SS_PLAIN_14);
+
 		Box rightBox = Box.createVerticalBox();
-		rightBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.DARK_GRAY));
-		rightBox.add(new JLabel("Tag Comments"));
+		rightBox.setBorder(new EmptyBorder(5, 5, 5, 5));
+		rightBox.add(commentLabel);
 		rightBox.add(tagCommentScroller);
 
 		// Set up fileTaggingBox
 		fileTaggingBox = Box.createHorizontalBox();
 		fileTaggingBox.add(leftBox);
-		fileTaggingBox.add(Box.createHorizontalStrut(30));
 		fileTaggingBox.add(rightBox);
 	}
 
