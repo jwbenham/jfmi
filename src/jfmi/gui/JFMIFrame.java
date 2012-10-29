@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -423,7 +424,12 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	  */
 	private void actionSearchConfirm()
 	{
+		Set<FileTag> tags;
+	    tags = new TreeSet<FileTag>(searchDialog.getList().getSelectedItems());
 
+		if (!tags.isEmpty()) {
+			jfmiApp.getFileHandler().beginSearchFiles(tags);
+		}
 	}
 
 }
