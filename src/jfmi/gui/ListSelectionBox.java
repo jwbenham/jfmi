@@ -114,14 +114,14 @@ public class ListSelectionBox<T extends Comparable<T>>
 	  */
 	public List<T> getSelectedItems()
 	{
-		return selectedList.getSelectedValuesList();
+		return selectedModel.getDataCopy();
 	}
 
 	/** Returns the list of unselected items.
 	  */
 	public List<T> getUnselectedItems()
 	{
-		return unselectedList.getSelectedValuesList();
+		return unselectedModel.getDataCopy();
 	}
 
 	/** Sets the contents of the list of selected items to the specified
