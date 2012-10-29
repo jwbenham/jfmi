@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -209,6 +210,28 @@ public class TaggedFileHandler {
 			alert.append(" The necessary permissions are not available to show")
 				.append(" the file.");
 			GUIUtil.showErrorDialog(alert.toString(), iaEx.toString());
+		}
+	}
+
+	/** Searches for files which are tagged with at least one of the 
+	  specified tags.
+	  @param tags the set of tags to be used as criteria
+	  */
+	public void beginSearchFiles(Set<FileTag> tags)
+	{
+		if (tags == null) {
+			return;
+		}
+
+		try {
+			SortedSet<TaggedFile> results = taggedFileDAO.readByTags(tags);	
+			setTaggedFiles(results);
+			updateGUITaggedFileJList();
+
+		} catch (SQLException e) {
+			StringBuilder error = new StringBuilder("Failed to retrieve");
+			error.append(" search results from the database.");
+			GUIUtil.showErrorDialog(error.toString(), e.toString());
 		}
 	}
 
