@@ -424,6 +424,8 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	  */
 	private void actionSearchConfirm()
 	{
+		searchDialog.setVisible(false);
+
 		Set<FileTag> tags;
 	    tags = new TreeSet<FileTag>(searchDialog.getList().getSelectedItems());
 
