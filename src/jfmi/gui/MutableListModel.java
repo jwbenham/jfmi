@@ -84,6 +84,14 @@ public class MutableListModel<E extends Comparable<E>>
 	{
 		return data.contains(element);
 	}
+
+	/** Returns a copy of the model's backing list.
+	  @return a copy of the model's backing data list
+	  */
+	public List<E> getDataCopy()
+	{
+		return new Vector<E>(data);
+	}
 	
 	/** Accesses the element at the specified index.
 	  @param index the index of the element to access
