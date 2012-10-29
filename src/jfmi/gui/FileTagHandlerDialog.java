@@ -1,11 +1,13 @@
 package jfmi.gui;
 
+import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -68,11 +70,8 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 		initListBox();
 
 		// Add components
-		thisLayout = new Box(BoxLayout.Y_AXIS);
-		thisLayout.add(buttonBox);
-		thisLayout.add(Box.createVerticalStrut(10));
-		thisLayout.add(listBox);
-		add(thisLayout, BorderLayout.CENTER);
+		add(buttonBox, BorderLayout.WEST);
+		add(listBox, BorderLayout.CENTER);
 		
 		setVisible(false);
 	}
@@ -167,32 +166,33 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 		// Initialize buttons
 		addTagButton = new JButton("Add Tag");
 		addTagButton.addActionListener(this);
+		addTagButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Styles.setComponentStyles(addTagButton, Styles.DEFAULT_BUTTON_FONT,
 									null, null);
 
-		deleteTagsButton = new JButton("Delete Selected Tags");
+		deleteTagsButton = new JButton("Delete Tags");
 		deleteTagsButton.addActionListener(this);
+		deleteTagsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Styles.setComponentStyles(deleteTagsButton, Styles.DEFAULT_BUTTON_FONT,
 									Styles.DANGER_COLOR, null);
 
 		editTagButton = new JButton("Edit Tag");
 		editTagButton.addActionListener(this);
+		editTagButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		Styles.setComponentStyles(editTagButton, Styles.DEFAULT_BUTTON_FONT,
 									null, null);
 
 		// Initialize the container
-		buttonBox = new Box(BoxLayout.X_AXIS);
-		buttonBox.add(Box.createHorizontalStrut(10));
+		buttonBox = Box.createVerticalBox();
+		buttonBox.setBorder(new EmptyBorder(5, 5, 5, 5));
 		buttonBox.add(editTagButton);
-		buttonBox.add(Box.createHorizontalStrut(10));
+		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(addTagButton);
-		buttonBox.add(Box.createHorizontalStrut(10));
+		buttonBox.add(Box.createVerticalStrut(5));
 		buttonBox.add(deleteTagsButton);
-		buttonBox.add(Box.createHorizontalStrut(10));
 	}
 
 	/** Initialize the list of tags, contained in a scroll pane.
-	  TODO: add a combo box for sorting the tags
 	  @return false if a problem occurred initializing the list of tags
 	  */
 	private final void initListBox()
@@ -205,7 +205,7 @@ public class FileTagHandlerDialog extends JDialog implements ActionListener {
 
 		// Initialize the box
 		listBox = new Box(BoxLayout.X_AXIS);
-		listBox.add(Box.createRigidArea(new Dimension(100, 100)));
+		listBox.setBorder(new EmptyBorder(5, 5, 5, 5));
 		listBox.add(Box.createHorizontalStrut(10));
 		listBox.add(tagScroller);
 		listBox.add(Box.createHorizontalStrut(10));
