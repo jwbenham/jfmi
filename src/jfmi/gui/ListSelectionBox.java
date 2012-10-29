@@ -1,5 +1,6 @@
 package jfmi.gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -81,9 +82,11 @@ public class ListSelectionBox<T extends Comparable<T>>
 		// Initialize buttons
 		addButton = new JButton("Add >>");
 		addButton.addActionListener(this);
+		addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		removeButton = new JButton("<< Remove");
 		removeButton.addActionListener(this);
+		removeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Initialize lists
 		unselectedModel = new MutableListModel<T>(unselected);
@@ -94,7 +97,10 @@ public class ListSelectionBox<T extends Comparable<T>>
 
 		// Initialize scrollpanes
 		unselectedScroller = new JScrollPane(unselectedList);
+		unselectedScroller.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		selectedScroller = new JScrollPane(selectedList);
+		selectedScroller.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Add components
 		Box unselectedBox = Box.createVerticalBox();

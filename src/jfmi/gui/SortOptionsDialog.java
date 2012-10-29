@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -70,6 +71,7 @@ public class SortOptionsDialog extends JDialog {
 
 		// Set up components/layout
 		Box contentBox = Box.createVerticalBox();
+		contentBox.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentBox.add(optionsBox);
 		contentBox.add(Box.createVerticalStrut(5));
 		contentBox.add(confirmButton);

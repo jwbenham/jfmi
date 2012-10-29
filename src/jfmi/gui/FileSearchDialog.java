@@ -1,5 +1,6 @@
 package jfmi.gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,10 +68,14 @@ public class FileSearchDialog<T extends Comparable<T>> extends JDialog {
 
 		// Initialize child components
 		formBox = form;
+		formBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		listBox = list;
+		listBox.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		// Initialize button
 		searchButton = new JButton("Search");
+		searchButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		if (searchListener != null) {
 			searchButton.addActionListener(searchListener);
 		}
