@@ -1,11 +1,13 @@
 package jfmi.gui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -62,6 +64,8 @@ public class FileSearchDialog<T extends Comparable<T>> extends JDialog {
 		super(parent, title, IS_MODAL);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setVisible(false);
+
+		// Initialize child components
 		formBox = form;
 		listBox = list;
 
@@ -73,13 +77,17 @@ public class FileSearchDialog<T extends Comparable<T>> extends JDialog {
 
 		// Add child components
 		Box content = Box.createVerticalBox();
+		content.setBorder(new EmptyBorder(5, 5, 5, 5));
 		content.add(formBox);
+		content.add(Box.createVerticalGlue());
 		content.add(listBox);
 		content.add(Box.createVerticalStrut(5));
 		content.add(searchButton);
 
 		add(content);
 		pack();
+		Styles.setAllSizes(this, this.getSize());
+		setResizable(false);
 	}
 
 	/** Accesses the search form used by this instance.

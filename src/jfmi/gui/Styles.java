@@ -28,6 +28,8 @@ public final class Styles {
 
 	/** Sans-serif, plain, 12 pt font. */
 	public static final Font SS_PLAIN_12;
+	/** Sans-serif, plain, 14 pt font. */
+	public static final Font SS_PLAIN_14;
 	/** Sans-serif, plain, 16 pt font. */
 	public static final Font SS_PLAIN_16;
 
@@ -66,6 +68,7 @@ public final class Styles {
 		H4_FONT = new Font(Font.SANS_SERIF, Font.ITALIC, 11);
 
 		SS_PLAIN_12 = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+		SS_PLAIN_14 = new Font(Font.SANS_SERIF, Font.PLAIN, 14);
 		SS_PLAIN_16 = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
 
 		DARKER_GRAY = new Color(30, 30, 30);

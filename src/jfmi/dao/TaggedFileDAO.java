@@ -38,7 +38,8 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + "(path) VALUES(?)";
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
-		READ_BY_TAGS_SQL = "SELECT * FROM " + TABLE_NAME + " file, "
+		READ_BY_TAGS_SQL = "SELECT file.fileId, file.path "
+		  				+ " FROM " + TABLE_NAME + " file, "
 						+ FileTaggingDAO.TABLE_NAME + " t "
 						+ " WHERE file.fileId = t.fileId ";
 		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;

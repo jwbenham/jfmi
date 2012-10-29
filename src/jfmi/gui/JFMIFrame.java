@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Vector;
-import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -222,32 +222,36 @@ public class JFMIFrame extends JFrame implements ActionListener {
 		initMenuButton(searchButton);
 
 		// Initialize buttonBox
-		buttonBox = new Box(BoxLayout.Y_AXIS);
+		Box paddedBox = Box.createVerticalBox();
+		paddedBox.setBorder(new EmptyBorder(10, 10, 10, 10));
+		paddedBox.setOpaque(true);
+
+		paddedBox.add(Box.createVerticalStrut(10));
+		paddedBox.add(tagsLabel);
+		paddedBox.add(Box.createVerticalStrut(5));
+		paddedBox.add(manageTagsButton);
+		paddedBox.add(Box.createVerticalStrut(50));
+
+		paddedBox.add(filesLabel);
+		paddedBox.add(Box.createVerticalStrut(5));
+		paddedBox.add(addFileButton);
+		paddedBox.add(Box.createVerticalStrut(5));
+		paddedBox.add(editFileButton);
+		paddedBox.add(Box.createVerticalStrut(5));
+		paddedBox.add(showFileButton);
+		paddedBox.add(Box.createVerticalStrut(5));
+		paddedBox.add(deleteFilesButton);
+		paddedBox.add(Box.createVerticalStrut(50));
+
+		paddedBox.add(sortLabel);
+		paddedBox.add(Box.createVerticalStrut(5));
+		paddedBox.add(sortButton);
+		paddedBox.add(Box.createVerticalStrut(5));
+		paddedBox.add(searchButton);
+
+		buttonBox = Box.createVerticalBox();
 		buttonBox.setOpaque(true);
-
-		buttonBox.add(Box.createVerticalStrut(10));
-		buttonBox.add(tagsLabel);
-		buttonBox.add(Box.createVerticalStrut(5));
-		buttonBox.add(manageTagsButton);
-		buttonBox.add(Box.createVerticalStrut(50));
-
-		buttonBox.add(filesLabel);
-		buttonBox.add(Box.createVerticalStrut(5));
-		buttonBox.add(addFileButton);
-		buttonBox.add(Box.createVerticalStrut(5));
-		buttonBox.add(editFileButton);
-		buttonBox.add(Box.createVerticalStrut(5));
-		buttonBox.add(Box.createVerticalStrut(5));
-		buttonBox.add(showFileButton);
-		buttonBox.add(Box.createVerticalStrut(5));
-		buttonBox.add(deleteFilesButton);
-		buttonBox.add(Box.createVerticalStrut(50));
-
-		buttonBox.add(sortLabel);
-		buttonBox.add(Box.createVerticalStrut(5));
-		buttonBox.add(sortButton);
-		buttonBox.add(Box.createVerticalStrut(5));
-		buttonBox.add(searchButton);
+		buttonBox.add(paddedBox);
 	}
 
 	/** Initializes a menu button. 
@@ -266,7 +270,7 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	private final void initMenuLabel(JLabel l)
 	{
 		l.setForeground(Color.DARK_GRAY);
-		l.setFont(Styles.SS_PLAIN_16);
+		l.setFont(Styles.SS_PLAIN_14);
 		l.setAlignmentX(Component.CENTER_ALIGNMENT);
 	}
 
