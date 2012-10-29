@@ -107,6 +107,10 @@ public class TaggedFile implements Comparable<TaggedFile> {
 	  */
 	public String getFileTagsAsString()
 	{
+		if (fileTaggings == null) {
+			return "";
+		}
+
 		StringBuilder str = new StringBuilder("");
 
 		for (FileTagging ftagging : fileTaggings) {
