@@ -67,6 +67,9 @@ public class FileSearchDialog<T extends Comparable<T>> extends JDialog {
 
 		// Initialize button
 		searchButton = new JButton("Search");
+		if (searchListener != null) {
+			searchButton.addActionListener(searchListener);
+		}
 
 		// Add child components
 		Box content = Box.createVerticalBox();
