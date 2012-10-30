@@ -20,14 +20,15 @@ The following features are currently implemented:
 * Addition/removal/editing of tags
 * Saved paths can have tags added, removed, or updated with new/revised comments 
 * User can sort displayed files by file name or file path
-* Files can be shown in their parent folder using the local system's windowing
+* Files can be shown in their parent folder using the local environment's windowing
 system
+* Files can be searched by tag, comment keywords, path, or file name
 
 Future work:
-* Searching paths by tag
-* Searching paths by keywords in tagging comments
 * Unit tests need to be added for most classes
 * Develop an interface for scrolling through a path's taggings and comments
+* Have the application check if saved file paths are valid, and if they are not: 
+offer the option to locate the files at their new locations
 
 
 ## Building
