@@ -7,9 +7,11 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -444,12 +446,33 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	{
 		searchDialog.setVisible(false);
 
+		Map<String, String> formFields;
+	    formFields = searchDialog.getForm().getFieldValueMap();
+
+		// Get "File Name" 
+		String name = formFields.get("File Name");
+		if (name.equals("")) name = null;
+
+		// Get "File Path"
+		String path = formFields.get("File Path");
+		if (path.equals("")) path = null;
+
+		// Get "Comment Keywords" 
+		Set<String> words;
+		String keywords = formFields.get("Comment Keywords");
+
+		if (keywords.equals("")) {
+			words = null;
+		} else {
+			words = new TreeSet<String>(Arrays.asList(keywords.split("\\s")));
+		}
+
+		// Get tags
 		Set<FileTag> tags;
 	    tags = new TreeSet<FileTag>(searchDialog.getList().getSelectedItems());
 
-		if (!tags.isEmpty()) {
-			jfmiApp.getFileHandler().beginSearchFiles(tags);
-		}
+		// Perform search
+		jfmiApp.getFileHandler().beginFileSearch(name, path, tags, words, true);
 	}
 
 }

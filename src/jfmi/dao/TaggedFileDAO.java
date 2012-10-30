@@ -263,7 +263,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	/** Returns a sorted set of TaggedFile objects which have been tagged with
 	  any of the specified tags.
 	  @param tags the tag values by which to select TaggedFile records
-	  @return a sorted set of results
+	  @return a sorted set of results, or null if tags is empty 
 	  @throws SQLException if a problem occurs working with the database
 	  */
 	public SortedSet<TaggedFile> readByTags(Set<FileTag> tags) 
@@ -271,6 +271,10 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	{
 		String query = getReadByTagsQuery(tags);
 		Connection conn = SQLiteRepository.instance().getConnection();
+
+		if (query == null) {
+			return null;
+		}
 
 		try {
 			Statement stmt = conn.createStatement();
@@ -448,7 +452,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 
 		while (it.hasNext()) {
 			word = StringUtil.doubleQuote("%" + it.next().toString() + "%");
-			sql.append(", OR t.comment LIKE " + word);
+			sql.append(" OR t.comment LIKE " + word);
 		}
 
 		sql.append(" )");
@@ -474,7 +478,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 
 		while (it.hasNext()) {
 			tag = StringUtil.doubleQuote(it.next().getTag());
-			sql.append(", OR t.tag = " + tag);
+			sql.append(" OR t.tag = " + tag);
 		}
 
 		sql.append(" )");

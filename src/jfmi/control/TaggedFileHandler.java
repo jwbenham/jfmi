@@ -150,6 +150,57 @@ public class TaggedFileHandler {
 		updateDataAndGUI(true);
 	}
 
+	/** Searches for files matching any of the specified criteria. Any of the
+	  reference parameters may be null.
+	  @param fileName return files with a name similar to this
+	  @param filePath return files with a path similar to this
+	  @param tags return files with any of these tags
+	  @param commentKeywords return files commented with any of these words
+	  @param showErrors if true, errors are displayed
+	  */
+	public void beginFileSearch(
+			String fileName,
+			String filePath,
+			Set<FileTag> tags,
+			Set<String> commentKeywords,
+			boolean showErrors
+	)
+	{
+		Set<TaggedFile> results = new TreeSet<TaggedFile>();	
+		Set<TaggedFile> partial;
+
+		if (fileName != null) {
+			partial = searchFilesByPath(fileName, showErrors);
+			if (partial != null) {
+				results.addAll(partial);
+			}
+		}
+
+		if (filePath != null) {
+			partial = searchFilesByPath(filePath, showErrors);
+			if (partial != null) {
+				results.addAll(partial);
+			}
+		}
+
+		if (tags != null) {
+			partial = searchFilesByTags(tags, showErrors);
+			if (partial != null) {
+				results.addAll(partial);
+			}
+		}
+
+		if (commentKeywords != null) {
+			partial = searchFilesByCommentKeywords(commentKeywords, showErrors);
+			if (partial != null) {
+				results.addAll(partial);
+			}
+		}
+
+		setTaggedFiles(results);
+		updateGUITaggedFileJList();
+	}
+
 	/** Begins an interaction with the user which removes a tagging from an 
 	  EditedTaggedFile and redisplays the file's information to the user.
 	  @param updateMe the EditedTaggedFile from which to remove a tagging
@@ -212,29 +263,7 @@ public class TaggedFileHandler {
 			GUIUtil.showErrorDialog(alert.toString(), iaEx.toString());
 		}
 	}
-
-	/** Searches for files which are tagged with at least one of the 
-	  specified tags.
-	  @param tags the set of tags to be used as criteria
-	  */
-	public void beginSearchFiles(Set<FileTag> tags)
-	{
-		if (tags == null) {
-			return;
-		}
-
-		try {
-			SortedSet<TaggedFile> results = taggedFileDAO.readByTags(tags);	
-			setTaggedFiles(results);
-			updateGUITaggedFileJList();
-
-		} catch (SQLException e) {
-			StringBuilder error = new StringBuilder("Failed to retrieve");
-			error.append(" search results from the database.");
-			GUIUtil.showErrorDialog(error.toString(), e.toString());
-		}
-	}
-
+	
 	/** Begins an interaction which allows the user to update the specified
   	  file's path.
 	  @param updateMe the EditedTaggedFile whose path will be updated
@@ -417,6 +446,74 @@ public class TaggedFileHandler {
 					"Failed to read file from the database.",
 					e.toString()
 				);
+			}
+		}
+
+		return null;
+	}
+
+	/** Searches for files which have a tagging comment with at least one of
+	  the specified keywords.
+	  @param words a set of keywords to filter comments by
+	  @param showErrors if true, errors are displayed
+	  @return a set of results, null if an error occurred
+	  */
+	public Set<TaggedFile> searchFilesByCommentKeywords(Set<String> words,
+														boolean showErrors)
+	{
+		try {
+			return taggedFileDAO.readByCommentKeywords(words);	
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				StringBuilder error = new StringBuilder("Failed to retrieve");
+				error.append(" search results from the database.");
+				GUIUtil.showErrorDialog(error.toString(), e.toString());
+			}
+		}
+
+		return null;
+	}
+
+	/** Searches for files which contain the specified path as a substring of
+	 their path. 
+	  @param path a path substring to filter paths by
+	  @param showErrors if true, errors are displayed
+	  @return a set of results, null if an error occurred
+	  */
+	public Set<TaggedFile> searchFilesByPath(String path, boolean showErrors)
+	{
+		try {
+			return taggedFileDAO.readByPathLike(path);	
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				StringBuilder error = new StringBuilder("Failed to retrieve");
+				error.append(" search results from the database.");
+				GUIUtil.showErrorDialog(error.toString(), e.toString());
+			}
+		}
+
+		return null;
+	}
+
+	/** Searches for files which are tagged with at least one of the specified 
+	  tags.
+	  @param tags the set of tags to be used as criteria
+	  @param showErrors if true, errors will be displayed
+	  @return a set of TaggedFile results, null if an error occurs
+	  */
+	public Set<TaggedFile> searchFilesByTags(Set<FileTag> tags, 
+											boolean showErrors)
+	{
+		try {
+			return taggedFileDAO.readByTags(tags);	
+
+		} catch (SQLException e) {
+			if (showErrors) {
+				StringBuilder error = new StringBuilder("Failed to retrieve");
+				error.append(" search results from the database.");
+				GUIUtil.showErrorDialog(error.toString(), e.toString());
 			}
 		}
 
