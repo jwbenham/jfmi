@@ -29,6 +29,7 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	// PRIVATE CLASS Fields
 	private static final String CREATE_PSQL;
 	private static final String READ_ALL_SQL;
+	private static final String READ_BY_COMMENT_KEYWORDS_SQL;
 	private static final String READ_BY_ID_PSQL;
 	private static final String READ_BY_PATH_LIKE_PSQL;
 	private static final String READ_BY_TAGS_SQL;
@@ -38,17 +39,29 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + "(path) VALUES(?)";
+
 		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;
+
+		READ_BY_COMMENT_KEYWORDS_SQL = "SELECT file.fileId, file.path "
+						+ " FROM " + TABLE_NAME + " file, "
+						+ FileTaggingDAO.TABLE_NAME + " t "
+						+ " WHERE file.fileId = t.fileId ";
+
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
+
 		READ_BY_TAGS_SQL = "SELECT file.fileId, file.path "
 		  				+ " FROM " + TABLE_NAME + " file, "
 						+ FileTaggingDAO.TABLE_NAME + " t "
 						+ " WHERE file.fileId = t.fileId ";
+
 		READ_BY_PATH_LIKE_PSQL = "SELECT * FROM " + TABLE_NAME
 						+ " WHERE path LIKE ? ";
+
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME 
 					+ " SET fileId = ?, path = ? WHERE fileId = ? ";
+
 		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE fileId = ? ";
+
 		DELETE_ALL_SQL = "DELETE FROM " + TABLE_NAME;
 	}
 		
@@ -169,6 +182,43 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 
 			} finally {
 				SQLiteRepository.closeQuietly(ps);				
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		}
+	}
+
+	/** Reads all TaggedFiles who have a tagging comment containing one
+	  of the specified keywords.
+	  @param keywords a set of keywords to search comments by
+	  @return a sorted set of resulting TaggedFiles, null if keywords is empty
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public SortedSet<TaggedFile> readByCommentKeywords(Set<String> keywords)
+		throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();	
+		String sql = getReadByCommentKeywordsQuery(keywords);
+		if (sql == null) {
+			return null;
+		}
+
+		try {
+			Statement stmt = conn.createStatement();
+
+			try {
+				ResultSet rs = stmt.executeQuery(sql);
+
+				try {
+					return readFromResultSet(rs);
+
+				} finally {
+					SQLiteRepository.closeQuietly(rs);
+				}
+
+			} finally {
+				SQLiteRepository.closeQuietly(stmt);
 			}
 
 		} finally {
@@ -378,6 +428,32 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 	//************************************************************
 	// PRIVATE INSTANCE Methods
 	//************************************************************
+
+	/** Creates an SQL query used by the readByCommentKeywords() method.
+	  @param words a set of strings to be used in the query
+	  @return the created SQL query string, or null if words is null
+	  */
+	private String getReadByCommentKeywordsQuery(Set<String> words)
+	{
+		Iterator<String> it = words.iterator();
+		String word;
+		StringBuilder sql = new StringBuilder(READ_BY_COMMENT_KEYWORDS_SQL);
+
+		if (it.hasNext()) {
+			word = StringUtil.doubleQuote("%" + it.next().toString() + "%");
+			sql.append(" AND ( t.comment LIKE " + word);
+		} else {
+			return null;
+		}
+
+		while (it.hasNext()) {
+			word = StringUtil.doubleQuote("%" + it.next().toString() + "%");
+			sql.append(", OR t.comment LIKE " + word);
+		}
+
+		sql.append(" )");
+		return sql.toString();
+	}
 
 	/** Creates an SQL query used by the readByTags() method.
 	  @param tags a set of FileTags to be used in the query
