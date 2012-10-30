@@ -28,21 +28,24 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 
 	// PRIVATE CLASS Fields
 	private static final String CREATE_PSQL;
-	private static final String READ_BY_ID_PSQL;
-	private static final String READ_BY_TAGS_SQL;
 	private static final String READ_ALL_SQL;
+	private static final String READ_BY_ID_PSQL;
+	private static final String READ_BY_PATH_LIKE_PSQL;
+	private static final String READ_BY_TAGS_SQL;
 	private static final String UPDATE_PSQL;
 	private static final String DELETE_PSQL;
 	private static final String DELETE_ALL_SQL;
 
 	static {
 		CREATE_PSQL = "INSERT INTO " + TABLE_NAME + "(path) VALUES(?)";
+		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;
 		READ_BY_ID_PSQL = "SELECT * FROM " + TABLE_NAME + " WHERE fileId = ? ";
 		READ_BY_TAGS_SQL = "SELECT file.fileId, file.path "
 		  				+ " FROM " + TABLE_NAME + " file, "
 						+ FileTaggingDAO.TABLE_NAME + " t "
 						+ " WHERE file.fileId = t.fileId ";
-		READ_ALL_SQL = "SELECT * FROM " + TABLE_NAME;
+		READ_BY_PATH_LIKE_PSQL = "SELECT * FROM " + TABLE_NAME
+						+ " WHERE path LIKE ? ";
 		UPDATE_PSQL = "UPDATE " + TABLE_NAME 
 					+ " SET fileId = ?, path = ? WHERE fileId = ? ";
 		DELETE_PSQL = "DELETE FROM " + TABLE_NAME + " WHERE fileId = ? ";
@@ -166,6 +169,40 @@ public class TaggedFileDAO extends AbstractDAO<TaggedFile, Integer> {
 
 			} finally {
 				SQLiteRepository.closeQuietly(ps);				
+			}
+
+		} finally {
+			SQLiteRepository.closeQuietly(conn);
+		}
+	}
+
+	/** Reads all TaggedFiles from the SQLite database whose paths contain
+	  the specified string as a substring.
+	  @param pathLike the substring to select records by
+	  @return a sorted set of TaggedFiles resulting from the query
+	  @throws SQLException if a problem occurs working with the database
+	  */
+	public SortedSet<TaggedFile> readByPathLike(String pathLike)
+		throws SQLException
+	{
+		Connection conn = SQLiteRepository.instance().getConnection();	
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement(READ_BY_PATH_LIKE_PSQL);
+
+			try {
+				ps.setString(1, "%" + pathLike + "%");
+				ResultSet rs = ps.executeQuery();
+
+				try {
+					return readFromResultSet(rs);
+
+				} finally {
+					SQLiteRepository.closeQuietly(rs);
+				}
+
+			} finally {
+				SQLiteRepository.closeQuietly(ps);
 			}
 
 		} finally {
