@@ -432,10 +432,10 @@ public class JFMIFrame extends JFrame implements ActionListener {
 	  */
 	private void actionSearchButton()
 	{
-		jfmiApp.getTagHandler().readFileTagDataFromRepo(true);
-		List<FileTag> tags = jfmiApp.getTagHandler().getFileTagData();
+		SortedSet<FileTag> tags = jfmiApp.getTagHandler().readAllFileTags(true);
+		if (tags == null) tags = new TreeSet<FileTag>();
 
-		searchDialog.getList().setUnselectedItems(new TreeSet<FileTag>(tags));
+		searchDialog.getList().setUnselectedItems(tags);
 		searchDialog.getList().setSelectedItems(null);
 		searchDialog.setVisible(true);
 	}

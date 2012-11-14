@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+import java.util.SortedSet;
 import java.util.Vector;
 
 import jfmi.app.FileTag;
@@ -24,8 +25,6 @@ public class FileTagHandler {
 
 	private FileTagDAO fileTagDAO;
 
-	private Vector<FileTag> fileTagData;
-
 
 	//************************************************************
 	// PUBLIC INSTANCE Methods
@@ -39,8 +38,6 @@ public class FileTagHandler {
 		setJFMIApp(jfmiApp_);
 
 		fileTagDAO = new FileTagDAO();
-
-		fileTagData = null;
 
 		tagHandlerDialog = new FileTagHandlerDialog(jfmiApp.getJFMIGUI(), this);
 		tagHandlerDialog.setVisible(false);
@@ -193,39 +190,15 @@ public class FileTagHandler {
 		return false;
 	}
 
-	/** Accessor for the fileTagData field. This may be null. The method
-	  readFileTagDataFromRepo() should be called before this method.
-	  @return Access to the list of tag records this instance has retrieved
-	  		from the application repository.
-	  */
-	public List<FileTag> getFileTagData()
-	{
-		return fileTagData;
-	}
-
-	/** Accessor for the fileTagData field. This may be null. The method
-	  readFileTagDataFromRepo() should be called before this method.
-	  @return an array of file tags from the repository 
-	  */
-	public FileTag[] getFileTagDataAsArray()
-	{
-		if (fileTagData == null) {
-			return null;
-		} else {
-			return fileTagData.toArray(new FileTag[0]);
-		}
-	}
-
 	/** Reads all file tags from the repository, and updates the handler's
 	  data list.
 	  @param showErrors if true, error messages are displayed
-	  @return true if no errors occurred
+	  @return a SortedSet<FileTag> if no errors occurred, else null
 	  */
-	public boolean readFileTagDataFromRepo(boolean showErrors)
+	public SortedSet<FileTag> readAllFileTags(boolean showErrors)
 	{
 		try {
-			setFileTagData(fileTagDAO.readAll());
-			return true;
+			return fileTagDAO.readAll();
 
 		} catch (SQLException e) {
 			if (showErrors) {
@@ -237,15 +210,7 @@ public class FileTagHandler {
 			}
 		}
 
-		return false;
-	}
-
-	/** Sets the handler's file tag data from a Collection of FileTag.
-	  @param tags the handler's tag data is initialized from this parameter
-	  */
-	public void setFileTagData(Collection<FileTag> tags)
-	{
-		fileTagData = new Vector<FileTag>(tags);
+		return null;
 	}
 
 	/** Mutator for the jfmiApp field.
@@ -265,8 +230,11 @@ public class FileTagHandler {
 	  */
 	public void updateDataAndGUI(boolean showErrors) 
 	{
-		readFileTagDataFromRepo(showErrors);
-		tagHandlerDialog.setTagJListData(fileTagData);
+		Collection<FileTag> tags = readAllFileTags(showErrors);
+
+		if (tags != null) {
+			tagHandlerDialog.setTagJListData(new Vector<FileTag>(tags));
+		}
 	}
 
 	/** Updates the FileTag record having the specified id, with the new

@@ -346,14 +346,13 @@ public class TaggedFileHandler {
 	public void beginEditFile(TaggedFile viewMe)
 	{
 		TaggedFileEditDialog fileViewer = fileGUI.getFileViewer();
-		FileTag[] tags;
+		SortedSet<FileTag> tagSet;
 
 		// Get all tags, so the user can browse/add them to the file
-		jfmiApp.getTagHandler().readFileTagDataFromRepo(true);
-		tags = jfmiApp.getTagHandler().getFileTagDataAsArray();
+		tagSet = jfmiApp.getTagHandler().readAllFileTags(true);
 
-		if (tags != null) {
-			fileViewer.getTagJList().setListData(tags);
+		if (tagSet != null) {
+			fileViewer.getTagJList().setListData(new Vector<FileTag>(tagSet));
 		}
 
 		// Wrap the specified file in an EditedTaggedFile
