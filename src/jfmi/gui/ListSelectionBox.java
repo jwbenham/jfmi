@@ -132,7 +132,7 @@ public class ListSelectionBox<T extends Comparable<T>>
 
 	/** Sets the contents of the list of selected items to the specified
 	  set. A null argument clears the list.
-	  @param a set of items to be listed as selected
+	  @param items a set of items to be listed as selected
 	  */
 	public void setSelectedItems(SortedSet<T> items)
 	{
@@ -147,7 +147,7 @@ public class ListSelectionBox<T extends Comparable<T>>
 
 	/** Sets the contents of the list of unselected items to the specified
 	  set. A null argument clears the list.
-	  @param a set of items to be listed as unselected
+	  @param items a set of items to be listed as unselected
 	  */
 	public void setUnselectedItems(SortedSet<T> items)
 	{
