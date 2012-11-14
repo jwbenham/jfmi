@@ -24,7 +24,7 @@ import jfmi.gui.TaggedFileEditDialog;
 
 
 /** A controller class for handling the logic of updating/adding/deleting which
-  files kept in the database.
+  files are kept in the database.
   */
 public class TaggedFileHandler {
 
@@ -33,8 +33,6 @@ public class TaggedFileHandler {
 	private TaggedFileHandlerGUI fileGUI;
 
 	private TaggedFileDAO taggedFileDAO;
-
-	private SortedSet<TaggedFile> taggedFiles; 
 
 
 	//************************************************************	
@@ -197,8 +195,7 @@ public class TaggedFileHandler {
 			}
 		}
 
-		setTaggedFiles(results);
-		updateGUITaggedFileJList();
+		updateDataAndGUI(true);
 	}
 
 	/** Begins an interaction with the user which removes a tagging from an 
@@ -400,15 +397,14 @@ public class TaggedFileHandler {
 		return false;
 	}
 
-	/** Gets an updated list of TaggedFiles from the repository, and updates
-	  the taggedFiles field.
+	/** Returns an updated list of TaggedFiles from the repository.
 	  @param showError if true, and an error occurs, display a message
-	  @return true if the files were refreshed successfully
+	  @return a SortedSet<TaggedFile> of files, null if error occurs 
 	  */
-	public boolean readTaggedFilesFromRepo(boolean showError)
+	public SortedSet<TaggedFile> readAllTaggedFiles(boolean showError)
 	{
 		try {
-			setTaggedFiles(taggedFileDAO.readAll());
+			return taggedFileDAO.readAll();
 
 		} catch (SQLException e) {
 			if (showError) {
@@ -417,10 +413,9 @@ public class TaggedFileHandler {
 					e.toString()
 				);
 			}
-			return false;
 		}
 
-		return true;
+		return null;
 	}
 
 	/** Reads a TaggedFile with the specified id from the repository.
@@ -532,15 +527,6 @@ public class TaggedFileHandler {
 		jfmiApp = jfmiApp_;
 	}
 
-	/** Constructs a new set of TaggedFiles for this instance from the
-	  specified Collection. 
-	  @param collection The Collection to construct a new Vector from.
-	  */
-	public void setTaggedFiles(Collection<TaggedFile> collection)
-	{
-		taggedFiles = new TreeSet<TaggedFile>(collection);
-	}
-
 	/** Refreshes the handler's data from the repository, and updates its
 	  associated GUI.
 	  @param showErrors if true, the method displays errors
@@ -548,13 +534,14 @@ public class TaggedFileHandler {
 	  */
 	public boolean updateDataAndGUI(boolean showErrors)
 	{
-		boolean readSuccess = readTaggedFilesFromRepo(true);
+		SortedSet<TaggedFile> files = readAllTaggedFiles(true);
 
-		if (readSuccess) {
-			updateGUITaggedFileJList();
+		if (files != null) {
+			Vector<TaggedFile> fileVector = new Vector<TaggedFile>(files);
+			jfmiApp.getJFMIGUI().setTaggedFileJListData(fileVector);
 		}
 
-		return readSuccess;
+		return files != null;
 	}
 
 	/** Updates a TaggedFile's file information (id, path) in the repository.
@@ -638,20 +625,6 @@ public class TaggedFileHandler {
 		boolean updatedTaggings = updateFileTaggingsInRepo(updateMe, showErrors);
 
 		return updatedInfo && updatedTaggings;
-	}
-
-	//************************************************************	
-	// PRIVATE INSTANCE Methods
-	//************************************************************	
-
-	/** Updates this instance's GUI with the latest values in the Vector
-	  of TaggedFile objects.
-	  */
-	private void updateGUITaggedFileJList()
-	{
-		jfmiApp.getJFMIGUI().setTaggedFileJListData(
-				new Vector<TaggedFile>(taggedFiles)
-		);
 	}
 
 }
